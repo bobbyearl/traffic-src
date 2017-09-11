@@ -7,7 +7,6 @@
     "node": ">=6.9.1"
   },
   "scripts": {
-    "pretest": "npm i -g @blackbaud/skyux-cli",
     "test": "skyux test"
   },
   "keywords": [],

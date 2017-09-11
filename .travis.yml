@@ -1,3 +1,8 @@
 language: node_js
 node_js:
   - "node"
+
+  before_install:
+  - export CHROME_BIN=/usr/bin/google-chrome
+  - export DISPLAY=:99.0
+  - bash <(curl -s https://blackbaud.github.io/skyux-travis/library-before-install.sh)
