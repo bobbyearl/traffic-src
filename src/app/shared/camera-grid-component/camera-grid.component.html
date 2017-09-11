@@ -1,0 +1,12 @@
+<sky-row>
+  <sky-column
+    *ngFor="let feature of features"
+    screenSmall="3">
+
+    <be-camera
+    [feature]="feature"
+    [attr.id]="feature.id">
+  </be-camera>
+
+  </sky-column>
+</sky-row>

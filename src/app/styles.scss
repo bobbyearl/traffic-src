@@ -1,0 +1,61 @@
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+
+.sky-navbar {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-info {
+  position: absolute;
+  right: 8px;
+  bottom: 5px;
+}
+
+.hero-info a {
+  color: #7C7B7B;
+}
+
+.agm-map-container-inner {
+  display: block;
+  position: absolute;
+  height:auto;
+  bottom:0;
+  top:0;
+  left:0;
+  right:0;
+  margin-top: 51px;
+  z-index: 0
+}
+
+.command-serve .agm-map-container-inner {
+  margin-top: 80px;
+}
+
+.camera-outer {
+  display: none;
+  position: absolute;
+}
+
+.camera-outer.enabled {
+  display: block;
+}
+
+.camera-inner {
+  border: solid 3px #FFF;
+  position: relative;
+}
+
+.camera-close {
+  color: #000;
+  cursor: pointer;
+  position: absolute;
+  right: -10px;
+  top: -8px;
+  background-color: #FFF;
+  margin: 0;
+  padding: 0;
+  border-left: solid 2px #FFF;
+  border-right: solid 2px #FFF;
+  border-bottom: solid 1px #FFF;
+  border-top: solid 1px #FFF;
+}

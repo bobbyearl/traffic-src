@@ -1,2 +1,2 @@
-# traffic-src
-Source for my Traffic SPA
+# skyux-template
+Template for SKY UX applications created by the SKY UX CLI

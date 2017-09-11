@@ -1,0 +1,4 @@
+{
+  "extends": "@blackbaud/skyux-builder/tslint",
+  "exclude": "src/app/lib"
+}

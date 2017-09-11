@@ -1,0 +1,18 @@
+<agm-map [latitude]="lat" [longitude]="lng" [ngClass]="cssClass">
+  <be-layer-traffic></be-layer-traffic>>
+
+  <!-- <agm-marker [latitude]="lat" [longitude]="lng" [label]="'C'">
+  </agm-marker> -->
+
+  <agm-marker
+    *ngFor="let feature of features"
+    [latitude]="feature.coordinates.lat"
+    [longitude]="feature.coordinates.lng"
+    title="{{ feature.id }}: {{ feature.properties.title }}"
+    [iconUrl]="feature.icon"
+    (markerClick)="markerClick(feature, index)">
+
+    <be-camera-layer [feature]="feature"></be-camera-layer>
+
+  </agm-marker>
+</agm-map>

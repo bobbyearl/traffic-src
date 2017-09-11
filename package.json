@@ -1,0 +1,28 @@
+{
+  "name": "blackbaud-skyux-spa-traffic",
+  "version": "0.0.1",
+  "description": "Single-page-application for skyux-spa-traffic",
+  "main": "index.js",
+  "engines": {
+    "node": ">=6.9.1"
+  },
+  "scripts": {
+    "pretest": "npm i -g @blackbaud/skyux-cli",
+    "test": "skyux test"
+  },
+  "keywords": [],
+  "author": "Blackbaud",
+  "license": "ISC",
+  "dependencies": {
+    "@agm/core": "1.0.0-beta.1",
+    "@blackbaud/skyux": "2.0.0-rc.12",
+    "@blackbaud/stache": "2.0.0-rc.3"
+  },
+  "devDependencies": {
+    "@blackbaud/skyux-builder": "blackbaud/skyux-builder#metadata-var-name"
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  }
+}

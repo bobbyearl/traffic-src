@@ -1,0 +1,10 @@
+{
+  "mode": "easy",
+  "compileMode": "aot",
+  "plugins": [
+    "@blackbaud/skyux-builder-plugin-stache"
+  ],
+  "app": {
+    "title": "Bobby Earl Traffic"
+  }
+}
