@@ -1,5 +1,5 @@
 {
-  "name": "blackbaud-skyux-spa-traffic",
+  "name": "blackbaud-skyux-spa-traffic-dist",
   "version": "0.0.1",
   "description": "Single-page-application for skyux-spa-traffic",
   "main": "index.js",
