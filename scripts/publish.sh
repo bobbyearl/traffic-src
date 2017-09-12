@@ -18,7 +18,7 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
   if [ -z "$(git status --porcelain)" ]; then
     echo -e "No changes to commit\n."
   else
-    git commit -m "Travis build $TRAVIS_BUILD_NUMBER pushed to master. [ci skip]"
+    git commit -m "Pushing commit $TRAVIS_COMMIT via Travis build $TRAVIS_BUILD_NUMBER to master."
     git push -fq origin master > /dev/null
     echo -e "Successfully updated.\n"
   fi
