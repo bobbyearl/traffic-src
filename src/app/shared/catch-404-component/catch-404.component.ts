@@ -5,7 +5,6 @@ import {
 
 import {
   ActivatedRoute,
-  ParamMap,
   Router
 } from '@angular/router';
 
@@ -23,7 +22,6 @@ export class Catch404Component implements OnInit {
   public ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (params['to']) {
-        console.log(params['to']);
         this.router.navigateByUrl(params['to']);
       }
     });
