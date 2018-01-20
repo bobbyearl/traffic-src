@@ -8,6 +8,9 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
   git config --global user.name "Bobby Earl"
   git clone --quiet https://${GITHUB_PAT}@github.com/bobbyearl/traffic-dist.git > /dev/null
 
+  # https://github.com/isaacs/github/issues/408
+  cp custom/. traffic-dist/
+
   # Copy our "built" files into our clone and add them
   cp -a dist/. traffic-dist/
   cd traffic-dist

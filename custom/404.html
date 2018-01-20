@@ -1,0 +1,11 @@
+<html>
+  <head>
+    <script>
+      var parts = location.pathname.substr(1).split('/');
+      var repo = parts.splice(0, 1);
+      var url = `/${repo}/?to=${parts.join('/')}`;
+
+      location.href = url;
+    </script>
+  </head>
+</html>
