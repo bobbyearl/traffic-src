@@ -1,7 +1,19 @@
-import { NgModule } from '@angular/core';
-import { StacheModule } from '@blackbaud/stache';
-import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
-import { CameraService } from './shared/camera-service';
+import {
+  NgModule
+} from '@angular/core';
+
+import {
+  StacheModule
+} from '@blackbaud/stache';
+
+import {
+  AgmCoreModule,
+  GoogleMapsAPIWrapper
+} from '@agm/core';
+
+import {
+  CameraService
+} from './shared/camera-service';
 
 require('style-loader!./styles.scss');
 require('./lib/jwplayer-7.12.6/jwplayer.js');

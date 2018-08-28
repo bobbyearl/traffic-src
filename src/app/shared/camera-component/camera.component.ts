@@ -17,7 +17,7 @@ let cameraCounter = 0;
 @Component({
   selector: 'be-camera',
   templateUrl: './camera.component.html',
-  styleUrls: [ './be-camera.component.scss' ]
+  styleUrls: [ './camera.component.scss' ]
 })
 export class CameraComponent implements AfterViewInit, OnDestroy {
 
@@ -44,26 +44,24 @@ export class CameraComponent implements AfterViewInit, OnDestroy {
     if (this.skyAppConfig.skyux.appSettings['useProxy']) {
       const origin = uri.origin();
       const directory = uri.directory() + '/';
+
       uri.origin(this.skyAppConfig.skyux.appSettings['proxy']);
       uri.setQuery('origin', origin);
       uri.setQuery('directory', directory);
     }
 
+    const uriAsString = uri.toString();
+
     if (HLS.isSupported()) {
-      this.player.loadSource(uri.toString());
+      this.player.loadSource(uriAsString);
       this.player.attachMedia(video);
     } else {
-      console.log('Not supported.  :-(');
+      video.src = uriAsString;
+      video.addEventListener('loadedmetadata', () => video.play());
     }
 
-    this.player.on(HLS.Events.MANIFEST_PARSED, () => {
-      video.play();
-    });
-
-    this.player.on(HLS.Events.ERROR, (e: any, data: any) => {
-      console.error(data);
-      // console.error(e);
-    });
+    this.player.on(HLS.Events.MANIFEST_PARSED, () => video.play());
+    this.player.on(HLS.Events.ERROR, (e: any, data: any) => console.error(e, data));
   }
 
   public ngOnDestroy() {

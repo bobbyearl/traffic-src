@@ -9,7 +9,6 @@
     "title": "Bobby Earl Traffic"
   },
   "appSettings": {
-    "useProxy": false,
     "proxy": "https://bobbyearl-traffic.azurewebsites.net"
   }
 }
