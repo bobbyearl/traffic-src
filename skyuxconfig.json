@@ -1,4 +1,5 @@
 {
+  "$schema": "./node_modules/@blackbaud/skyux-builder/skyuxconfig-schema.json",
   "mode": "easy",
   "compileMode": "aot",
   "plugins": [
@@ -6,5 +7,9 @@
   ],
   "app": {
     "title": "Bobby Earl Traffic"
+  },
+  "appSettings": {
+    "useProxy": false,
+    "proxy": "https://bobbyearl-traffic.azurewebsites.net"
   }
 }

@@ -1,0 +1,19 @@
+<app-nav>
+</app-nav>
+
+<sky-repeater *ngIf="features">
+
+  <sky-repeater-item
+    *ngFor="let feature of features.features"
+    [selectable]="true">
+
+    <sky-repeater-item-title>
+      {{ feature.properties.title }}
+    </sky-repeater-item-title>
+
+    <sky-repeater-item-content>
+      {{ feature.properties.region }}: {{ feature.id }}
+    </sky-repeater-item-content>
+
+  </sky-repeater-item>
+</sky-repeater>
