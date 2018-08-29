@@ -10,6 +10,7 @@
   },
   "appSettings": {
     "useProxy": true,
-    "proxy": "https://bobbyearl-traffic.azurewebsites.net"
+    "proxyBackup": "https://bobbyearl-traffic.azurewebsites.net",
+    "proxy": "https://bobbyearl-traffic.herokuapp.com"
   }
 }
