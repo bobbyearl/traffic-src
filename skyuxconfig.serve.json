@@ -1,7 +1,6 @@
 {
   "$schema": "./node_modules/@blackbaud/skyux-builder/skyuxconfig-schema.json",
   "appSettings": {
-    "useProxy": true,
     "proxy": "https://localhost:5050"
   }
 }
