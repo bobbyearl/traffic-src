@@ -30,7 +30,7 @@ export class CameraService {
 
   public getFeatures(): Observable<any> {
     return this.http
-      .get(this.assets.getUrl('cameras-2017-09-09.json'))
+      .get(this.assets.getUrl('cameras-2018-08-26.json'))
       .map(res => res.json())
       .share();
   }

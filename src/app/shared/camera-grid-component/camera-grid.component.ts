@@ -5,8 +5,9 @@ import {
   OnChanges
 } from '@angular/core';
 
-import { SkyAppAssetsService } from '@blackbaud/skyux-builder/runtime/assets.service';
-import { CameraService } from '../camera-service';
+import {
+  CameraService
+} from '../camera-service';
 
 @Component({
   selector: 'be-camera-grid',
@@ -22,19 +23,19 @@ export class CameraGridComponent implements OnInit, OnChanges {
   private sections: any = {
     '526E': [
       '60043',
-      // '60044', Not working as of 2017-09-11
+      '60044', // Not working as of 2017-09-11
       '60042',
       '60025',
       '60026',
       '60027',
       '60028',
       '60029',
-      // '60030', Not working as of 2017-09-11
+      '60030', // Not working as of 2017-09-11
       '60046',
-      '60047'
-      // '60048', Not working as of 2017-09-11
-      // '60049', Not working as of 2017-09-11
-      // '60050' Not working as of 2017-09-11
+      '60047',
+      '60048', // Not working as of 2017-09-11
+      '60049', // Not working as of 2017-09-11
+      '60050' // Not working as of 2017-09-11
     ],
     '526W': [
       '60039',
@@ -61,7 +62,7 @@ export class CameraGridComponent implements OnInit, OnChanges {
       '60009',
       '60010',
       '60012',
-      // 60013', Not working as of 2016-12-19
+      '60013', // Not working as of 2016-12-19
       '60014',
       '60015',
       '60016',
@@ -77,7 +78,7 @@ export class CameraGridComponent implements OnInit, OnChanges {
     ],
     '26-inner': [
       '60031',
-      // 60032, Not working as of 2016-12-19
+      '60032', // Not working as of 2016-12-19
       '60033',
       '60034',
       '60036',
@@ -101,14 +102,9 @@ export class CameraGridComponent implements OnInit, OnChanges {
     ]
   };
 
-  private flashplayer: string;
-
   constructor(
-    public cameraService: CameraService,
-    private assets: SkyAppAssetsService
-  ) {
-    this.flashplayer = this.assets.getUrl('camera-overlay-js/jwplayer.flash.swf');
-  }
+    public cameraService: CameraService
+  ) {}
 
   public ngOnInit() {}
 

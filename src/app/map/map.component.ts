@@ -55,7 +55,8 @@ export class MapComponent implements OnInit {
   }
 
   public markerClick(feature: any) {
-    feature[feature.enabled ? 'disable' : 'enable']();
+    // feature[feature.enabled ? 'disable' : 'enable']();
+    feature.enabled = !feature.enabled;
   }
 
   private getPositionSuccess(position: any) {

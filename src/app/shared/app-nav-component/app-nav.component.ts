@@ -45,5 +45,10 @@ export class AppNavComponent {
         }
       ]
     }
+    // },
+    // {
+    //   name: 'My Cameras',
+    //   path: '/my'
+    // }
   ];
 }

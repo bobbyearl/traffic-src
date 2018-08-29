@@ -11,7 +11,15 @@
     title="{{ feature.id }}: {{ feature.properties.title }}"
     (markerClick)="markerClick(feature, index)">
 
-    <be-camera-layer [feature]="feature"></be-camera-layer>
+
+    <agm-info-window>
+      <be-camera
+        *ngIf="feature.enabled"
+        [feature]="feature"
+        [attr.id]="feature.id">
+      </be-camera>
+    </agm-info-window>
+    <!-- <be-camera-layer [feature]="feature"></be-camera-layer> -->
 
   </agm-marker>
 </agm-map>
