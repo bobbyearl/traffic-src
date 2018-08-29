@@ -56,6 +56,7 @@ export class CameraComponent implements AfterViewInit, OnDestroy {
       this.player.loadSource(uriAsString);
       this.player.attachMedia(video);
     } else {
+      video.controls = true;
       video.src = uriAsString;
       video.addEventListener('loadedmetadata', () => video.play());
     }
