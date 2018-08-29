@@ -2,10 +2,6 @@
   "name": "blackbaud-skyux-spa-traffic-dist",
   "version": "0.0.1",
   "description": "Single-page-application for skyux-spa-traffic",
-  "main": "server.js",
-  "engines": {
-    "node": ">=6.9.1"
-  },
   "scripts": {
     "test": "skyux test",
     "build": "skyux build && rm -rf traffic-dist && mv dist traffic-dist && serve ."
@@ -15,13 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "@agm/core": "1.0.0-beta.2",
-    "@agm/snazzy-info-window": "1.0.0-beta.2",
     "@blackbaud/skyux": "2.21.0",
     "@blackbaud/stache": "2.11.3",
     "@types/hls.js": "0.10.1",
     "@types/urijs": "1.15.38",
     "hls.js": "0.11.0",
-    "snazzy-info-window": "1.1.1",
     "urijs": "1.19.1"
   },
   "devDependencies": {
