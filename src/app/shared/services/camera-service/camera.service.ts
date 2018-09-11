@@ -186,9 +186,16 @@ export class CameraService {
       .subscribe((subscriptions: any) => {
         const state: State = subscriptions[0];
         const data = subscriptions[1];
-        const selected = state.selected.map((id: string) => {
-          return data.features.find((f: any) => f.id === id);
-        });
+        let selected;
+
+        if (state.selected) {
+          selected = state.selected
+              .map((id: string) => {
+                return data.features
+                  .find((f: any) => f.id === id);
+              });
+        }
+
         this.selected.next(selected);
       });
 

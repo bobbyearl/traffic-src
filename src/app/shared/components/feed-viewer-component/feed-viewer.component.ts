@@ -51,6 +51,7 @@ export class FeedViewerComponent implements OnDestroy {
   public viewIsCardsOrList = false;
   public canGetLocation = false;
   public isMobileBreakpoint = true;
+  public hasSelected = false;
   public columnWidth = 3;
   public lat = 34.009967;
   public lng = -81.050091;
@@ -78,6 +79,7 @@ export class FeedViewerComponent implements OnDestroy {
         .subscribe((subscriptions: any) => {
           this.regions = subscriptions[0].regions;
           this.selected = subscriptions[1];
+          this.hasSelected = this.selected && this.selected.length > 0;
           this.waitService.endBlockingPageWait();
         })
     );
@@ -153,6 +155,7 @@ export class FeedViewerComponent implements OnDestroy {
   }
 
   public setMapView() {
+    this.view = View.MAP;
     this.viewChanged(View.MAP);
   }
 

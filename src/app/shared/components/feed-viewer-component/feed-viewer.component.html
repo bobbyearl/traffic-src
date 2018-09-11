@@ -12,14 +12,14 @@
   <sky-toolbar-item>
     <div class="sky-switch-icon-group">
       <sky-radio
-        icon="th-large"
+        icon="table"
         name="view-selector"
         value="CARDS"
         (ngModelChange)="viewChanged($event)"
         [(ngModel)]="view">
       </sky-radio>
       <sky-radio
-        icon="th-list"
+        icon="list"
         name="view-selector"
         value="LIST"
         (ngModelChange)="viewChanged($event)"
@@ -58,7 +58,7 @@
       </span>
     </button>
   </sky-toolbar-item>
-  <sky-toolbar-item *ngIf="selected.length > 0">
+  <sky-toolbar-item *ngIf="hasSelected">
     <button
       class="sky-btn sky-btn-default"
       (click)="clearSelected()">
@@ -93,7 +93,7 @@
 </app-map>
 
 <div *ngIf="viewIsCardsOrList">
-  <stache-container *ngIf="selected.length === 0">
+  <stache-container *ngIf="!hasSelected">
     <sky-alert alertType="info">No cameras currently selected.</sky-alert>
     
     <p>Use the Camera Picker or switch to Map View to select cameras. As you begin to select cameras or change the view, you'll notice the URL update as well.  This link is unique to your selections and is bookmarkable!</p>
@@ -113,7 +113,7 @@
       </button>
     </p>
   </stache-container>
-  <app-camera-grid *ngIf="selected.length > 0"
+  <app-camera-grid *ngIf="hasSelected"
     [features]="selected"
     [columnWidth]="columnWidth">
   </app-camera-grid>
