@@ -3,7 +3,10 @@
     <a
       href="/traffic"
       class="sky-btn sky-btn-default">
-      Home
+      <i class="fa fa-home"></i>
+      <span *ngIf="!isMobileBreakpoint">
+        Home
+      </span>
     </a>
   </sky-toolbar-item>
   <sky-toolbar-item>
@@ -32,24 +35,47 @@
     </div>
   </sky-toolbar-item>
   <sky-toolbar-item>
+    <sky-dropdown>
+      <sky-dropdown-button>
+        CHS
+      </sky-dropdown-button>
+      <sky-dropdown-menu>
+        <sky-dropdown-item *ngFor="let route of routeKeys">
+          <button type="button" (click)="routeClick(route)">
+            {{ route }}
+          </button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+  </sky-toolbar-item>
+  <sky-toolbar-item>
     <button
       class="sky-btn sky-btn-default"
       (click)="launchCameraPicker()">
-      Launch Camera Picker
+      <i class="fa fa-camera"></i>
+      <span *ngIf="!isMobileBreakpoint">
+        Select
+      </span>
     </button>
   </sky-toolbar-item>
   <sky-toolbar-item *ngIf="selected.length > 0">
     <button
       class="sky-btn sky-btn-default"
       (click)="clearSelected()">
-      Clear Selected
+      <i class="fa fa-eraser"></i>
+      <span *ngIf="!isMobileBreakpoint">
+        Clear
+      </span>
     </button>
   </sky-toolbar-item>
   <sky-toolbar-item *ngIf="viewIsMap">
     <button
       class="sky-btn sky-btn-default"
       (click)="getMyLocation()">
-      Find My Location
+      <i class="fa fa-location-arrow"></i>
+      <span *ngIf="!isMobileBreakpoint">
+        Find
+      </span>
     </button>
   </sky-toolbar-item>
 </sky-toolbar>
@@ -68,16 +94,21 @@
 
 <div *ngIf="viewIsCardsOrList">
   <stache-container *ngIf="selected.length === 0">
-    <p>No cameras currently selected. Use the Camera Picker or switch to Map View to select cameras.</p>
+    <sky-alert alertType="info">No cameras currently selected.</sky-alert>
+    
+    <p>Use the Camera Picker or switch to Map View to select cameras. As you begin to select cameras or change the view, you'll notice the URL update as well.  This link is unique to your selections and is bookmarkable!</p>
+
     <p>
       <button
         class="sky-btn sky-btn-default"
         (click)="launchCameraPicker()">
+        <i class="fa fa-camera"></i>
         Launch Camera Picker
       </button>
       <button
         class="sky-btn sky-btn-default"
         (click)="setMapView()">
+        <i class="fa fa-map-marker"></i>
         Switch to Map View
       </button>
     </p>

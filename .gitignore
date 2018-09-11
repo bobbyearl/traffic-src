@@ -19,11 +19,11 @@ yarn.lock
 
 # SKY UX temp directory
 .skyuxtmp
+.skypagestmp
+.skypageslocales
 
 # SKY UX build directory
 dist
 
 # OS specific files
 .DS_Store
-
-.skypageslocales

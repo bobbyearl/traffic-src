@@ -5,7 +5,9 @@ import {
 import {
   SkyFlyoutInstance,
   SkyFlyoutService,
-  SkyWaitService
+  SkyWaitService,
+  SkyMediaQueryService,
+  SkyMediaBreakpoints
 } from '@blackbaud/skyux/dist/core';
 
 import {
@@ -41,9 +43,12 @@ export class FeedViewerComponent {
   public regions: Array<any> = [];
 
   public view: View;
+  public routeKeys: any;
+
   public viewIsMap = false;
   public viewIsCardsOrList = false;
   public canGetLocation = false;
+  public isMobileBreakpoint = true;
   public columnWidth = 3;
   public lat = 34.009967;
   public lng = -81.050091;
@@ -55,9 +60,11 @@ export class FeedViewerComponent {
   constructor (
     private flyoutService: SkyFlyoutService,
     private stateService: StateService,
-    waitService: SkyWaitService,
-    cameraService: CameraService
+    private mediaQueryService: SkyMediaQueryService,
+    private cameraService: CameraService,
+    waitService: SkyWaitService
   ) {
+    this.routeKeys = cameraService.getRouteKeys();
     const $regions = cameraService.getFeatures();
     const $selected = cameraService.getSelectedFeatures();
 
@@ -102,6 +109,11 @@ export class FeedViewerComponent {
         }
       });
 
+      this.mediaQueryService
+        .subscribe((breakpoint: SkyMediaBreakpoints) => {
+          this.isMobileBreakpoint = breakpoint === SkyMediaBreakpoints.xs;
+        });
+
       if (window.navigator && window.navigator.geolocation) {
         this.canGetLocation = true;
       }
@@ -136,6 +148,12 @@ export class FeedViewerComponent {
 
   public clearSelected() {
     this.stateService.set({ selected: [] });
+  }
+
+  public routeClick(route: string) {
+    this.stateService.set({
+      selected: this.cameraService.getRouteIds(route)
+    });
   }
 
   public getMyLocation() {
