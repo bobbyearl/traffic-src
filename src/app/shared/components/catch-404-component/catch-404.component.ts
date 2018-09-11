@@ -5,7 +5,6 @@ import {
 
 import {
   ActivatedRoute,
-  NavigationExtras,
   Router
 } from '@angular/router';
 
