@@ -1,0 +1,89 @@
+<sky-toolbar>
+  <sky-toolbar-item>
+    <a
+      routerLink="/"
+      class="sky-btn sky-btn-default">
+      Home
+    </a>
+  </sky-toolbar-item>
+  <sky-toolbar-item>
+    <div class="sky-switch-icon-group">
+      <sky-radio
+        icon="th-large"
+        name="view-selector"
+        value="CARDS"
+        (ngModelChange)="viewChanged($event)"
+        [(ngModel)]="view">
+      </sky-radio>
+      <sky-radio
+        icon="th-list"
+        name="view-selector"
+        value="LIST"
+        (ngModelChange)="viewChanged($event)"
+        [(ngModel)]="view">
+      </sky-radio>
+      <sky-radio
+        icon="map-marker"
+        name="view-selector"
+        value="MAP"
+        (ngModelChange)="viewChanged($event)"
+        [(ngModel)]="view">
+      </sky-radio>
+    </div>
+  </sky-toolbar-item>
+  <sky-toolbar-item>
+    <button
+      class="sky-btn sky-btn-default"
+      (click)="launchCameraPicker()">
+      Launch Camera Picker
+    </button>
+  </sky-toolbar-item>
+  <sky-toolbar-item *ngIf="selected.length > 0">
+    <button
+      class="sky-btn sky-btn-default"
+      (click)="clearSelected()">
+      Clear Selected
+    </button>
+  </sky-toolbar-item>
+  <sky-toolbar-item *ngIf="viewIsMap">
+    <button
+      class="sky-btn sky-btn-default"
+      (click)="getMyLocation()">
+      Find My Location
+    </button>
+  </sky-toolbar-item>
+</sky-toolbar>
+
+<sky-alert *ngIf="error"
+  alertType="danger">
+  {{ error }}
+</sky-alert>
+
+<app-map *ngIf="viewIsMap"
+  [selected]="selected"
+  [lat]="lat"
+  [lng]="lng"
+  [zoom]="zoom">
+</app-map>
+
+<div *ngIf="viewIsCardsOrList">
+  <stache-container *ngIf="selected.length === 0">
+    <p>No cameras currently selected. Use the Camera Picker or switch to Map View to select cameras.</p>
+    <p>
+      <button
+        class="sky-btn sky-btn-default"
+        (click)="launchCameraPicker()">
+        Launch Camera Picker
+      </button>
+      <button
+        class="sky-btn sky-btn-default"
+        (click)="setMapView()">
+        Switch to Map View
+      </button>
+    </p>
+  </stache-container>
+  <app-camera-grid *ngIf="selected.length > 0"
+    [features]="selected"
+    [columnWidth]="columnWidth">
+  </app-camera-grid>
+</div>

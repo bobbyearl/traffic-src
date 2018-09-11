@@ -1,0 +1,23 @@
+<agm-map [latitude]="lat" [longitude]="lng" [ngClass]="cssClass" [zoom]="zoom">
+
+  <app-layer-traffic></app-layer-traffic>
+
+  <agm-marker
+    *ngFor="let feature of features"
+    [latitude]="feature.coordinates.lat"
+    [longitude]="feature.coordinates.lng"
+    title="{{ feature.id }}: {{ feature.properties.title }}"
+    (markerClick)="markerClick(feature, index)">
+
+    <agm-info-window
+      [isOpen]="feature.selected"
+      (infoWindowClose)="infoWindowClosed(feature)">
+      <app-camera
+        *ngIf="feature.selected"
+        [feature]="feature"
+        [attr.id]="feature.id">
+      </app-camera>
+    </agm-info-window>
+
+  </agm-marker>
+</agm-map>

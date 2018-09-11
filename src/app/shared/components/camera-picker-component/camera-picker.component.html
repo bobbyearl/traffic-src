@@ -1,0 +1,34 @@
+<sky-repeater
+  *ngIf="regions"
+  expandMode="multiple">
+
+  <sky-repeater-item
+    *ngFor="let region of regions"
+    [isExpanded]="region.expanded">
+
+    <sky-repeater-item-title>
+      <div class="pull-left">
+        {{ region.name }}
+      </div>
+      <div class="pull-right">
+        <span class="label">
+          {{ region.selectedCount }}/{{ region.features.length }}
+        </span>
+      </div>
+    </sky-repeater-item-title>
+
+    <sky-repeater-item-content>
+      <ul>
+        <li *ngFor="let feature of region.features">
+          <sky-checkbox
+            (change)="featureSelected()"
+            [(ngModel)]="feature.selected">
+            <sky-checkbox-label>
+              <small>{{ feature.properties.title }}</small>
+            </sky-checkbox-label>
+          </sky-checkbox>
+        </li>
+      </ul>
+    </sky-repeater-item-content>
+  </sky-repeater-item>
+</sky-repeater>

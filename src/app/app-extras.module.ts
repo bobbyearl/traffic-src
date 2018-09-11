@@ -12,14 +12,12 @@ import {
 } from '@agm/core';
 
 import {
-  CameraService
-} from './shared/camera-service';
+  CameraService,
+  CameraPickerComponent,
+  StateService
+} from './shared';
 
 require('style-loader!./styles.scss');
-require('./lib/jwplayer-7.12.6/jwplayer.js');
-
-declare var jwplayer: any;
-jwplayer.key = 'WDUy49wQ8ai4pO/+8zTHaPFaqb9HsctrEoBlFw==';
 
 // Specify entry components, module-level providers, etc. here.
 @NgModule({
@@ -35,7 +33,11 @@ jwplayer.key = 'WDUy49wQ8ai4pO/+8zTHaPFaqb9HsctrEoBlFw==';
   ],
   providers: [
     GoogleMapsAPIWrapper,
-    CameraService
+    CameraService,
+    StateService
+  ],
+  entryComponents: [
+    CameraPickerComponent
   ]
 })
 export class AppExtrasModule {}

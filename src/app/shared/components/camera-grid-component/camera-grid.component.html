@@ -1,0 +1,13 @@
+<sky-fluid-grid *ngIf="features">
+  <sky-row>
+    <sky-column *ngFor="let feature of features"
+      [screenSmall]="columnWidth">
+
+      <app-camera
+        [feature]="feature"
+        [attr.id]="feature.id">
+      </app-camera>
+
+    </sky-column>
+  </sky-row>
+</sky-fluid-grid>
