@@ -1,10 +1,10 @@
 {
-  "name": "blackbaud-skyux-spa-traffic-dist",
+  "name": "blackbaud-skyux-spa-traffic",
   "version": "0.0.1",
   "description": "Single-page-application for skyux-spa-traffic",
   "scripts": {
     "test": "skyux test",
-    "build": "skyux build && rm -rf traffic-dist && mv dist traffic-dist && serve ."
+    "build": "skyux build && rm -rf traffic && mv dist traffic && serve ."
   },
   "keywords": [],
   "author": "Blackbaud",
