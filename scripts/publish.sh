@@ -6,14 +6,14 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
   # Setup git and clone our repo
   git config --global user.email "bobby@simplyearl.com"
   git config --global user.name "Bobby Earl"
-  git clone --quiet https://${GITHUB_PAT}@github.com/bobbyearl/traffic-dist.git > /dev/null
+  git clone --quiet https://${GITHUB_PAT}@github.com/bobbyearl/traffic.git > /dev/null
 
   # https://github.com/isaacs/github/issues/408
-  cp -a custom/. traffic-dist/
+  cp -a custom/. traffic/
 
   # Copy our "built" files into our clone and add them
-  cp -a dist/. traffic-dist/
-  cd traffic-dist
+  cp -a dist/. traffic/
+  cd traffic
   git add .
 
   # Make sure there are any changes.
