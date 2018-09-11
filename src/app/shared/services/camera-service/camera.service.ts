@@ -11,8 +11,9 @@ import {
 } from '@blackbaud/skyux-builder/runtime/assets.service';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  Observable,
+  ReplaySubject
+} from 'rxjs';
 
 import {
   StateService
@@ -68,7 +69,7 @@ export class CameraService {
       '60006',
       '60007',
       '60008',
-      '60009',
+      '60009'
     ],
     '26 Middle': [
       '60009',
@@ -113,6 +114,8 @@ export class CameraService {
       '60071'
     ]
   };
+
+  private selected = new ReplaySubject<any>();
 
   constructor(
     private assets: SkyAppAssetsService,
@@ -176,10 +179,19 @@ export class CameraService {
   }
 
   public getSelectedFeatures(): Observable<any> {
-    return this.getFeatures()
-      .map((data: any) => {
-        return data.features
-          .filter((feature: any) => feature.selected);
+    const $state = this.stateService.get();
+    const $data = this.getFeatures();
+
+    Observable.combineLatest($state, $data)
+      .subscribe((subscriptions: any) => {
+        const state: State = subscriptions[0];
+        const data = subscriptions[1];
+        const selected = state.selected.map((id: string) => {
+          return data.features.find((f: any) => f.id === id);
+        });
+        this.selected.next(selected);
       });
+
+    return this.selected.asObservable();
   }
 }

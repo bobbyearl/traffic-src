@@ -1,7 +1,12 @@
 import {
   Component,
-  Input
+  Input,
+  OnDestroy
 } from '@angular/core';
+
+import {
+  Subscription
+} from 'rxjs';
 
 import {
   SkyAppConfig
@@ -17,7 +22,7 @@ import {
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent {
+export class MapComponent implements OnDestroy {
 
   @Input()
   public selected: any;
@@ -38,23 +43,27 @@ export class MapComponent {
     return 'command-' + this.config.runtime.command;
   }
 
+  private subscriptions: Array<Subscription> = [];
+
   constructor(
     private config: SkyAppConfig,
     private cameraService: CameraService,
     private stateService: StateService
   ) {
 
-    this.cameraService
-      .getFeatures()
-      .subscribe(data => {
-        data.features.forEach((feature: any) => {
-          feature.coordinates = {
-            lat: parseFloat(feature.geometry.coordinates[1]),
-            lng: parseFloat(feature.geometry.coordinates[0])
-          };
-        });
-        this.features = data.features;
-      });
+    this.subscriptions.push(
+      this.cameraService
+        .getFeatures()
+        .subscribe(data => {
+          data.features.forEach((feature: any) => {
+            feature.coordinates = {
+              lat: parseFloat(feature.geometry.coordinates[1]),
+              lng: parseFloat(feature.geometry.coordinates[0])
+            };
+          });
+          this.features = data.features;
+        })
+    );
   }
 
   public markerClick(feature: any) {
@@ -78,5 +87,10 @@ export class MapComponent {
     this.stateService.set({
       selected
     });
+  }
+
+  public ngOnDestroy() {
+    this.subscriptions
+      .forEach((s: Subscription) => s.unsubscribe());
   }
 }
