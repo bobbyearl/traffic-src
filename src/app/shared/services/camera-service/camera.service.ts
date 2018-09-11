@@ -11,8 +11,9 @@ import {
 } from '@blackbaud/skyux-builder/runtime/assets.service';
 
 import {
-  Observable
-} from 'rxjs/Observable';
+  Observable,
+  ReplaySubject
+} from 'rxjs';
 
 import {
   StateService
@@ -32,7 +33,6 @@ export class CameraService {
     '526 E': [
       '60043',
       '60044',
-      '60042',
       '60025',
       '60026',
       '60027',
@@ -40,9 +40,9 @@ export class CameraService {
       '60029',
       '60030',
       '60046',
+      '60047',
       '80004',
       '80005',
-      '60047',
       '60048',
       '60049',
       '60050'
@@ -58,20 +58,24 @@ export class CameraService {
       '60053'
     ],
     '26 Outer': [
+      '60101',
+      '60100',
       '60002',
+      '60096',
+      '60097',
       '60003',
       '60004',
       '60005',
       '60006',
       '60007',
       '60008',
-      '60096',
-      '60097'
+      '60009'
     ],
     '26 Middle': [
       '60009',
       '60010',
       '60012',
+      '60095',
       '60013',
       '60014',
       '60015',
@@ -81,20 +85,19 @@ export class CameraService {
       '60019',
       '60020',
       '60021',
-      '60022',
-      '60023',
-      '60024',
-      '60095'
+      '60024'
     ],
     '26 Inner': [
+      '60036',
+      '60037',
+      '60023',
+      '60022',
+      '60038',
       '60031',
       '60032',
       '60033',
+      '60054',
       '60034',
-      '60036',
-      '60037',
-      '60038',
-      '60058',
       '60060',
       '60061',
       '60062',
@@ -111,6 +114,8 @@ export class CameraService {
       '60071'
     ]
   };
+
+  private selected = new ReplaySubject<any>();
 
   constructor(
     private assets: SkyAppAssetsService,
@@ -174,10 +179,26 @@ export class CameraService {
   }
 
   public getSelectedFeatures(): Observable<any> {
-    return this.getFeatures()
-      .map((data: any) => {
-        return data.features
-          .filter((feature: any) => feature.selected);
+    const $state = this.stateService.get();
+    const $data = this.getFeatures();
+
+    Observable.combineLatest($state, $data)
+      .subscribe((subscriptions: any) => {
+        const state: State = subscriptions[0];
+        const data = subscriptions[1];
+        let selected;
+
+        if (state.selected) {
+          selected = state.selected
+              .map((id: string) => {
+                return data.features
+                  .find((f: any) => f.id === id);
+              });
+        }
+
+        this.selected.next(selected);
       });
+
+    return this.selected.asObservable();
   }
 }

@@ -11,6 +11,11 @@
   "appSettings": {
     "useProxy": true,
     "proxyBackup": "https://bobbyearl-traffic.azurewebsites.net",
-    "proxy": "https://bobbyearl-traffic.herokuapp.com"
+    "proxy": "https://bobbyearl-traffic.herokuapp.com",
+    "stache": {
+      "googleAnalytics": {
+        "clientId": "UA-460794-1"
+      }
+    }
   }
 }

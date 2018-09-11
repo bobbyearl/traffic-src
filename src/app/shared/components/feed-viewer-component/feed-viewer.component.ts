@@ -1,5 +1,6 @@
 import {
-  Component
+  Component,
+  OnDestroy
 } from '@angular/core';
 
 import {
@@ -11,7 +12,8 @@ import {
 } from '@blackbaud/skyux/dist/core';
 
 import {
-  Observable
+  Observable,
+  Subscription
 } from 'rxjs';
 
 import {
@@ -37,7 +39,7 @@ import {
   templateUrl: './feed-viewer.component.html',
   styleUrls: ['./feed-viewer.component.scss']
 })
-export class FeedViewerComponent {
+export class FeedViewerComponent implements OnDestroy {
 
   public selected: Array<any> = [];
   public regions: Array<any> = [];
@@ -49,6 +51,7 @@ export class FeedViewerComponent {
   public viewIsCardsOrList = false;
   public canGetLocation = false;
   public isMobileBreakpoint = true;
+  public hasSelected = false;
   public columnWidth = 3;
   public lat = 34.009967;
   public lng = -81.050091;
@@ -57,66 +60,75 @@ export class FeedViewerComponent {
 
   private flyout: SkyFlyoutInstance<CameraPickerComponent>;
 
+  private subscriptions: Array<Subscription> = [];
+
   constructor (
     private flyoutService: SkyFlyoutService,
     private stateService: StateService,
     private mediaQueryService: SkyMediaQueryService,
     private cameraService: CameraService,
-    waitService: SkyWaitService
+    private waitService: SkyWaitService
   ) {
     this.routeKeys = cameraService.getRouteKeys();
     const $regions = cameraService.getFeatures();
     const $selected = cameraService.getSelectedFeatures();
 
-    waitService.beginBlockingPageWait();
-    Observable.zip($regions, $selected)
-      .subscribe((subscriptions: any) => {
-        this.regions = subscriptions[0].regions;
-        this.selected = subscriptions[1];
-        waitService.endBlockingPageWait();
-      });
+    this.waitService.beginBlockingPageWait();
+    this.subscriptions.push(
+      Observable.combineLatest($regions, $selected)
+        .subscribe((subscriptions: any) => {
+          this.regions = subscriptions[0].regions;
+          this.selected = subscriptions[1];
+          this.hasSelected = this.selected && this.selected.length > 0;
+          this.waitService.endBlockingPageWait();
+        })
+    );
 
-    this.stateService
-      .get()
-      .subscribe((state: State) => {
+    this.subscriptions.push(
+      this.stateService
+        .get()
+        .subscribe((state: State) => {
 
-        this.error = undefined;
-        this.viewIsCardsOrList = false;
-        this.viewIsMap = false;
-        this.view = state.view;
+          this.error = undefined;
+          this.viewIsCardsOrList = false;
+          this.viewIsMap = false;
+          this.view = state.view;
 
-        switch (state.view) {
-          case View.MAP:
-            this.viewIsMap = true;
-            break;
+          switch (state.view) {
+            case View.MAP:
+              this.viewIsMap = true;
+              break;
 
-          case View.CARDS:
-            this.viewIsCardsOrList = true;
-            this.columnWidth = 3;
-            break;
+            case View.CARDS:
+              this.viewIsCardsOrList = true;
+              this.columnWidth = 3;
+              break;
 
-          case View.LIST:
-            this.viewIsCardsOrList = true;
-            this.columnWidth = 12;
-            break;
+            case View.LIST:
+              this.viewIsCardsOrList = true;
+              this.columnWidth = 12;
+              break;
 
-          case undefined:
-            this.viewChanged(View.CARDS);
-            break;
+            case undefined:
+              this.viewChanged(View.CARDS);
+              break;
 
-          default:
-            this.error = 'Unknown view';
-        }
-      });
+            default:
+              this.error = 'Unknown view';
+          }
+        })
+    );
 
+    this.subscriptions.push(
       this.mediaQueryService
         .subscribe((breakpoint: SkyMediaBreakpoints) => {
           this.isMobileBreakpoint = breakpoint === SkyMediaBreakpoints.xs;
-        });
+        })
+    );
 
-      if (window.navigator && window.navigator.geolocation) {
-        this.canGetLocation = true;
-      }
+    if (window.navigator && window.navigator.geolocation) {
+      this.canGetLocation = true;
+    }
   }
 
   public viewChanged(view: View) {
@@ -143,6 +155,7 @@ export class FeedViewerComponent {
   }
 
   public setMapView() {
+    this.view = View.MAP;
     this.viewChanged(View.MAP);
   }
 
@@ -164,5 +177,10 @@ export class FeedViewerComponent {
         this.zoom = 13;
       }
     );
+  }
+
+  public ngOnDestroy() {
+    this.subscriptions
+      .forEach((s: Subscription) => s.unsubscribe());
   }
 }
