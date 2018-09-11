@@ -3,7 +3,8 @@
     <script>
       var parts = location.pathname.substr(1).split('/');
       var repo = parts.splice(0, 1);
-      var url = `/${repo}/?to=${parts.join('/')}`;
+      var fragment = location.hash ? location.hash.substr(1) : '';
+      var url = `/${repo}/?to=${parts.join('/')}&fragment=${fragment}`;
 
       location.href = url;
     </script>

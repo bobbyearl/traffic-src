@@ -5,8 +5,13 @@ import {
 
 import {
   ActivatedRoute,
+  NavigationExtras,
   Router
 } from '@angular/router';
+
+import {
+  StateService
+} from '../../services';
 
 @Component({
   selector: 'app-catch-404',
@@ -16,13 +21,20 @@ export class Catch404Component implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private stateService: StateService
   ) {}
 
   public ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (params['to']) {
-        this.router.navigateByUrl(params['to']);
+        this.router
+          .navigateByUrl(params['to'])
+          .then(() => {
+            this.stateService.set(
+              JSON.parse(params['fragment'])
+            );
+          });
       }
     });
   }
