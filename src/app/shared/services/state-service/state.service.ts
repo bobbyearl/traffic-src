@@ -19,7 +19,7 @@ import {
 @Injectable()
 export class StateService {
 
-  private state: State;
+  private state: State = new State();
 
   private subscription = new ReplaySubject<State>();
 
@@ -34,11 +34,14 @@ export class StateService {
           try {
             const parsed = JSON.parse(fragment);
             this.state = new State(parsed);
-            this.subscription.next(this.state);
           } catch (err) {
             console.error(err);
           }
+        } else {
+          this.state = new State();
         }
+
+        this.subscription.next(this.state);
       });
   }
 
