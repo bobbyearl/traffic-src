@@ -7,8 +7,7 @@ import {
   SkyFlyoutService,
   SkyWaitService,
   SkyMediaQueryService,
-  SkyMediaBreakpoints,
-  SkyDropdownMenuChange
+  SkyMediaBreakpoints
 } from '@blackbaud/skyux/dist/core';
 
 import {
@@ -154,7 +153,7 @@ export class FeedViewerComponent {
   public routeClick(route: string) {
     this.stateService.set({
       selected: this.cameraService.getRouteIds(route)
-    })
+    });
   }
 
   public getMyLocation() {
