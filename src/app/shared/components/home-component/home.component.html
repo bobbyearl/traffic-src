@@ -13,26 +13,18 @@
 </stache-hero>
 
 <stache
-  pageTitle="About"
   layout="container"
   showBreadcrumbs="false">
-
-  <stache-page-summary>
-    <p>I sit in traffic a lot... and I hate it.  I wanted to very quickly get a real-time view of the cameras provided by <a href="http://www.511sc.org/" target="_blank" rel="nofollow noreferrer">511sc.org</a>.  Their website is also very useful, but requires clicking on individual cameras to load, similar to the map view on this sight. I wanted to see more than one camera at once, which is why this site was born.</p>
-    <p>The current version of this site is built using many of the Open Source tools provided by my current team and others at <a href="https://www.blackbaud.com" target="_blank" rel="nofollow noreferrer">Blackbaud</a>.  Specifically, <a href="https://developer.blackbaud.com/skyux" target="_blank" rel="nofollow noreferrer">SKY UX Components</a>, <a href="https://developer.blackbaud.com/stache" target="_blank" rel="nofollow noreferrer">SKY UX Builder</a>, and <a href="https://github.com/blackbaud/stache2" target="_blank" rel="nofollow noreferrer">Stache</a>.</p>
-  </stache-page-summary>
 
   <stache-page-anchor>
     New Feed Viewer
   </stache-page-anchor>
 
-  <p>This site has recently been reborn.  The <a href="https://bobbyearl.com/traffic-legacy">legacy version</a> will be around for a while.  `Jump straight into to the <a routerLink="/feeds/scdot">feed viewer</a>.  For those that may have used the site for a while, there's the currated list of Charleston routes you've come to know and love:</p>
-
-  <ul>
-    <li *ngFor="let section of sections">
-      <a routerLink="/feeds/scdot" [fragment]="getStateForSection(section)" class="sky-btn sky-btn-link-inline">{{ section }}</a>
-    </li>
-  </ul>
+  <p>This site has recently been reborn.  The <a href="https://bobbyearl.com/traffic-legacy">legacy version</a> will be around for a while.  Jump straight into to the <a routerLink="/feeds/scdot">feed viewer</a>.  For those that may have used the site for a while, there's the currated list of Charleston routes you've come to know and love:
+    <span *ngFor="let route of routes; last as isLast">
+      <a routerLink="/feeds/scdot" [fragment]="getStateForRoute(route)" class="sky-btn sky-btn-link-inline">{{ route }}</a><span *ngIf="!isLast">,</span>
+    </span>
+  </p>
 
   <p>
     <a routerLink="feeds/scdot" class="sky-btn sky-btn-primary">
@@ -48,5 +40,14 @@
   <p>
     <a href="https://paypal.me/simplyearl" class="sky-btn sky-btn-secondary">Send my Kids to College</a>
   </p>
+
+
+  <stache-page-anchor>
+    Inspiration
+  </stache-page-anchor>
+
+  <p>I sit in traffic a lot... and I hate it.  I wanted to very quickly get a real-time view of the cameras provided by <a href="http://www.511sc.org/" target="_blank" rel="nofollow noreferrer">511sc.org</a>.  Their website is also very useful, but requires clicking on individual cameras to load, similar to the map view on this sight. I wanted to see more than one camera at once, which is why this site was born.</p>
+
+  <p>The current version of this site is built using many of the Open Source tools provided by my current team and others at <a href="https://www.blackbaud.com" target="_blank" rel="nofollow noreferrer">Blackbaud</a>.  Specifically, <a href="https://developer.blackbaud.com/skyux" target="_blank" rel="nofollow noreferrer">SKY UX Components</a>, <a href="https://developer.blackbaud.com/stache" target="_blank" rel="nofollow noreferrer">SKY UX Builder</a>, and <a href="https://github.com/blackbaud/stache2" target="_blank" rel="nofollow noreferrer">Stache</a>.</p>
 
 </stache>
