@@ -51,7 +51,9 @@ export class CameraPickerComponent implements AfterViewInit, OnDestroy {
   }
 
   public featureSelected(feature: any) {
-    let selected = this.state.selected.slice();
+    let selected = this.state.selected 
+      ? this.state.selected.slice()
+      : [];
 
     if (feature.selected) {
       selected.push(feature.id);
