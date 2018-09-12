@@ -10,34 +10,28 @@
     </a>
   </sky-toolbar-item>
   <sky-toolbar-item>
-    <div class="sky-switch-icon-group">
-      <sky-radio
-        icon="table"
-        name="view-selector"
-        value="CARDS"
-        (ngModelChange)="viewChanged($event)"
-        [(ngModel)]="view">
-      </sky-radio>
-      <sky-radio
-        icon="list"
-        name="view-selector"
-        value="LIST"
-        (ngModelChange)="viewChanged($event)"
-        [(ngModel)]="view">
-      </sky-radio>
-      <sky-radio
-        icon="map-marker"
-        name="view-selector"
-        value="MAP"
-        (ngModelChange)="viewChanged($event)"
-        [(ngModel)]="view">
-      </sky-radio>
-    </div>
+    <sky-dropdown>
+      <sky-dropdown-button>
+        <i class="fa fa-columns"></i>
+        <span *ngIf="!isMobileBreakpoint">Change View</span>
+      </sky-dropdown-button>
+      <sky-dropdown-menu>
+        <sky-dropdown-item *ngFor="let v of views">
+          <button type="button"
+            [ngClass]="{ 'sky-btn-active': v.active }"
+            (click)="setView(v.value)">
+            <i class="fa fa-fw fa-{{ v.icon }}"></i>
+            {{ v.name }}
+          </button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
   </sky-toolbar-item>
   <sky-toolbar-item>
     <sky-dropdown>
       <sky-dropdown-button>
-        CHS
+        <i class="fa fa-tags"></i>
+        <span *ngIf="!isMobileBreakpoint">CHS Routes</span>
       </sky-dropdown-button>
       <sky-dropdown-menu>
         <sky-dropdown-item *ngFor="let route of routeKeys">
@@ -51,10 +45,10 @@
   <sky-toolbar-item>
     <button
       class="sky-btn sky-btn-default"
-      (click)="launchCameraPicker()">
+      (click)="launchCameraSelector()">
       <i class="fa fa-camera"></i>
       <span *ngIf="!isMobileBreakpoint">
-        Select
+        Select Cameras
       </span>
     </button>
   </sky-toolbar-item>
@@ -98,20 +92,32 @@
     
     <p>Use the Camera Picker or switch to Map View to select cameras. As you begin to select cameras or change the view, you'll notice the URL update as well.  This link is unique to your selections and is bookmarkable!</p>
 
-    <p>
-      <button
-        class="sky-btn sky-btn-default"
-        (click)="launchCameraPicker()">
-        <i class="fa fa-camera"></i>
-        Launch Camera Picker
-      </button>
-      <button
-        class="sky-btn sky-btn-default"
-        (click)="setMapView()">
-        <i class="fa fa-map-marker"></i>
-        Switch to Map View
-      </button>
-    </p>
+    <sky-action-button-container>
+      <sky-action-button
+        (actionClick)="launchCameraSelector()">
+        <sky-action-button-icon
+          iconType="camera">
+        </sky-action-button-icon>
+        <sky-action-button-header>
+          Select Cameras
+        </sky-action-button-header>
+        <sky-action-button-details>
+          View list of cameras
+        </sky-action-button-details>
+      </sky-action-button>
+      <sky-action-button
+        (actionClick)="launchMapView()">
+        <sky-action-button-icon
+          iconType="map-marker">
+        </sky-action-button-icon>
+        <sky-action-button-header>
+          Map View
+        </sky-action-button-header>
+        <sky-action-button-details>
+          View cameras on a map
+        </sky-action-button-details>
+      </sky-action-button>
+    </sky-action-button-container>
   </stache-container>
   <app-camera-grid *ngIf="hasSelected"
     [features]="selected"

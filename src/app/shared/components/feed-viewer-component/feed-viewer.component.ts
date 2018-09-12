@@ -8,7 +8,10 @@ import {
   SkyFlyoutService,
   SkyWaitService,
   SkyMediaQueryService,
-  SkyMediaBreakpoints
+  SkyMediaBreakpoints,
+  SkyConfirmInstance,
+  SkyConfirmService,
+  SkyConfirmType
 } from '@blackbaud/skyux/dist/core';
 
 import {
@@ -57,9 +60,25 @@ export class FeedViewerComponent implements OnDestroy {
   public lng = -81.050091;
   public zoom = 8;
   public error: string;
+  public views = [
+    {
+      name: 'View as cards',
+      icon: 'table',
+      value: View.CARDS
+    },
+    {
+      name: 'View as list',
+      icon: 'list',
+      value: View.LIST
+    },
+    {
+      name: 'View as map',
+      icon: 'map-marker',
+      value: View.MAP
+    }
+  ];
 
   private flyout: SkyFlyoutInstance<CameraPickerComponent>;
-
   private subscriptions: Array<Subscription> = [];
 
   constructor (
@@ -67,7 +86,8 @@ export class FeedViewerComponent implements OnDestroy {
     private stateService: StateService,
     private mediaQueryService: SkyMediaQueryService,
     private cameraService: CameraService,
-    private waitService: SkyWaitService
+    private waitService: SkyWaitService,
+    private confirmService: SkyConfirmService
   ) {
     this.routeKeys = cameraService.getRouteKeys();
     const $regions = cameraService.getFeatures();
@@ -92,7 +112,10 @@ export class FeedViewerComponent implements OnDestroy {
           this.error = undefined;
           this.viewIsCardsOrList = false;
           this.viewIsMap = false;
-          this.view = state.view;
+
+          this.views.forEach((v: any) => {
+            v.active = v.value === state.view;
+          });
 
           switch (state.view) {
             case View.MAP:
@@ -110,7 +133,7 @@ export class FeedViewerComponent implements OnDestroy {
               break;
 
             case undefined:
-              this.viewChanged(View.CARDS);
+              this.setView(View.CARDS);
               break;
 
             default:
@@ -131,13 +154,34 @@ export class FeedViewerComponent implements OnDestroy {
     }
   }
 
-  public viewChanged(view: View) {
+  // Confirm switching to map view if multiple selected
+  public setView(view: View) {
+    if (view === View.MAP && this.hasSelected && this.selected.length > 1) {
+
+      const dialog: SkyConfirmInstance = this.confirmService.open({
+        message: 'Confirm Map View',
+        body: `You currently have ${this.selected.length} cameras selected.`,
+        type: SkyConfirmType.YesCancel
+      });
+
+      dialog.closed.subscribe((result: any) => {
+        if (result.action === 'yes') {
+          this.updateState(view);
+        }
+      });
+
+    } else {
+      this.updateState(view);
+    }
+  }
+
+  public updateState(view: View) {
     this.stateService.set({
       view
     });
   }
 
-  public launchCameraPicker() {
+  public launchCameraSelector() {
     this.flyout = this.flyoutService.open(CameraPickerComponent, {
       defaultWidth: 400,
       providers: [{
@@ -154,9 +198,9 @@ export class FeedViewerComponent implements OnDestroy {
     });
   }
 
-  public setMapView() {
-    this.view = View.MAP;
-    this.viewChanged(View.MAP);
+  // Convience method used when no cameras selected
+  public launchMapView() {
+    this.setView(View.MAP);
   }
 
   public clearSelected() {

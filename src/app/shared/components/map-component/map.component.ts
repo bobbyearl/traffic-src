@@ -1,3 +1,5 @@
+declare var google: any;
+
 import {
   Component,
   Input,
@@ -7,6 +9,11 @@ import {
 import {
   Subscription
 } from 'rxjs';
+
+import {
+  LatLngBounds,
+  MapsAPILoader
+} from '@agm/core';
 
 import {
   SkyAppConfig
@@ -38,14 +45,17 @@ export class MapComponent implements OnDestroy {
 
   public features: any;
   public coordinates: any;
+  public selectedBounds: LatLngBounds;
 
   public get cssClass(): string {
     return 'command-' + this.config.runtime.command;
   }
 
   private subscriptions: Array<Subscription> = [];
+  private hasLoaded = false;
 
   constructor(
+    private mapsAPILoader: MapsAPILoader,
     private config: SkyAppConfig,
     private cameraService: CameraService,
     private stateService: StateService
@@ -55,14 +65,32 @@ export class MapComponent implements OnDestroy {
       this.cameraService
         .getFeatures()
         .subscribe(data => {
-          data.features.forEach((feature: any) => {
-            feature.coordinates = {
-              lat: parseFloat(feature.geometry.coordinates[1]),
-              lng: parseFloat(feature.geometry.coordinates[0])
-            };
-          });
-          this.features = data.features;
-        })
+          this.mapsAPILoader
+            .load()
+            .then(() => {
+              let bounds: LatLngBounds = new google.maps.LatLngBounds();
+              let hasSelected = false;
+
+              data.features.forEach((feature: any) => {
+                feature.coordinates = {
+                  lat: parseFloat(feature.geometry.coordinates[1]),
+                  lng: parseFloat(feature.geometry.coordinates[0])
+                };
+
+                if (feature.selected) {
+                  bounds.extend(feature.coordinates);
+                  hasSelected = true;
+                }
+              });
+
+              if (hasSelected && !this.hasLoaded) {
+                this.selectedBounds = bounds;
+              }
+
+              this.features = data.features;
+              this.hasLoaded = true;
+            });
+          })
     );
   }
 

@@ -1,4 +1,9 @@
-<agm-map [latitude]="lat" [longitude]="lng" [ngClass]="cssClass" [zoom]="zoom">
+<agm-map 
+  [latitude]="lat"
+  [longitude]="lng"
+  [fitBounds]="selectedBounds"
+  [ngClass]="cssClass"
+  [zoom]="zoom">
 
   <app-layer-traffic></app-layer-traffic>
 
