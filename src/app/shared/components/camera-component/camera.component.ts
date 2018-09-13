@@ -59,7 +59,7 @@ export class CameraComponent implements AfterViewInit, OnDestroy {
     if (HLS.isSupported()) {
       this.player.loadSource(this.feature.properties.https_url);
       this.player.attachMedia(this.video);
-      this.player.on(HLS.Events.ERROR, (e: any, data: any) => this.showError(e));
+      this.player.on(HLS.Events.ERROR, (e: any, data: any) => this.showError(e, data));
     } else {
       this.video.controls = true;
       this.video.src = this.feature.properties.https_url;
@@ -90,10 +90,14 @@ export class CameraComponent implements AfterViewInit, OnDestroy {
     this.isLoading = false;
   }
 
-  private showError(err: string) {
+  private showError(err: string, data?: any) {
     this.isLoading = false;
     this.error = err;
     console.error(err);
+
+    if (data) {
+      console.error(data);
+    }
   }
 
   private clearError() {
