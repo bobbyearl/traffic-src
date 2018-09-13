@@ -27,10 +27,14 @@ import {
 })
 export class CameraPickerComponent implements AfterViewInit, OnDestroy {
 
+  public isWaiting = true;
   public regions: Array<any> = [];
+  public searchResults: Array<any> = [];
+  public searchText: string;
+
   private state: State;
   private subscriptions: Array<Subscription> = [];
-  public isWaiting = true;
+  private features: Array<any> = [];
 
   constructor(
     public context: CameraPickerContext,
@@ -39,6 +43,8 @@ export class CameraPickerComponent implements AfterViewInit, OnDestroy {
 
   public ngAfterViewInit() {
     this.regions = this.context.regions;
+    this.features = this.context.features;
+
     this.subscriptions.push(
       this.stateService
       .get()
@@ -64,6 +70,16 @@ export class CameraPickerComponent implements AfterViewInit, OnDestroy {
     this.stateService.set({
       selected
     });
+  }
+
+  public searchApplied(searchText: string) {
+    const searchTextLowerCase = searchText.toLowerCase();
+    this.searchText = searchText;
+    this.searchResults = !searchText ? [] : this.features
+      .filter((feature: any) =>
+        feature.id.indexOf(searchTextLowerCase) > -1 ||
+        feature.properties.title.toLowerCase().indexOf(searchTextLowerCase) > -1
+      );
   }
 
   public updateSelectedCount() {

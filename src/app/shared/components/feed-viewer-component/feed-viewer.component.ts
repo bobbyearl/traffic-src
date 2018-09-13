@@ -46,6 +46,7 @@ export class FeedViewerComponent implements OnDestroy {
 
   public selected: Array<any> = [];
   public regions: Array<any> = [];
+  public features: Array<any> = [];
 
   public view: View;
   public routeKeys: any;
@@ -99,6 +100,7 @@ export class FeedViewerComponent implements OnDestroy {
       Observable.combineLatest($regions, $selected)
         .subscribe((subscriptions: any) => {
           this.regions = subscriptions[0].regions;
+          this.features = subscriptions[0].features;
           this.selected = subscriptions[1];
           this.hasSelected = this.selected && this.selected.length > 0;
           this.waitService.endBlockingPageWait();
@@ -177,7 +179,8 @@ export class FeedViewerComponent implements OnDestroy {
         provide: CameraPickerContext,
         useValue: {
           regions: this.regions,
-          selected: this.selected
+          selected: this.selected,
+          features: this.features
         }
       }]
     });
