@@ -35,7 +35,8 @@
       </sky-dropdown-button>
       <sky-dropdown-menu>
         <sky-dropdown-item *ngFor="let route of routeKeys">
-          <button type="button" (click)="routeClick(route)">
+          <button type="button"
+            (click)="routeClick(route)">
             {{ route }}
           </button>
         </sky-dropdown-item>
@@ -46,7 +47,7 @@
     <button
       class="sky-btn sky-btn-default"
       (click)="launchCameraSelector()">
-      <i class="fa fa-camera"></i>
+      <i class="fa fa-video-camera"></i>
       <span *ngIf="!isMobileBreakpoint">
         Select Cameras
       </span>
@@ -89,7 +90,7 @@
 <div *ngIf="viewIsCardsOrList">
   <stache-container *ngIf="!hasSelected">
     <sky-alert alertType="info">No cameras currently selected.</sky-alert>
-    
+
     <p>Use the Camera Picker or switch to Map View to select cameras. As you begin to select cameras or change the view, you'll notice the URL update as well.  This link is unique to your selections and is bookmarkable!</p>
 
     <sky-action-button-container>

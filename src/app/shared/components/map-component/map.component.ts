@@ -24,6 +24,11 @@ import {
   StateService
 } from '../../services';
 
+import {
+  State,
+  View
+} from '../../models';
+
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -51,6 +56,7 @@ export class MapComponent implements OnDestroy {
     return 'command-' + this.config.runtime.command;
   }
 
+  private state: State;
   private subscriptions: Array<Subscription> = [];
   private hasLoaded = false;
 
@@ -60,6 +66,11 @@ export class MapComponent implements OnDestroy {
     private cameraService: CameraService,
     private stateService: StateService
   ) {
+    this.subscriptions.push(
+      this.stateService
+        .get()
+        .subscribe((state: State) => this.state = state)
+    );
 
     this.subscriptions.push(
       this.cameraService
@@ -72,11 +83,6 @@ export class MapComponent implements OnDestroy {
               let hasSelected = false;
 
               data.features.forEach((feature: any) => {
-                feature.coordinates = {
-                  lat: parseFloat(feature.geometry.coordinates[1]),
-                  lng: parseFloat(feature.geometry.coordinates[0])
-                };
-
                 if (feature.selected) {
                   bounds.extend(feature.coordinates);
                   hasSelected = true;
@@ -99,9 +105,9 @@ export class MapComponent implements OnDestroy {
     this.updateState();
   }
 
-  // Ignore closed events until a real one is clicked
+  // Ignores closed events if the view is changing
   public infoWindowClosed(feature: any) {
-    if (feature && feature.selected) {
+    if (this.state.view === View.MAP) {
       feature.selected = false;
       this.updateState();
     }

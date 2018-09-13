@@ -1,3 +1,19 @@
-video {
+.video-wrapper {
+  position: relative;
+}
+
+.button-wrapper {
   width: 100%;
+}
+
+sky-alert {
+  left: 5%;
+  position: absolute;
+  top: 5%;
+  width: 90%;
+}
+
+::ng-deep .sky-wait-double-bounce1,
+::ng-deep .sky-wait-double-bounce2 {
+  background-color: #EFEFEF !important;
 }

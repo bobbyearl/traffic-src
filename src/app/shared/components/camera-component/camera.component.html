@@ -1,7 +1,16 @@
-<sky-alert *ngIf="error"
-  alertType="warning">
-  SCDOT feed possibly offline.
-</sky-alert>
+<div class="video-wrapper">
+  <sky-alert *ngIf="error"
+    alertType="warning">
+    SCDOT feed possibly offline.
+  </sky-alert>
 
-<video #video autoplay playsinline muted>
-</video>
+  <button type="button"
+    class="sky-btn sky-btn-link-inline button-wrapper"
+    (click)="showInfo()">
+    <video #video autoplay playsinline muted>
+    </video>
+  </button>
+
+  <sky-wait [isWaiting]="isLoading">
+  </sky-wait>
+</div>

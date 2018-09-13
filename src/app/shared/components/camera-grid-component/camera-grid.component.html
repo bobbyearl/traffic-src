@@ -1,3 +1,7 @@
+<p class="info sky-deemphasized">
+  {{ features.length | i18nPlural: camerasPluralMapping }} selected.  Click an individual camera for more information.
+</p>
+
 <sky-fluid-grid *ngIf="features">
   <sky-row>
     <sky-column *ngFor="let feature of features"
