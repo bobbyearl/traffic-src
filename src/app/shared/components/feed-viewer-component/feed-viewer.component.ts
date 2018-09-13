@@ -237,7 +237,7 @@ export class FeedViewerComponent implements OnDestroy {
         message: 'Confirm Map View',
         body: [
           message,
-          `Viewing more than 5 cameras on the map at a time has proven to be unreliable.`,
+          `Viewing more than ${this.maximumMapCameraWarning} cameras on the map at a time has proven to be unreliable.`,
           `I'll hopefully be working to address this is a future update.`
         ].join('  '),
         type: SkyConfirmType.YesCancel
