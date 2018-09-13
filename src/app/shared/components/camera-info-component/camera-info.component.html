@@ -1,0 +1,47 @@
+
+<sky-modal>
+  <sky-modal-header>
+    Camera {{ id }}
+  </sky-modal-header>
+  <sky-modal-content>
+    <sky-definition-list *ngIf="properties">
+      <sky-definition-list-content *ngFor="let item of properties">
+        <sky-definition-list-label>
+          {{ item.key }}
+        </sky-definition-list-label>
+        <sky-definition-list-value>
+          {{ item.value }}
+        </sky-definition-list-value>
+      </sky-definition-list-content>
+      <sky-definition-list-content>
+        <sky-definition-list-label>
+          Permalinks
+        </sky-definition-list-label>
+        <sky-definition-list-value>
+          <ul>
+            <li>
+              <a routerLink="/feeds/scdot" [fragment]="fragmentForListView">
+                List View
+                <i class="fa fa-external-link"></i>
+              </a>
+            </li>
+            <li>
+              <a routerLink="/feeds/scdot" [fragment]="fragmentForMapView">
+                Map View
+                <i class="fa fa-external-link"></i>
+              </a>
+            </li>
+          </ul>
+        </sky-definition-list-value>
+      </sky-definition-list-content>
+    </sky-definition-list>
+  </sky-modal-content>
+  <sky-modal-footer>
+    <button
+      type="button"
+      class="sky-btn sky-btn-primary"
+      (click)="instance.close()">
+      Close
+    </button>
+  </sky-modal-footer>
+</sky-modal>

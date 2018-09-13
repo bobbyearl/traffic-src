@@ -7,6 +7,18 @@ import {
   ViewChild
 } from '@angular/core';
 
+import {
+  SkyModalService
+} from '@blackbaud/skyux/dist/core';
+
+import {
+  CameraInfoComponent
+} from '../camera-info-component/camera-info.component';
+
+import {
+  CameraInfoContext
+} from '../camera-info-component/camera-info.context';
+
 import * as HLS from 'hls.js';
 
 @Component({
@@ -27,26 +39,44 @@ export class CameraComponent implements AfterViewInit, OnDestroy {
 
   public error: string;
 
+  public isLoading = true;
+
   private player: HLS = new HLS();
 
   private video: HTMLVideoElement;
+
+  constructor(
+    private modalService: SkyModalService
+  ) {}
 
   public ngAfterViewInit() {
     this.video = this.videoRef.nativeElement;
 
     this.video.addEventListener('canplay', () => this.videoReady());
+    this.video.addEventListener('playing', () => this.clearError());
+    this.video.addEventListener('error', (e: any) => this.showError(e));
 
     if (HLS.isSupported()) {
       this.player.loadSource(this.feature.properties.https_url);
       this.player.attachMedia(this.video);
-      this.player.on(HLS.Events.ERROR, (e: any, data: any) => {
-        this.error = e;
-        console.error(e, data);
-      });
+      this.player.on(HLS.Events.ERROR, (e: any, data: any) => this.showError(e));
     } else {
       this.video.controls = true;
       this.video.src = this.feature.properties.https_url;
     }
+  }
+
+  public showInfo() {
+    this.modalService.open(CameraInfoComponent, {
+      providers: [
+        {
+          provide: CameraInfoContext,
+          useValue: {
+            feature: this.feature
+          }
+        }
+      ]
+    });
   }
 
   public ngOnDestroy() {
@@ -55,7 +85,18 @@ export class CameraComponent implements AfterViewInit, OnDestroy {
   }
 
   private videoReady() {
-    this.error = undefined;
+    this.clearError();
     this.video.play();
+    this.isLoading = false;
+  }
+
+  private showError(err: string) {
+    this.isLoading = false;
+    this.error = err;
+    console.error(err);
+  }
+
+  private clearError() {
+    this.error = undefined;
   }
 }

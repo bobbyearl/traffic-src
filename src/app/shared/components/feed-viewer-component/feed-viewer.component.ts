@@ -80,6 +80,7 @@ export class FeedViewerComponent implements OnDestroy {
 
   private flyout: SkyFlyoutInstance<CameraPickerComponent>;
   private subscriptions: Array<Subscription> = [];
+  private maximumMapCameraWarning = 4;
 
   constructor (
     private flyoutService: SkyFlyoutService,
@@ -154,30 +155,18 @@ export class FeedViewerComponent implements OnDestroy {
     }
   }
 
-  // Confirm switching to map view if multiple selected
   public setView(view: View) {
-    if (view === View.MAP && this.hasSelected && this.selected.length > 1) {
+    const message = this.hasSelected
+      ? `You currently have ${this.selected.length} cameras selected.`
+      : ``;
+    const conditional = view === View.MAP
+      && this.hasSelected
+      && this.selected.length > this.maximumMapCameraWarning;
 
-      const dialog: SkyConfirmInstance = this.confirmService.open({
-        message: 'Confirm Map View',
-        body: `You currently have ${this.selected.length} cameras selected.`,
-        type: SkyConfirmType.YesCancel
+    this.confirmMapView(conditional, message, () => {
+      this.stateService.set({
+        view
       });
-
-      dialog.closed.subscribe((result: any) => {
-        if (result.action === 'yes') {
-          this.updateState(view);
-        }
-      });
-
-    } else {
-      this.updateState(view);
-    }
-  }
-
-  public updateState(view: View) {
-    this.stateService.set({
-      view
     });
   }
 
@@ -208,8 +197,15 @@ export class FeedViewerComponent implements OnDestroy {
   }
 
   public routeClick(route: string) {
-    this.stateService.set({
-      selected: this.cameraService.getRouteIds(route)
+    const selected = this.cameraService.getRouteIds(route);
+    const conditional = this.view === View.MAP
+      && selected.length > this.maximumMapCameraWarning;
+    const message = `This will enable ${selected.length} cameras.`;
+
+    this.confirmMapView(conditional, message, () => {
+      this.stateService.set({
+        selected
+      });
     });
   }
 
@@ -226,5 +222,34 @@ export class FeedViewerComponent implements OnDestroy {
   public ngOnDestroy() {
     this.subscriptions
       .forEach((s: Subscription) => s.unsubscribe());
+  }
+
+  /**
+   * Switching to a map view with lots of cameras can be rough.
+   * This if factored to handle coming from common routes or view switcher.
+   * @param conditional
+   * @param message
+   * @param callback
+   */
+  private confirmMapView(conditional: boolean, message: string, callback: Function) {
+    if (conditional) {
+      const dialog: SkyConfirmInstance = this.confirmService.open({
+        message: 'Confirm Map View',
+        body: [
+          message,
+          `Viewing more than 5 cameras on the map at a time has proven to be unreliable.`,
+          `I'll hopefully be working to address this is a future update.`
+        ].join('  '),
+        type: SkyConfirmType.YesCancel
+      });
+
+      dialog.closed.subscribe((result: any) => {
+        if (result.action === 'yes') {
+          callback();
+        }
+      });
+    } else {
+      callback();
+    }
   }
 }

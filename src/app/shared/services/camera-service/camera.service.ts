@@ -3,7 +3,8 @@ import {
 } from '@angular/core';
 
 import {
-  Http
+  Http,
+  Response
 } from '@angular/http';
 
 import {
@@ -116,12 +117,41 @@ export class CameraService {
   };
 
   private selected = new ReplaySubject<any>();
+  private features = new ReplaySubject<any>(1);
 
   constructor(
     private assets: SkyAppAssetsService,
     private http: Http,
     private stateService: StateService
-  ) { }
+  ) {
+    this.http
+      .get(this.assets.getUrl('cameras-2018-08-26.json'))
+      .subscribe((response: Response) => {
+        const data = response.json();
+        const map: any = {};
+
+        data.features.forEach((feature: any) => {
+          const key = feature.properties.region;
+          feature.coordinates = {
+            lat: parseFloat(feature.geometry.coordinates[1]),
+            lng: parseFloat(feature.geometry.coordinates[0])
+          };
+          map[key] = map[key] || [];
+          map[key].push(feature);
+        });
+
+        data.regions = Object.keys(map)
+          .sort()
+          .map((name: string) => {
+            return {
+              name,
+              features: map[name]
+            };
+          });
+
+        this.features.next(data);
+      });
+  }
 
   public getRouteKeys(): Array<string> {
     return Object.keys(this.routes);
@@ -136,43 +166,23 @@ export class CameraService {
       selected: this.routes[route]
     });
 
-    return JSON.stringify(state);
+    return this.stateService.getStateLink(state);
   }
 
   public getFeatures(): Observable<any> {
 
     const $state = this.stateService.get();
-    const $data = this.http
-      .get(this.assets.getUrl('cameras-2018-08-26.json'))
-      .share()
-      .map(res => res.json());
+    const $data = this.features.asObservable();
 
     return Observable.combineLatest($state, $data)
+      .share()
       .map((subscriptions: any) => {
-
-        const map: any = {};
         const state: State = subscriptions[0];
         const data = subscriptions[1];
 
         data.features.forEach((feature: any) => {
-          const key = feature.properties.region;
-          map[key] = map[key] || [];
-
-          if (state.selected) {
-            feature.selected = state.selected.indexOf(feature.id) > -1;
-          }
-
-          map[key].push(feature);
+          feature.selected = state.selected && state.selected.indexOf(feature.id) > -1;
         });
-
-        data.regions = Object.keys(map)
-          .sort()
-          .map((name: string) => {
-            return {
-              name,
-              features: map[name]
-            };
-          });
 
         return data;
       });

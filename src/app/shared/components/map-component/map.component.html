@@ -1,4 +1,4 @@
-<agm-map 
+<agm-map
   [latitude]="lat"
   [longitude]="lng"
   [fitBounds]="selectedBounds"
@@ -14,15 +14,20 @@
     title="{{ feature.id }}: {{ feature.properties.title }}"
     (markerClick)="markerClick(feature, index)">
 
-    <agm-info-window
+    <agm-snazzy-info-window
       [isOpen]="feature.selected"
-      (infoWindowClose)="infoWindowClosed(feature)">
-      <app-camera
-        *ngIf="feature.selected"
-        [feature]="feature"
-        [attr.id]="feature.id">
-      </app-camera>
-    </agm-info-window>
+      (afterClose)="infoWindowClosed(feature)"
+      maxHeight="0px"
+      maxWidth="0px">
+      <ng-template>
+        <app-camera
+          *ngIf="feature.selected"
+          class="video-in-map"
+          [feature]="feature"
+          [attr.id]="feature.id">
+        </app-camera>
+      </ng-template>
+    </agm-snazzy-info-window>
 
   </agm-marker>
 </agm-map>

@@ -64,4 +64,8 @@ export class StateService {
   public get(): Observable<State> {
     return this.subscription.asObservable();
   }
+
+  public getStateLink(state: State): string {
+    return JSON.stringify(state);
+  }
 }
