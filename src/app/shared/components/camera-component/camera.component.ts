@@ -80,6 +80,9 @@ export class CameraComponent implements AfterViewInit, OnDestroy {
   }
 
   public ngOnDestroy() {
+    this.video.pause();
+    this.video.removeAttribute('src'); // empty source
+    this.video.load();
     this.player.detachMedia();
     this.player.destroy();
   }
