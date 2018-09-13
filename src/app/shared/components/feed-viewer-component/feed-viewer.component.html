@@ -89,9 +89,11 @@
 
 <div *ngIf="viewIsCardsOrList">
   <stache-container *ngIf="!hasSelected">
-    <sky-alert alertType="info">No cameras currently selected.</sky-alert>
+    <h3>Feed Viewer: SCDOT</h3>
 
     <p>Use the Camera Picker or switch to Map View to select cameras. As you begin to select cameras or change the view, you'll notice the URL update as well.  This link is unique to your selections and is bookmarkable!</p>
+
+    <sky-alert alertType="info">No cameras currently selected.</sky-alert>
 
     <sky-action-button-container>
       <sky-action-button
