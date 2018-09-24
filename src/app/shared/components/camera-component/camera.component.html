@@ -4,8 +4,12 @@
     SCDOT feed possibly offline.
   </sky-alert>
 
-  <video #video autoplay playsinline muted
-    (click)="showInfo()">
+  <video
+    #video
+    autoplay
+    playsinline
+    muted
+    [poster]="poster">
   </video>
 
   <sky-wait [isWaiting]="isLoading">

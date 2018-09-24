@@ -23,7 +23,8 @@ import {
   CameraService,
   CameraPickerComponent,
   CameraInfoComponent,
-  StateService
+  StateService,
+  ThumbnailService
 } from './shared';
 
 require('style-loader!./styles.scss');
@@ -47,7 +48,8 @@ require('style-loader!./styles.scss');
   providers: [
     GoogleMapsAPIWrapper,
     CameraService,
-    StateService
+    StateService,
+    ThumbnailService
   ],
   entryComponents: [
     CameraPickerComponent,

@@ -1,43 +1,35 @@
 import {
+  AfterViewInit,
   Component,
   ElementRef,
   Input,
-  AfterViewInit,
   OnDestroy,
+  OnInit,
   ViewChild
 } from '@angular/core';
 
-import {
-  SkyModalService
-} from '@blackbaud/skyux/dist/core';
-
-import {
-  CameraInfoComponent
-} from '../camera-info-component/camera-info.component';
-
-import {
-  CameraInfoContext
-} from '../camera-info-component/camera-info.context';
-
 import * as HLS from 'hls.js';
+
+import {
+  ThumbnailService
+} from '../../services';
 
 @Component({
   selector: 'app-camera',
   templateUrl: './camera.component.html',
   styleUrls: [ './camera.component.scss' ]
 })
-export class CameraComponent implements AfterViewInit, OnDestroy {
+export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input()
   public feature: any;
-
-  @Input()
-  public id: any;
 
   @ViewChild('video')
   public videoRef: ElementRef;
 
   public error: string;
+
+  public poster: string;
 
   public isLoading = true;
 
@@ -46,9 +38,18 @@ export class CameraComponent implements AfterViewInit, OnDestroy {
   private video: HTMLVideoElement;
 
   constructor(
-    private modalService: SkyModalService
-  ) {}
+    private thumbnailService: ThumbnailService
+  ) { }
 
+  public ngOnInit() {
+    this.thumbnailService
+      .getThumbnailById(this.feature.id)
+      .subscribe((url: string) => {
+        this.poster = url;
+      });
+  }
+
+  // Use AfterViewInit so we can reference nativeElement
   public ngAfterViewInit() {
     this.video = this.videoRef.nativeElement;
 
@@ -64,19 +65,6 @@ export class CameraComponent implements AfterViewInit, OnDestroy {
       this.video.controls = true;
       this.video.src = this.feature.properties.https_url;
     }
-  }
-
-  public showInfo() {
-    this.modalService.open(CameraInfoComponent, {
-      providers: [
-        {
-          provide: CameraInfoContext,
-          useValue: {
-            feature: this.feature
-          }
-        }
-      ]
-    });
   }
 
   public ngOnDestroy() {

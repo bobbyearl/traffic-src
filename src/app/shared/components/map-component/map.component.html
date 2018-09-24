@@ -20,12 +20,10 @@
       maxHeight="0px"
       maxWidth="0px">
       <ng-template>
-        <app-camera
-          *ngIf="feature.selected"
+        <app-feature-viewer *ngIf="feature.selected"
           class="video-in-map"
-          [feature]="feature"
-          [attr.id]="feature.id">
-        </app-camera>
+          [feature]="feature">
+        </app-feature-viewer>
       </ng-template>
     </agm-snazzy-info-window>
 

@@ -56,6 +56,10 @@ export class StateService {
       newState.view = state.view;
     }
 
+    if (state.mode) {
+      newState.mode = state.mode;
+    }
+
     this.router.navigate([], {
       fragment: JSON.stringify(newState)
     });
