@@ -12,24 +12,6 @@
   <sky-toolbar-item>
     <sky-dropdown>
       <sky-dropdown-button>
-        <i class="fa fa-truck"></i>
-        <span *ngIf="!isMobileBreakpoint">Change Mode</span>
-      </sky-dropdown-button>
-      <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let m of modes">
-          <button type="button"
-            [ngClass]="{ 'sky-btn-active': m.active }"
-            (click)="setMode(m.value)">
-            <i class="fa fa-fw fa-{{ m.icon }}"></i>
-            {{ m.name }}
-          </button>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-  </sky-toolbar-item>
-  <sky-toolbar-item>
-    <sky-dropdown>
-      <sky-dropdown-button>
         <i class="fa fa-columns"></i>
         <span *ngIf="!isMobileBreakpoint">Change View</span>
       </sky-dropdown-button>
@@ -40,6 +22,24 @@
             (click)="setView(v.value)">
             <i class="fa fa-fw fa-{{ v.icon }}"></i>
             {{ v.name }}
+          </button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+  </sky-toolbar-item>
+  <sky-toolbar-item>
+    <sky-dropdown>
+      <sky-dropdown-button>
+        <i class="fa fa-truck"></i>
+        <span *ngIf="!isMobileBreakpoint">Change Mode</span>
+      </sky-dropdown-button>
+      <sky-dropdown-menu>
+        <sky-dropdown-item *ngFor="let m of modes">
+          <button type="button"
+            [ngClass]="{ 'sky-btn-active': m.active }"
+            (click)="setMode(m.value)">
+            <i class="fa fa-fw fa-{{ m.icon }}"></i>
+            {{ m.name }}
           </button>
         </sky-dropdown-item>
       </sky-dropdown-menu>
@@ -71,7 +71,7 @@
       </span>
     </button>
   </sky-toolbar-item>
-  <sky-toolbar-item *ngIf="modeIsThumb">
+  <sky-toolbar-item *ngIf="hasSelected && modeIsThumb">
     <button
       class="sky-btn sky-btn-default"
       (click)="refresh()">

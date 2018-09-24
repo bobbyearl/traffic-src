@@ -11,8 +11,14 @@ export class State {
   constructor(state?: State) {
     if (state) {
       this.selected = state.selected;
-      this.view = state.view;
-      this.mode = state.mode;
+
+      if (state.hasOwnProperty('view')) {
+        this.view = state.view;
+      }
+
+      if (state.hasOwnProperty('mode')) {
+        this.mode = state.mode;
+      }
     }
   }
 }
