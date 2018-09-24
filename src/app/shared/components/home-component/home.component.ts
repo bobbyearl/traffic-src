@@ -18,10 +18,11 @@ export class HomeComponent {
   constructor (
     private cameraService: CameraService
   ) {
-    this.routes = this.cameraService.getRouteKeys();
+    this.routes = this.cameraService
+      .getRouteKeys();
   }
 
-  public getStateForRoute(route: string) {
-    return this.cameraService.getStateForRoute(route);
+  public getStateForRoute(route: any) {
+    return this.cameraService.getStateForRoute(route.key);
   }
 }
