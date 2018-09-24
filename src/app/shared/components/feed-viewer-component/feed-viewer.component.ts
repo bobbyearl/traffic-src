@@ -118,16 +118,19 @@ export class FeedViewerComponent implements OnDestroy {
           this.features = subscriptions[0].features;
           this.selected = subscriptions[1];
 
-          const joined = this.selected
+          this.hasSelected = this.selected && this.selected.length > 0;
+
+          if (this.hasSelected) {
+            const joined = this.selected
             .map((selected: any) => selected.id)
             .sort()
             .join();
 
-          this.routeKeys.forEach((route: any) => {
-            route.active = route.joined === joined;
-          });
+            this.routeKeys.forEach((route: any) => {
+              route.active = route.joined === joined;
+            });
+          }
 
-          this.hasSelected = this.selected && this.selected.length > 0;
           this.waitService.endBlockingPageWait();
         })
     );
