@@ -49,10 +49,7 @@ export class FeedViewerComponent implements OnDestroy {
   public selected: Array<any> = [];
   public regions: Array<any> = [];
   public features: Array<any> = [];
-
-  public view: View;
   public routeKeys: any;
-
   public viewIsMap = false;
   public viewIsCardsOrList = false;
   public modeIsThumb = false;
@@ -195,14 +192,16 @@ export class FeedViewerComponent implements OnDestroy {
       ? `You currently have ${this.selected.length} cameras selected.`
       : ``;
     const conditional = view === View.MAP
+      && !this.modeIsThumb
       && this.hasSelected
       && this.selected.length > this.maximumMapCameraWarning;
 
-    this.confirmMapView(conditional, message, () => {
+    this.confirmMapView(conditional, message, ((mode?: Mode) => {
       this.stateService.set({
-        view
+        view,
+        mode
       });
-    });
+    }));
   }
 
   public setMode(mode: Mode) {
@@ -244,13 +243,15 @@ export class FeedViewerComponent implements OnDestroy {
 
   public routeClick(route: string) {
     const selected = this.cameraService.getRouteIds(route);
-    const conditional = this.view === View.MAP
+    const conditional = this.viewIsMap
+      && !this.modeIsThumb
       && selected.length > this.maximumMapCameraWarning;
     const message = `This will enable ${selected.length} cameras.`;
 
-    this.confirmMapView(conditional, message, () => {
+    this.confirmMapView(conditional, message, (mode: Mode) => {
       this.stateService.set({
-        selected
+        selected,
+        mode
       });
     });
   }
@@ -283,16 +284,43 @@ export class FeedViewerComponent implements OnDestroy {
         message: 'Confirm Map View',
         body: [
           message,
-          `Viewing more than ${this.maximumMapCameraWarning} cameras on the map at a time has proven to be unreliable.`,
-          `I'll hopefully be working to address this is a future update.`
+          `Viewing more than ${this.maximumMapCameraWarning} streaming cameras on the map at a time can be resource intensive.`,
+          `Modern systems handle this fine.  For older or mobile devices, you may consider using Thumbnail Mode.`
         ].join('  '),
-        type: SkyConfirmType.YesCancel
+        type: SkyConfirmType.Custom,
+        buttons: [
+          {
+            text: 'Proceed',
+            action: 'proceed',
+            autofocus: true,
+            styleType: 'primary'
+          },
+          {
+            text: 'Use Thumbnails',
+            action: 'thumbs',
+            styleType: 'secondary'
+          },
+          {
+            text: 'Cancel',
+            action: 'cancel',
+            styleType: 'link'
+          }
+        ]
       });
 
       dialog.closed.subscribe((result: any) => {
-        if (result.action === 'yes') {
-          callback();
+        switch (result.action) {
+          case 'proceed':
+            callback();
+            break;
+
+          case 'thumbs':
+            callback(Mode.THUMB);
+            break;
+
+          default:
         }
+
       });
     } else {
       callback();

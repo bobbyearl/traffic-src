@@ -16,6 +16,7 @@
 
     <agm-snazzy-info-window
       [isOpen]="feature.selected"
+      [closeOnMapClick]="false"
       (afterClose)="infoWindowClosed(feature)"
       maxHeight="0px"
       maxWidth="0px">
