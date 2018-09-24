@@ -4,3 +4,7 @@ li {
   margin: 0;
   padding: 0;
 }
+
+::ng-deep .sky-modal-content {
+  outline: 0;
+}
