@@ -62,7 +62,7 @@ export class CameraInfoComponent {
       mode: Mode.THUMB
     });
 
-    this.fragmentForMapViewThubmnail = stateService.getStateLink({
+    this.fragmentForMapViewThumbnail = stateService.getStateLink({
       selected: [id],
       view: View.MAP,
       mode: Mode.THUMB
