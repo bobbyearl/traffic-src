@@ -1,0 +1,9 @@
+<div (click)="showInfo()">
+  <app-camera *ngIf="modeIsStream"
+    [feature]="feature">
+  </app-camera>
+
+  <app-thumbnail *ngIf="modeIsThumb"
+    [feature]="feature">
+  </app-thumbnail>
+</div>

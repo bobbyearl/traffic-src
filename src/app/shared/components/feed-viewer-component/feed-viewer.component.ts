@@ -21,7 +21,8 @@ import {
 
 import {
   CameraService,
-  StateService
+  StateService,
+  ThumbnailService
 } from '../../services';
 
 import {
@@ -34,7 +35,8 @@ import {
 
 import {
   View,
-  State
+  State,
+  Mode
 } from '../../models';
 
 @Component({
@@ -53,6 +55,7 @@ export class FeedViewerComponent implements OnDestroy {
 
   public viewIsMap = false;
   public viewIsCardsOrList = false;
+  public modeIsThumb = false;
   public canGetLocation = false;
   public isMobileBreakpoint = true;
   public hasSelected = false;
@@ -61,6 +64,7 @@ export class FeedViewerComponent implements OnDestroy {
   public lng = -81.050091;
   public zoom = 8;
   public error: string;
+
   public views = [
     {
       name: 'View as cards',
@@ -79,17 +83,31 @@ export class FeedViewerComponent implements OnDestroy {
     }
   ];
 
+  public modes = [
+    {
+      name: 'Video streams',
+      icon: 'retweet',
+      value: Mode.STREAM
+    },
+    {
+      name: 'Thumbnails',
+      icon: 'camera',
+      value: Mode.THUMB
+    }
+  ];
+
   private flyout: SkyFlyoutInstance<CameraPickerComponent>;
   private subscriptions: Array<Subscription> = [];
   private maximumMapCameraWarning = 4;
 
   constructor (
     private flyoutService: SkyFlyoutService,
-    private stateService: StateService,
     private mediaQueryService: SkyMediaQueryService,
-    private cameraService: CameraService,
     private waitService: SkyWaitService,
-    private confirmService: SkyConfirmService
+    private confirmService: SkyConfirmService,
+    private cameraService: CameraService,
+    private stateService: StateService,
+    private thumbnailService: ThumbnailService
   ) {
     this.routeKeys = cameraService.getRouteKeys();
     const $regions = cameraService.getFeatures();
@@ -115,9 +133,14 @@ export class FeedViewerComponent implements OnDestroy {
           this.error = undefined;
           this.viewIsCardsOrList = false;
           this.viewIsMap = false;
+          this.modeIsThumb = state.mode === Mode.THUMB;
 
           this.views.forEach((v: any) => {
             v.active = v.value === state.view;
+          });
+
+          this.modes.forEach((m: any) => {
+            m.active = m.value === state.mode;
           });
 
           switch (state.view) {
@@ -172,6 +195,12 @@ export class FeedViewerComponent implements OnDestroy {
     });
   }
 
+  public setMode(mode: Mode) {
+    this.stateService.set({
+      mode
+    });
+  }
+
   public launchCameraSelector() {
     this.flyout = this.flyoutService.open(CameraPickerComponent, {
       defaultWidth: 400,
@@ -197,6 +226,10 @@ export class FeedViewerComponent implements OnDestroy {
 
   public clearSelected() {
     this.stateService.set({ selected: [] });
+  }
+
+  public refresh() {
+    this.thumbnailService.refresh();
   }
 
   public routeClick(route: string) {

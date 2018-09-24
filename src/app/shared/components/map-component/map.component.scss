@@ -24,7 +24,8 @@
   opacity: 1;
 }
 
-.video-in-map ::ng-deep video {
+.video-in-map ::ng-deep video,
+.video-in-map ::ng-deep img {
   min-height: 240px;
   min-width: 340px;
   width: 100%;
