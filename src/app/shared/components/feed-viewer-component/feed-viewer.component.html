@@ -54,8 +54,9 @@
       <sky-dropdown-menu>
         <sky-dropdown-item *ngFor="let route of routeKeys">
           <button type="button"
-            (click)="routeClick(route)">
-            {{ route }}
+            [ngClass]="{ 'sky-btn-active': route.active }"
+            (click)="routeClick(route.key)">
+            {{ route.key }}
           </button>
         </sky-dropdown-item>
       </sky-dropdown-menu>

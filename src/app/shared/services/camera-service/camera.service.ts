@@ -153,8 +153,13 @@ export class CameraService {
       });
   }
 
-  public getRouteKeys(): Array<string> {
-    return Object.keys(this.routes);
+  public getRouteKeys(): Array<any> {
+    return Object.keys(this.routes)
+      .map((key: string) => ({
+        key,
+        active: false,
+        joined: this.routes[key].sort().join()
+      }));
   }
 
   public getRouteIds(route: string) {
