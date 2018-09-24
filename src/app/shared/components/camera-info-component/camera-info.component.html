@@ -20,15 +20,23 @@
         <sky-definition-list-value>
           <ul>
             <li>
-              <a routerLink="/feeds/scdot" [fragment]="fragmentForListView">
-                List View
-                <i class="fa fa-external-link"></i>
+              <a routerLink="/feeds/scdot" [fragment]="fragmentForListViewStreaming">
+                Streaming List View
               </a>
             </li>
             <li>
-              <a routerLink="/feeds/scdot" [fragment]="fragmentForMapView">
-                Map View
-                <i class="fa fa-external-link"></i>
+              <a routerLink="/feeds/scdot" [fragment]="fragmentForMapViewStreaming">
+                Streaming Map View
+              </a>
+            </li>
+            <li>
+              <a routerLink="/feeds/scdot" [fragment]="fragmentForListViewThumbnail">
+                Thumbnail List View
+              </a>
+            </li>
+            <li>
+              <a routerLink="/feeds/scdot" [fragment]="fragmentForMapViewThumbnail">
+                Thumbnail Map View
               </a>
             </li>
           </ul>

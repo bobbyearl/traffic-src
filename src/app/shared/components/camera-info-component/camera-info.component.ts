@@ -15,7 +15,7 @@ import {
 } from '../../services';
 
 import {
-  View
+  View, Mode
 } from '../../models';
 
 @Component({
@@ -29,9 +29,13 @@ export class CameraInfoComponent {
 
   public properties: any;
 
-  public fragmentForListView: string;
+  public fragmentForListViewStreaming: string;
 
-  public fragmentForMapView: string;
+  public fragmentForMapViewStreaming: string;
+
+  public fragmentForListViewThumbnail: string;
+
+  public fragmentForMapViewThumbnail: string;
 
   constructor (
     public context: CameraInfoContext,
@@ -40,14 +44,28 @@ export class CameraInfoComponent {
   ) {
     const { id, properties, geometry } = context.feature;
 
-    this.fragmentForListView = stateService.getStateLink({
+    this.fragmentForListViewStreaming = stateService.getStateLink({
       selected: [id],
-      view: View.LIST
+      view: View.LIST,
+      mode: Mode.STREAM
     });
 
-    this.fragmentForMapView = stateService.getStateLink({
+    this.fragmentForMapViewStreaming = stateService.getStateLink({
       selected: [id],
-      view: View.MAP
+      view: View.MAP,
+      mode: Mode.STREAM
+    });
+
+    this.fragmentForListViewThumbnail = stateService.getStateLink({
+      selected: [id],
+      view: View.LIST,
+      mode: Mode.THUMB
+    });
+
+    this.fragmentForMapViewThubmnail = stateService.getStateLink({
+      selected: [id],
+      view: View.MAP,
+      mode: Mode.THUMB
     });
 
     this.id = id;
