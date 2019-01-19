@@ -7,10 +7,6 @@ import {
 } from '@angular/common';
 
 import {
-  StacheModule
-} from '@blackbaud/stache';
-
-import {
   AgmCoreModule,
   GoogleMapsAPIWrapper
 } from '@agm/core';
@@ -20,27 +16,36 @@ import {
 } from '@agm/snazzy-info-window';
 
 import {
+  HttpClientModule
+} from '@angular/common/http';
+
+import {
   CameraService,
   CameraPickerComponent,
   CameraInfoComponent,
   StateService
 } from './shared';
 
+import {
+  AppSkyModule
+} from './app-sky.module';
+
 require('style-loader!./styles.scss');
 
-// Specify entry components, module-level providers, etc. here.
 @NgModule({
   imports: [
+    AppSkyModule,
     CommonModule,
-    StacheModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAzFkM3_X3RE1Yqboc0YlNUqSU_y8j2DD4'
     }),
-    AgmSnazzyInfoWindowModule
+    AgmSnazzyInfoWindowModule,
+    HttpClientModule
   ],
   exports: [
+    AppSkyModule,
+    AppSkyModule,
     CommonModule,
-    StacheModule,
     AgmCoreModule,
     AgmSnazzyInfoWindowModule
   ],

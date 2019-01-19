@@ -1,10 +1,6 @@
 {
-  "$schema": "./node_modules/@blackbaud/skyux-builder/skyuxconfig-schema.json",
   "mode": "easy",
   "compileMode": "aot",
-  "plugins": [
-    "@blackbaud/skyux-builder-plugin-stache"
-  ],
   "app": {
     "title": "Bobby Earl Traffic"
   },

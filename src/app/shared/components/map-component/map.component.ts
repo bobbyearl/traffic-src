@@ -17,7 +17,7 @@ import {
 
 import {
   SkyAppConfig
-} from '@blackbaud/skyux-builder/runtime';
+} from '@skyux/config';
 
 import {
   CameraService,

@@ -3,16 +3,16 @@ import {
 } from '@angular/core';
 
 import {
-  Http,
-  Response
-} from '@angular/http';
+  HttpClient
+} from '@angular/common/http';
 
 import {
   SkyAppAssetsService
-} from '@blackbaud/skyux-builder/runtime/assets.service';
+} from '@skyux/assets';
 
 import {
   Observable,
+  combineLatest,
   ReplaySubject
 } from 'rxjs';
 
@@ -121,16 +121,15 @@ export class CameraService {
 
   constructor(
     private assets: SkyAppAssetsService,
-    private http: Http,
+    private http: HttpClient,
     private stateService: StateService
   ) {
     this.http
       .get(this.assets.getUrl('cameras-2018-08-26.json'))
-      .subscribe((response: Response) => {
-        const data = response.json();
+      .subscribe((data: any) => {
         const map: any = {};
 
-        data.features.forEach((feature: any) => {
+        data['features'].forEach((feature: any) => {
           const key = feature.properties.region;
           feature.coordinates = {
             lat: parseFloat(feature.geometry.coordinates[1]),
@@ -140,7 +139,7 @@ export class CameraService {
           map[key].push(feature);
         });
 
-        data.regions = Object.keys(map)
+        data['regions'] = Object.keys(map)
           .sort()
           .map((name: string) => {
             return {
@@ -174,7 +173,7 @@ export class CameraService {
     const $state = this.stateService.get();
     const $data = this.features.asObservable();
 
-    return Observable.combineLatest($state, $data)
+    return combineLatest($state, $data)
       .share()
       .map((subscriptions: any) => {
         const state: State = subscriptions[0];
@@ -192,7 +191,7 @@ export class CameraService {
     const $state = this.stateService.get();
     const $data = this.getFeatures();
 
-    Observable.combineLatest($state, $data)
+    combineLatest($state, $data)
       .subscribe((subscriptions: any) => {
         const state: State = subscriptions[0];
         const data = subscriptions[1];

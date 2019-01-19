@@ -4,19 +4,28 @@ import {
 } from '@angular/core';
 
 import {
-  SkyFlyoutInstance,
-  SkyFlyoutService,
-  SkyWaitService,
-  SkyMediaQueryService,
   SkyMediaBreakpoints,
+  SkyMediaQueryService
+} from '@skyux/core';
+
+import {
+  SkyFlyoutInstance,
+  SkyFlyoutService
+} from '@skyux/flyout';
+
+import {
+  SkyWaitService
+} from '@skyux/indicators';
+
+import {
   SkyConfirmInstance,
   SkyConfirmService,
   SkyConfirmType
-} from '@blackbaud/skyux/dist/core';
+} from '@skyux/modals';
 
 import {
-  Observable,
-  Subscription
+  Subscription,
+  combineLatest
 } from 'rxjs';
 
 import {
@@ -97,7 +106,7 @@ export class FeedViewerComponent implements OnDestroy {
 
     this.waitService.beginBlockingPageWait();
     this.subscriptions.push(
-      Observable.combineLatest($regions, $selected)
+      combineLatest($regions, $selected)
         .subscribe((subscriptions: any) => {
           this.regions = subscriptions[0].regions;
           this.features = subscriptions[0].features;

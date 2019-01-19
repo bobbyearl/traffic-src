@@ -9,7 +9,7 @@ import {
 
 import {
   SkyModalService
-} from '@blackbaud/skyux/dist/core';
+} from '@skyux/modals';
 
 import {
   CameraInfoComponent
