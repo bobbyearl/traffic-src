@@ -7,10 +7,6 @@ import {
 } from '@angular/common';
 
 import {
-  StacheModule
-} from '@blackbaud/stache';
-
-import {
   AgmCoreModule,
   GoogleMapsAPIWrapper
 } from '@agm/core';
@@ -27,23 +23,28 @@ import {
   ThumbnailService
 } from './shared';
 
-require('style-loader!./styles.scss');
+import {
+  AppSkyModule
+} from './app-sky.module';
 
-// Specify entry components, module-level providers, etc. here.
+import {
+  AppStacheModule
+} from './app-stache.module';
+
 @NgModule({
   imports: [
     CommonModule,
-    StacheModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAzFkM3_X3RE1Yqboc0YlNUqSU_y8j2DD4'
     }),
     AgmSnazzyInfoWindowModule
   ],
   exports: [
-    CommonModule,
-    StacheModule,
     AgmCoreModule,
-    AgmSnazzyInfoWindowModule
+    AgmSnazzyInfoWindowModule,
+    AppSkyModule,
+    AppStacheModule,
+    CommonModule
   ],
   providers: [
     GoogleMapsAPIWrapper,

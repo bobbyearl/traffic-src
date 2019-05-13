@@ -4,7 +4,7 @@ import {
 
 import {
   SkyModalInstance
-} from '@blackbaud/skyux/dist/core';
+} from '@skyux/modals';
 
 import {
   CameraInfoContext

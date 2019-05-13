@@ -37,6 +37,10 @@ export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private video: HTMLVideoElement;
 
+  private errorCounter = 0;
+
+  private MAX_ERROR_COUNT = 0;
+
   constructor(
     private thumbnailService: ThumbnailService
   ) { }
@@ -60,7 +64,29 @@ export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
     if (HLS.isSupported()) {
       this.player.loadSource(this.feature.properties.https_url);
       this.player.attachMedia(this.video);
-      this.player.on(HLS.Events.ERROR, (e: any, data: any) => this.showError(e, data));
+
+      this.player.on(HLS.Events.ERROR, (e: "hlsError", data: HLS.errorData) => {
+        if (!data.fatal) {
+          return;
+        }
+
+        switch (data.type) {
+          case HLS.ErrorTypes.NETWORK_ERROR:
+            if (!this.showError(e, data)) {
+              this.player.startLoad();
+            }
+            break;
+          case HLS.ErrorTypes.MEDIA_ERROR:
+            if (!this.showError(e, data)) {
+              this.player.recoverMediaError();
+            }
+            break;
+          default:
+            this.showError(e, data)
+            this.player.destroy();
+            break;
+        }
+      });
     } else {
       this.video.controls = true;
       this.video.src = this.feature.properties.https_url;
@@ -81,7 +107,11 @@ export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isLoading = false;
   }
 
-  private showError(err: string, data?: any) {
+  private showError(err: string, data?: any): boolean {
+    if (this.errorCounter++ < this.MAX_ERROR_COUNT) {
+      return true;
+    }
+
     this.isLoading = false;
     this.error = err;
     console.error(err);
@@ -89,6 +119,8 @@ export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
     if (data) {
       console.error(data);
     }
+
+    return false;
   }
 
   private clearError() {

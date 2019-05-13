@@ -9,11 +9,12 @@ import {
 
 import {
   SkyAppAssetsService
-} from '@blackbaud/skyux-builder/runtime/assets.service';
+} from '@skyux/assets';
 
 import {
   Observable,
-  ReplaySubject
+  ReplaySubject,
+  combineLatest
 } from 'rxjs';
 
 import {
@@ -23,9 +24,6 @@ import {
 import {
   State
 } from '../../models';
-
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/share';
 
 @Injectable()
 export class CameraService {
@@ -125,7 +123,7 @@ export class CameraService {
     private stateService: StateService
   ) {
     this.http
-      .get(this.assets.getUrl('cameras-2018-08-26.json'))
+      .get(this.assets.getUrl('cameras-2019-05-12.json'))
       .subscribe((response: Response) => {
         const data = response.json();
         const map: any = {};
@@ -176,43 +174,44 @@ export class CameraService {
 
   public getFeatures(): Observable<any> {
 
-    const $state = this.stateService.get();
-    const $data = this.features.asObservable();
+    const $combined = combineLatest(
+      this.stateService.get(),
+      this.features.asObservable()
+    );
 
-    return Observable.combineLatest($state, $data)
-      .share()
-      .map((subscriptions: any) => {
-        const state: State = subscriptions[0];
-        const data = subscriptions[1];
+    return $combined.map((subscriptions: any) => {
+      const state: State = subscriptions[0];
+      const data = subscriptions[1];
 
-        data.features.forEach((feature: any) => {
-          feature.selected = state.selected && state.selected.indexOf(feature.id) > -1;
-        });
-
-        return data;
+      data.features.forEach((feature: any) => {
+        feature.selected = state.selected && state.selected.indexOf(feature.id) > -1;
       });
+
+      return data;
+    });
   }
 
   public getSelectedFeatures(): Observable<any> {
-    const $state = this.stateService.get();
-    const $data = this.getFeatures();
+    const $combined = combineLatest(
+      this.stateService.get(),
+      this.getFeatures()
+    );
 
-    Observable.combineLatest($state, $data)
-      .subscribe((subscriptions: any) => {
-        const state: State = subscriptions[0];
-        const data = subscriptions[1];
-        let selected;
+    $combined.subscribe((subscriptions: any) => {
+      const state: State = subscriptions[0];
+      const data = subscriptions[1];
+      let selected;
 
-        if (state.selected) {
-          selected = state.selected
-              .map((id: string) => {
-                return data.features
-                  .find((f: any) => f.id === id);
-              });
-        }
+      if (state.selected) {
+        selected = state.selected
+            .map((id: string) => {
+              return data.features
+                .find((f: any) => f.id === id);
+            });
+      }
 
-        this.selected.next(selected);
-      });
+      this.selected.next(selected);
+    });
 
     return this.selected.asObservable();
   }

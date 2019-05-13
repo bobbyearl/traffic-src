@@ -4,19 +4,28 @@ import {
 } from '@angular/core';
 
 import {
-  SkyFlyoutInstance,
-  SkyFlyoutService,
-  SkyWaitService,
-  SkyMediaQueryService,
   SkyMediaBreakpoints,
+  SkyMediaQueryService
+} from '@skyux/core';
+
+import {
+  SkyFlyoutInstance,
+  SkyFlyoutService
+} from '@skyux/flyout';
+
+import {
+  SkyWaitService
+} from '@skyux/indicators';
+
+import {
   SkyConfirmInstance,
   SkyConfirmService,
   SkyConfirmType
-} from '@blackbaud/skyux/dist/core';
+} from '@skyux/modals';
 
 import {
-  Observable,
-  Subscription
+  Subscription,
+  combineLatest
 } from 'rxjs';
 
 import {
@@ -107,32 +116,33 @@ export class FeedViewerComponent implements OnDestroy {
     private thumbnailService: ThumbnailService
   ) {
     this.routeKeys = cameraService.getRouteKeys();
-    const $regions = cameraService.getFeatures();
-    const $selected = cameraService.getSelectedFeatures();
+    const $combined = combineLatest(
+      cameraService.getFeatures(),
+      cameraService.getSelectedFeatures()
+    );
 
     this.waitService.beginBlockingPageWait();
     this.subscriptions.push(
-      Observable.combineLatest($regions, $selected)
-        .subscribe((subscriptions: any) => {
-          this.regions = subscriptions[0].regions;
-          this.features = subscriptions[0].features;
-          this.selected = subscriptions[1];
+      $combined.subscribe((subscriptions: any) => {
+        this.regions = subscriptions[0].regions;
+        this.features = subscriptions[0].features;
+        this.selected = subscriptions[1];
 
-          this.hasSelected = this.selected && this.selected.length > 0;
+        this.hasSelected = this.selected && this.selected.length > 0;
 
-          if (this.hasSelected) {
-            const joined = this.selected
-            .map((selected: any) => selected.id)
-            .sort()
-            .join();
+        if (this.hasSelected) {
+          const joined = this.selected
+          .map((selected: any) => selected.id)
+          .sort()
+          .join();
 
-            this.routeKeys.forEach((route: any) => {
-              route.active = route.joined === joined;
-            });
-          }
+          this.routeKeys.forEach((route: any) => {
+            route.active = route.joined === joined;
+          });
+        }
 
-          this.waitService.endBlockingPageWait();
-        })
+        this.waitService.endBlockingPageWait();
+      })
     );
 
     this.subscriptions.push(

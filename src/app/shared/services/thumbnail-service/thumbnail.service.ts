@@ -1,3 +1,5 @@
+
+import {map} from 'rxjs/operators';
 import {
   Injectable
 } from '@angular/core';
@@ -9,7 +11,7 @@ import {
 
 import {
   SkyAppConfig
-} from '@blackbaud/skyux-builder/runtime';
+} from '@skyux/config';
 
 @Injectable()
 export class ThumbnailService {
@@ -33,8 +35,8 @@ export class ThumbnailService {
   }
 
   public getThumbnailById(id: string): Observable<string> {
-    return this.timestamp.map((ts: number) => {
+    return this.timestamp.pipe(map((ts: number) => {
       return this.thumbnailBaseUrl + id + '?ts=' + ts;
-    });
+    }));
   }
 }

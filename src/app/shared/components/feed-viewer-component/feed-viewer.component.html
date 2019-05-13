@@ -1,158 +1,156 @@
-<sky-toolbar>
-  <sky-toolbar-item>
-    <a
-      href="/traffic"
-      class="sky-btn sky-btn-default">
-      <i class="fa fa-home"></i>
-      <span *ngIf="!isMobileBreakpoint">
-        Home
-      </span>
-    </a>
-  </sky-toolbar-item>
-  <sky-toolbar-item>
-    <sky-dropdown>
-      <sky-dropdown-button>
-        <i class="fa fa-columns"></i>
-        <span *ngIf="!isMobileBreakpoint">Change View</span>
-      </sky-dropdown-button>
-      <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let v of views">
-          <button type="button"
-            [ngClass]="{ 'sky-btn-active': v.active }"
-            (click)="setView(v.value)">
-            <i class="fa fa-fw fa-{{ v.icon }}"></i>
-            {{ v.name }}
-          </button>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-  </sky-toolbar-item>
-  <sky-toolbar-item>
-    <sky-dropdown>
-      <sky-dropdown-button>
-        <i class="fa fa-truck"></i>
-        <span *ngIf="!isMobileBreakpoint">Change Mode</span>
-      </sky-dropdown-button>
-      <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let m of modes">
-          <button type="button"
-            [ngClass]="{ 'sky-btn-active': m.active }"
-            (click)="setMode(m.value)">
-            <i class="fa fa-fw fa-{{ m.icon }}"></i>
-            {{ m.name }}
-          </button>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-  </sky-toolbar-item>
-  <sky-toolbar-item>
-    <sky-dropdown>
-      <sky-dropdown-button>
-        <i class="fa fa-tags"></i>
-        <span *ngIf="!isMobileBreakpoint">CHS Routes</span>
-      </sky-dropdown-button>
-      <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let route of routeKeys">
-          <button type="button"
-            [ngClass]="{ 'sky-btn-active': route.active }"
-            (click)="routeClick(route.key)">
-            {{ route.key }}
-          </button>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-  </sky-toolbar-item>
-  <sky-toolbar-item>
-    <button
-      class="sky-btn sky-btn-default"
-      (click)="launchCameraSelector()">
-      <i class="fa fa-video-camera"></i>
-      <span *ngIf="!isMobileBreakpoint">
-        Select Cameras
-      </span>
-    </button>
-  </sky-toolbar-item>
-  <sky-toolbar-item *ngIf="hasSelected && modeIsThumb">
-    <button
-      class="sky-btn sky-btn-default"
-      (click)="refresh()">
-      <i class="fa fa-refresh"></i>
-      <span *ngIf="!isMobileBreakpoint">
-        Refresh
-      </span>
-    </button>
-  </sky-toolbar-item>
-  <sky-toolbar-item *ngIf="hasSelected">
-    <button
-      class="sky-btn sky-btn-default"
-      (click)="clearSelected()">
-      <i class="fa fa-eraser"></i>
-      <span *ngIf="!isMobileBreakpoint">
-        Clear
-      </span>
-    </button>
-  </sky-toolbar-item>
-  <sky-toolbar-item *ngIf="viewIsMap">
-    <button
-      class="sky-btn sky-btn-default"
-      (click)="getMyLocation()">
-      <i class="fa fa-location-arrow"></i>
-      <span *ngIf="!isMobileBreakpoint">
-        Find
-      </span>
-    </button>
-  </sky-toolbar-item>
-</sky-toolbar>
-
-<sky-alert *ngIf="error"
-  alertType="danger">
-  {{ error }}
-</sky-alert>
-
-<app-map *ngIf="viewIsMap"
-  [selected]="selected"
-  [lat]="lat"
-  [lng]="lng"
-  [zoom]="zoom">
-</app-map>
-
-<div *ngIf="viewIsCardsOrList">
-  <stache-container *ngIf="!hasSelected">
-    <h3>Feed Viewer: SCDOT</h3>
-
-    <p>Use the Camera Picker or switch to Map View to select cameras. As you begin to select cameras or change the view, you'll notice the URL update as well.  This link is unique to your selections and is bookmarkable!</p>
-
-    <sky-alert alertType="info">No cameras currently selected.</sky-alert>
-
-    <sky-action-button-container>
-      <sky-action-button
-        (actionClick)="launchCameraSelector()">
-        <sky-action-button-icon
-          iconType="camera">
-        </sky-action-button-icon>
-        <sky-action-button-header>
+<sky-fluid-grid>
+  <sky-row>
+    <sky-column screenSmall="2">
+      <a
+        href="/traffic"
+        class="sky-btn sky-btn-default">
+        <i class="fa fa-home"></i>
+        <span *ngIf="!isMobileBreakpoint">
+          Home
+        </span>
+      </a>
+      <sky-dropdown>
+        <sky-dropdown-button>
+          <i class="fa fa-columns"></i>
+          <span *ngIf="!isMobileBreakpoint">Change View</span>
+        </sky-dropdown-button>
+        <sky-dropdown-menu>
+          <sky-dropdown-item *ngFor="let v of views">
+            <button type="button"
+              [ngClass]="{ 'sky-btn-active': v.active }"
+              (click)="setView(v.value)">
+              <i class="fa fa-fw fa-{{ v.icon }}"></i>
+              {{ v.name }}
+            </button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
+        
+      <sky-dropdown>
+        <sky-dropdown-button>
+          <i class="fa fa-truck"></i>
+          <span *ngIf="!isMobileBreakpoint">Change Mode</span>
+        </sky-dropdown-button>
+        <sky-dropdown-menu>
+          <sky-dropdown-item *ngFor="let m of modes">
+            <button type="button"
+              [ngClass]="{ 'sky-btn-active': m.active }"
+              (click)="setMode(m.value)">
+              <i class="fa fa-fw fa-{{ m.icon }}"></i>
+              {{ m.name }}
+            </button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
+        
+      <sky-dropdown>
+        <sky-dropdown-button>
+          <i class="fa fa-tags"></i>
+          <span *ngIf="!isMobileBreakpoint">CHS Routes</span>
+        </sky-dropdown-button>
+        <sky-dropdown-menu>
+          <sky-dropdown-item *ngFor="let route of routeKeys">
+            <button type="button"
+              [ngClass]="{ 'sky-btn-active': route.active }"
+              (click)="routeClick(route.key)">
+              {{ route.key }}
+            </button>
+          </sky-dropdown-item>
+        </sky-dropdown-menu>
+      </sky-dropdown>
+ 
+      <button
+        class="sky-btn sky-btn-default"
+        (click)="launchCameraSelector()">
+        <i class="fa fa-video-camera"></i>
+        <span *ngIf="!isMobileBreakpoint">
           Select Cameras
-        </sky-action-button-header>
-        <sky-action-button-details>
-          View list of cameras
-        </sky-action-button-details>
-      </sky-action-button>
-      <sky-action-button
-        (actionClick)="launchMapView()">
-        <sky-action-button-icon
-          iconType="map-marker">
-        </sky-action-button-icon>
-        <sky-action-button-header>
-          Map View
-        </sky-action-button-header>
-        <sky-action-button-details>
-          View cameras on a map
-        </sky-action-button-details>
-      </sky-action-button>
-    </sky-action-button-container>
-  </stache-container>
-  <app-camera-grid *ngIf="hasSelected"
-    [features]="selected"
-    [columnWidth]="columnWidth">
-  </app-camera-grid>
-</div>
+        </span>
+      </button>
+      <div *ngIf="hasSelected && modeIsThumb">
+        <button
+          class="sky-btn sky-btn-default"
+          (click)="refresh()">
+          <i class="fa fa-refresh"></i>
+          <span *ngIf="!isMobileBreakpoint">
+            Refresh
+          </span>
+        </button>
+      </div>
+      <div *ngIf="hasSelected">
+        <button
+          class="sky-btn sky-btn-default"
+          (click)="clearSelected()">
+          <i class="fa fa-eraser"></i>
+          <span *ngIf="!isMobileBreakpoint">
+            Clear
+          </span>
+        </button>
+      </div>
+      <div *ngIf="viewIsMap">
+        <button
+          class="sky-btn sky-btn-default"
+          (click)="getMyLocation()">
+          <i class="fa fa-location-arrow"></i>
+          <span *ngIf="!isMobileBreakpoint">
+            Find
+          </span>
+        </button>
+      </div>
+    </sky-column>
+    <sky-column screenSmall="10">
+      <sky-alert *ngIf="error"
+        alertType="danger">
+        {{ error }}
+      </sky-alert>
+      
+      <app-map *ngIf="viewIsMap"
+        [selected]="selected"
+        [lat]="lat"
+        [lng]="lng"
+        [zoom]="zoom">
+      </app-map>
+      
+      <div *ngIf="viewIsCardsOrList">
+        <stache-container *ngIf="!hasSelected">
+          <h3>Feed Viewer: SCDOT</h3>
+      
+          <p>Use the Camera Picker or switch to Map View to select cameras. As you begin to select cameras or change the view, you'll notice the URL update as well.  This link is unique to your selections and is bookmarkable!</p>
+      
+          <sky-alert alertType="info">No cameras currently selected.</sky-alert>
+      
+          <sky-action-button-container>
+            <sky-action-button
+              (actionClick)="launchCameraSelector()">
+              <sky-action-button-icon
+                iconType="camera">
+              </sky-action-button-icon>
+              <sky-action-button-header>
+                Select Cameras
+              </sky-action-button-header>
+              <sky-action-button-details>
+                View list of cameras
+              </sky-action-button-details>
+            </sky-action-button>
+            <sky-action-button
+              (actionClick)="launchMapView()">
+              <sky-action-button-icon
+                iconType="map-marker">
+              </sky-action-button-icon>
+              <sky-action-button-header>
+                Map View
+              </sky-action-button-header>
+              <sky-action-button-details>
+                View cameras on a map
+              </sky-action-button-details>
+            </sky-action-button>
+          </sky-action-button-container>
+        </stache-container>
+        <app-camera-grid *ngIf="hasSelected"
+          [features]="selected"
+          [columnWidth]="columnWidth">
+        </app-camera-grid>
+      </div>
+    </sky-column>
+  </sky-row>
+</sky-fluid-grid>

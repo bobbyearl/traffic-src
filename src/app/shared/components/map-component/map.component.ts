@@ -17,7 +17,7 @@ import {
 
 import {
   SkyAppConfig
-} from '@blackbaud/skyux-builder/runtime';
+} from '@skyux/config';
 
 import {
   CameraService,
@@ -50,6 +50,9 @@ export class MapComponent implements OnDestroy {
 
   public features: any;
   public coordinates: any;
+
+  // Type of LatLngBounds would be better, but...
+  // https://github.com/SebastianM/angular-google-maps/issues/1530
   public selectedBounds: LatLngBounds;
 
   public get cssClass(): string {
