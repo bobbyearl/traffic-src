@@ -1,4 +1,3 @@
-@import url('https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
 @import "~snazzy-info-window/dist/snazzy-info-window";
 
 body {
@@ -28,12 +27,7 @@ body {
   top:0;
   left:0;
   right:0;
-  margin-top: 51px;
   z-index: 0
-}
-
-.command-serve .agm-map-container-inner {
-  margin-top: 80px;
 }
 
 .camera-outer {

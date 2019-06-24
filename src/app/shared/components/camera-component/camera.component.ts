@@ -24,7 +24,7 @@ export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
   public feature: any;
 
-  @ViewChild('video')
+  @ViewChild('video', { static: true })
   public videoRef: ElementRef;
 
   public error: string;
@@ -65,7 +65,7 @@ export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
       this.player.loadSource(this.feature.properties.https_url);
       this.player.attachMedia(this.video);
 
-      this.player.on(HLS.Events.ERROR, (e: "hlsError", data: HLS.errorData) => {
+      this.player.on(HLS.Events.ERROR, (e: 'hlsError', data: HLS.errorData) => {
         if (!data.fatal) {
           return;
         }
@@ -82,7 +82,7 @@ export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
             }
             break;
           default:
-            this.showError(e, data)
+            this.showError(e, data);
             this.player.destroy();
             break;
         }

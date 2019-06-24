@@ -7,6 +7,10 @@ import {
 } from '@angular/common';
 
 import {
+  HttpClientModule
+} from '@angular/common/http';
+
+import {
   AgmCoreModule,
   GoogleMapsAPIWrapper
 } from '@agm/core';
@@ -16,24 +20,26 @@ import {
 } from '@agm/snazzy-info-window';
 
 import {
+  StacheModule
+} from '@blackbaud/skyux-lib-stache';
+
+import {
   CameraService,
   CameraPickerComponent,
   CameraInfoComponent,
   StateService,
-  ThumbnailService
+  ThumbnailService,
+  LocationService
 } from './shared';
 
 import {
   AppSkyModule
 } from './app-sky.module';
 
-import {
-  AppStacheModule
-} from './app-stache.module';
-
 @NgModule({
   imports: [
     CommonModule,
+    HttpClientModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAzFkM3_X3RE1Yqboc0YlNUqSU_y8j2DD4'
     }),
@@ -43,14 +49,15 @@ import {
     AgmCoreModule,
     AgmSnazzyInfoWindowModule,
     AppSkyModule,
-    AppStacheModule,
+    StacheModule,
     CommonModule
   ],
   providers: [
     GoogleMapsAPIWrapper,
     CameraService,
     StateService,
-    ThumbnailService
+    ThumbnailService,
+    LocationService
   ],
   entryComponents: [
     CameraPickerComponent,

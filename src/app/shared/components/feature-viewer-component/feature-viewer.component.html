@@ -1,4 +1,6 @@
-<div (click)="showInfo()">
+<div 
+  class="app-feature-wrapper"
+  [ngClass]="cssClassByView">
   <app-camera *ngIf="modeIsStream"
     [feature]="feature">
   </app-camera>
@@ -6,4 +8,23 @@
   <app-thumbnail *ngIf="modeIsThumb"
     [feature]="feature">
   </app-thumbnail>
+
+  <div class="app-feature-info">
+    <button
+      class="sky-btn sky-btn-link-inline app-feature-info-info"
+      type="button"
+      (click)="showInfo()">
+      <sky-icon
+        icon="info-circle">
+      </sky-icon>Info
+    </button>
+    <button
+      class="sky-btn sky-btn-link-inline app-feature-info-close"
+      type="button"
+      (click)="close()">
+      <sky-icon
+        icon="times-circle-o">
+      </sky-icon>Close
+    </button>
+  </div>
 </div>

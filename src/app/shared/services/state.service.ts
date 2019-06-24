@@ -14,7 +14,7 @@ import {
 
 import {
   State
-} from '../../models';
+} from '../models';
 
 @Injectable()
 export class StateService {
@@ -58,6 +58,22 @@ export class StateService {
 
     if (state.mode) {
       newState.mode = state.mode;
+    }
+
+    if (state.navPane) {
+      newState.navPane = state.navPane;
+    }
+
+    if (state.zoom) {
+      newState.zoom = state.zoom;
+    }
+
+    if (state.lat) {
+      newState.lat = state.lat;
+    }
+
+    if (state.lng) {
+      newState.lng = state.lng;
     }
 
     this.router.navigate([], {

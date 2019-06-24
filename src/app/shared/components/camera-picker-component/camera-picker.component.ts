@@ -1,75 +1,64 @@
 import {
   Component,
-  OnDestroy,
-  AfterViewInit
+  OnInit,
+  OnDestroy
 } from '@angular/core';
 
 import {
+  combineLatest,
   Subscription
 } from 'rxjs';
 
 import {
-  CameraPickerContext
-} from './camera-picker.context';
-
-import {
+  CameraService,
   StateService
 } from '../../services';
-
-import {
-  State
-} from '../../models';
 
 @Component({
   selector: 'app-camera-picker',
   templateUrl: './camera-picker.component.html',
   styleUrls: [ './camera-picker.component.scss' ]
 })
-export class CameraPickerComponent implements AfterViewInit, OnDestroy {
+export class CameraPickerComponent implements OnInit, OnDestroy {
 
   public isWaiting = true;
+  public isDirty = false;
+  public selected: Array<any> = [];
   public regions: Array<any> = [];
+  public features: Array<any> = [];
   public searchResults: Array<any> = [];
   public searchText: string;
 
-  private state: State;
   private subscriptions: Array<Subscription> = [];
-  private features: Array<any> = [];
 
   constructor(
-    public context: CameraPickerContext,
+    private cameraService: CameraService,
     private stateService: StateService
   ) { }
 
-  public ngAfterViewInit() {
-    this.regions = this.context.regions;
-    this.features = this.context.features;
+  public ngOnInit() {
+    const $combined = combineLatest([
+      this.cameraService.getFeatures(),
+      this.cameraService.getSelectedFeatures()
+    ]);
 
     this.subscriptions.push(
-      this.stateService
-      .get()
-      .subscribe((state: State) => {
-        this.state = state;
-        this.updateSelectedCount();
-        this.isWaiting = false;
+      $combined.subscribe((subscriptions: any) => {
+        // Cheating the UI.  Huge delay without this.
+        setTimeout(() => {
+          this.regions = subscriptions[0].regions;
+          this.features = subscriptions[0].features;
+          this.selected = subscriptions[1];
+
+          this.updateSelectedCount();
+          this.isWaiting = false;
+        }, 0);
       })
     );
   }
 
   public featureSelected(feature: any) {
-    let selected = this.state.selected
-      ? this.state.selected.slice()
-      : [];
-
-    if (feature.selected) {
-      selected.push(feature.id);
-    } else {
-      selected = selected.filter((id: string) => id !== feature.id);
-    }
-
-    this.stateService.set({
-      selected
-    });
+    this.isDirty = true;
   }
 
   public searchApplied(searchText: string) {
@@ -88,6 +77,16 @@ export class CameraPickerComponent implements AfterViewInit, OnDestroy {
         .filter((feature: any) => feature.selected)
         .map((feature: any) => feature.id);
       region.selectedCount = selectedInRegion.length;
+    });
+  }
+
+  public applySelected() {
+    const selected = this.features
+      .filter((f: any) => f.selected)
+      .map((f: any) => f.id);
+
+    this.stateService.set({
+      selected
     });
   }
 

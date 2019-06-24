@@ -6,12 +6,20 @@
   <sky-toolbar>
     <sky-toolbar-item>
       <sky-search
-        expandMode="fit"
         [searchText]="searchText"
         [debounceTime]="250"
         (searchApply)="searchApplied($event)"
         (searchChange)="searchApplied($event)">
       </sky-search>
+    </sky-toolbar-item>
+    <sky-toolbar-item>
+      <button
+        class="sky-btn sky-btn-primary"
+        type="button"
+        [disabled]="!isDirty"
+        (click)="applySelected()">
+        Apply
+      </button>
     </sky-toolbar-item>
   </sky-toolbar>
 

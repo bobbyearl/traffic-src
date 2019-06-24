@@ -1,9 +1,10 @@
 <agm-map
-  [latitude]="lat"
-  [longitude]="lng"
+  [latitude]="state.lat"
+  [longitude]="state.lng"
   [fitBounds]="selectedBounds"
-  [ngClass]="cssClass"
-  [zoom]="zoom">
+  [zoom]="zoom"
+  (mapReady)="onMapReady($event)"
+  (idle)="onMapIdle()">
 
   <app-layer-traffic></app-layer-traffic>
 

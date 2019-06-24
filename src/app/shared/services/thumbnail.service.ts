@@ -1,5 +1,3 @@
-
-import {map} from 'rxjs/operators';
 import {
   Injectable
 } from '@angular/core';
@@ -8,6 +6,10 @@ import {
   ReplaySubject,
   Observable
 } from 'rxjs';
+
+import {
+  map
+} from 'rxjs/operators';
 
 import {
   SkyAppConfig

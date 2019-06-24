@@ -3,9 +3,8 @@ import {
 } from '@angular/core';
 
 import {
-  Http,
-  Response
-} from '@angular/http';
+  HttpClient
+} from '@angular/common/http';
 
 import {
   SkyAppAssetsService
@@ -19,11 +18,11 @@ import {
 
 import {
   StateService
-} from '../state-service/state.service';
+} from './state.service';
 
 import {
   State
-} from '../../models';
+} from '../models';
 
 @Injectable()
 export class CameraService {
@@ -119,13 +118,12 @@ export class CameraService {
 
   constructor(
     private assets: SkyAppAssetsService,
-    private http: Http,
+    private http: HttpClient,
     private stateService: StateService
   ) {
     this.http
       .get(this.assets.getUrl('cameras-2019-05-12.json'))
-      .subscribe((response: Response) => {
-        const data = response.json();
+      .subscribe((data: any) => {
         const map: any = {};
 
         data.features.forEach((feature: any) => {
@@ -174,10 +172,10 @@ export class CameraService {
 
   public getFeatures(): Observable<any> {
 
-    const $combined = combineLatest(
+    const $combined = combineLatest([
       this.stateService.get(),
       this.features.asObservable()
-    );
+    ]);
 
     return $combined.map((subscriptions: any) => {
       const state: State = subscriptions[0];
@@ -192,10 +190,10 @@ export class CameraService {
   }
 
   public getSelectedFeatures(): Observable<any> {
-    const $combined = combineLatest(
+    const $combined = combineLatest([
       this.stateService.get(),
       this.getFeatures()
-    );
+    ]);
 
     $combined.subscribe((subscriptions: any) => {
       const state: State = subscriptions[0];
@@ -207,6 +205,14 @@ export class CameraService {
             .map((id: string) => {
               return data.features
                 .find((f: any) => f.id === id);
+            })
+            .filter((feature: any, index: number) => {
+              if (!feature) {
+                console.warn(`Invalid ID ${state.selected[index]}`);
+                return false;
+              }
+
+              return true;
             });
       }
 

@@ -19,8 +19,9 @@ import {
 } from '@skyux/forms';
 
 import {
-  SkyWaitModule,
-  SkyAlertModule
+  SkyAlertModule,
+  SkyIconModule,
+  SkyWaitModule
 } from '@skyux/indicators';
 
 import {
@@ -58,6 +59,7 @@ import {
     SkyFluidGridModule,
     SkyFlyoutModule,
     SkyHeroModule,
+    SkyIconModule,
     SkyMediaQueryModule,
     SkyModalModule,
     SkyRepeaterModule,
