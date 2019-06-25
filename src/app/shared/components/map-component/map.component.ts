@@ -22,6 +22,10 @@ import {
 } from '@agm/core';
 
 import {
+  SkyAppAssetsService
+} from '@skyux/assets';
+
+import {
   CameraService,
   StateService,
   LocationService
@@ -54,11 +58,17 @@ export class MapComponent implements OnDestroy {
 
   public zoom: number;
 
+  public location: Location;
+
+  public urlMarkerLocation: string;
+
+  public urlMarkerFeature: string;
+
   // Type of LatLngBounds would be better, but...
   // https://github.com/SebastianM/angular-google-maps/issues/1530
   public selectedBounds: any = false;
 
-  @ViewChild(AgmMap, { static: true })
+  @ViewChild(AgmMap)
   private agmMap: AgmMap;
 
   private subscriptions: Array<Subscription> = [];
@@ -72,11 +82,15 @@ export class MapComponent implements OnDestroy {
   private zoomLocation = 13;
 
   constructor(
+    assetsService: SkyAppAssetsService,
     private mapsAPILoader: MapsAPILoader,
     private cameraService: CameraService,
     private stateService: StateService,
     private locationService: LocationService
   ) {
+
+    this.urlMarkerFeature = assetsService.getUrl('marker_red.png');
+    this.urlMarkerLocation = assetsService.getUrl('marker_blue.png');
 
     // Only load the state once, the map updates the state as a convenience afterwards.
     this.subscriptions.push(
@@ -95,6 +109,7 @@ export class MapComponent implements OnDestroy {
         .subscribe((location: Location) => {
 
           this.zoom = this.zoomLocation;
+          this.location = location;
 
           // Courtesy if refreshed since state is ignored after first.
           this.stateService.set({

@@ -24,7 +24,7 @@ export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input()
   public feature: any;
 
-  @ViewChild('video', { static: true })
+  @ViewChild('video')
   public videoRef: ElementRef;
 
   public error: string;

@@ -8,11 +8,6 @@ import {
 } from '@skyux/config';
 
 import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryService
-} from '@skyux/core';
-
-import {
   SkyFlyoutInstance,
   SkyFlyoutService
 } from '@skyux/flyout';
@@ -64,8 +59,8 @@ export class FeedViewerComponent implements OnDestroy {
   public viewIsMap = false;
   public viewIsCardsOrList = false;
   public modeIsThumb = false;
-  public canGetLocation = false;
-  public isMobileBreakpoint = true;
+  public isLocationAvailable = false;
+  public isLocationLoading = false;
   public isNavPaneOpen = false;
   public hasSelected = false;
   public columnWidth = 3;
@@ -112,7 +107,6 @@ export class FeedViewerComponent implements OnDestroy {
 
   constructor (
     private flyoutService: SkyFlyoutService,
-    private mediaQueryService: SkyMediaQueryService,
     private waitService: SkyWaitService,
     private confirmService: SkyConfirmService,
     private cameraService: CameraService,
@@ -196,14 +190,15 @@ export class FeedViewerComponent implements OnDestroy {
     );
 
     this.subscriptions.push(
-      this.mediaQueryService
-        .subscribe((breakpoint: SkyMediaBreakpoints) => {
-          this.isMobileBreakpoint = breakpoint === SkyMediaBreakpoints.xs;
+      this.locationService
+        .location()
+        .subscribe(() => {
+          this.isLocationLoading = false;
         })
     );
 
     if (window.navigator && window.navigator.geolocation) {
-      this.canGetLocation = true;
+      this.isLocationAvailable = true;
     }
   }
 
@@ -232,7 +227,7 @@ export class FeedViewerComponent implements OnDestroy {
 
   public launchCameraSelector() {
     this.flyout = this.flyoutService
-      .open(CameraPickerComponent, { defaultWidth: 400 });
+      .open(CameraPickerComponent, { defaultWidth: 380 });
 
     this.flyout.closed.subscribe(() => {
       this.flyout = undefined;
@@ -268,6 +263,7 @@ export class FeedViewerComponent implements OnDestroy {
   }
 
   public getMyLocation() {
+    this.isLocationLoading = true;
     this.locationService.get();
   }
 

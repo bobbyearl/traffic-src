@@ -6,13 +6,14 @@
   <sky-toolbar>
     <sky-toolbar-item>
       <sky-search
+        expandMode="none"
         [searchText]="searchText"
         [debounceTime]="250"
         (searchApply)="searchApplied($event)"
         (searchChange)="searchApplied($event)">
       </sky-search>
     </sky-toolbar-item>
-    <sky-toolbar-item>
+    <sky-toolbar-view-actions>
       <button
         class="sky-btn sky-btn-primary"
         type="button"
@@ -20,7 +21,7 @@
         (click)="applySelected()">
         Apply
       </button>
-    </sky-toolbar-item>
+    </sky-toolbar-view-actions>
   </sky-toolbar>
 
   <div *ngIf="searchText">

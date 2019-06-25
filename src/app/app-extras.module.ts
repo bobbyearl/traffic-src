@@ -16,12 +16,20 @@ import {
 } from '@agm/core';
 
 import {
+  AgmJsMarkerClustererModule
+} from '@agm/js-marker-clusterer';
+
+import {
   AgmSnazzyInfoWindowModule
 } from '@agm/snazzy-info-window';
 
 import {
   StacheModule
 } from '@blackbaud/skyux-lib-stache';
+
+import {
+  AppSkyModule
+} from './app-sky.module';
 
 import {
   CameraService,
@@ -32,10 +40,6 @@ import {
   LocationService
 } from './shared';
 
-import {
-  AppSkyModule
-} from './app-sky.module';
-
 @NgModule({
   imports: [
     CommonModule,
@@ -43,10 +47,12 @@ import {
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAzFkM3_X3RE1Yqboc0YlNUqSU_y8j2DD4'
     }),
+    AgmJsMarkerClustererModule,
     AgmSnazzyInfoWindowModule
   ],
   exports: [
     AgmCoreModule,
+    AgmJsMarkerClustererModule,
     AgmSnazzyInfoWindowModule,
     AppSkyModule,
     StacheModule,

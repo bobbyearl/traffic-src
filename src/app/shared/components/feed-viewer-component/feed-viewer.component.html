@@ -1,4 +1,4 @@
-<div 
+<div
   class="app-container"
   [ngClass]="cssClass">
   <div class="app-pane app-pane-nav">
@@ -21,7 +21,7 @@
       </sky-dropdown-button>
       <sky-dropdown-menu>
         <sky-dropdown-item *ngFor="let v of views">
-          <button 
+          <button
             type="button"
             [ngClass]="{ 'sky-btn-active': v.active }"
             (click)="setView(v.value)">
@@ -31,7 +31,7 @@
         </sky-dropdown-item>
       </sky-dropdown-menu>
     </sky-dropdown>
-      
+
     <sky-dropdown
       alignment="right"
       title="Change Mode">
@@ -41,7 +41,7 @@
       </sky-dropdown-button>
       <sky-dropdown-menu>
         <sky-dropdown-item *ngFor="let m of modes">
-          <button 
+          <button
             type="button"
             [ngClass]="{ 'sky-btn-active': m.active }"
             (click)="setMode(m.value)">
@@ -51,7 +51,7 @@
         </sky-dropdown-item>
       </sky-dropdown-menu>
     </sky-dropdown>
-      
+
     <sky-dropdown
       alignment="right"
       title="CHS Routes">
@@ -61,7 +61,7 @@
       </sky-dropdown-button>
       <sky-dropdown-menu>
         <sky-dropdown-item *ngFor="let route of routeKeys">
-          <button 
+          <button
             type="button"
             [ngClass]="{ 'sky-btn-active': route.active }"
             (click)="routeClick(route.key)">
@@ -81,7 +81,7 @@
         Select Cameras
       </span>
     </button>
-    
+
     <hr>
 
     <div *ngIf="hasSelected && modeIsThumb">
@@ -113,12 +113,16 @@
         class="sky-btn sky-btn-default"
         title="Find"
         type="button"
+        [disabled]="!isLocationAvailable"
         (click)="getMyLocation()">
         <i class="fa fa-fw fa-location-arrow"></i>
         <span *ngIf="isNavPaneOpen">
           Find
         </span>
       </button>
+      <sky-wait
+        [isWaiting]="isLocationLoading">
+      </sky-wait>
     </div>
     <button
       class="sky-btn sky-btn-default"
@@ -139,19 +143,19 @@
       alertType="danger">
       {{ error }}
     </sky-alert>
-    
+
     <app-map *ngIf="viewIsMap"
       [selected]="selected">
     </app-map>
-    
+
     <div *ngIf="viewIsCardsOrList">
       <stache-container *ngIf="!hasSelected">
         <h3>Feed Viewer: SCDOT</h3>
-    
+
         <p>Use the Camera Picker or switch to Map View to select cameras. As you begin to select cameras or change the view, you'll notice the URL update as well.  This link is unique to your selections and is bookmarkable!</p>
-    
+
         <sky-alert alertType="info">No cameras currently selected.</sky-alert>
-    
+
         <sky-action-button-container>
           <sky-action-button
             (actionClick)="launchCameraSelector()">

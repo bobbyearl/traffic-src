@@ -35,7 +35,7 @@ export class StateService {
             const parsed = JSON.parse(fragment);
             this.state = new State(parsed);
           } catch (err) {
-            console.error(err);
+            console.warn('Invalid state');
           }
         } else {
           this.state = new State();

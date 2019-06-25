@@ -14,6 +14,8 @@ import {
   StateService
 } from '../../services';
 
+import 'rxjs/add/operator/merge';
+
 @Component({
   selector: 'app-camera-picker',
   templateUrl: './camera-picker.component.html',

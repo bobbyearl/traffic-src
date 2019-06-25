@@ -17,6 +17,34 @@
   showBreadcrumbs="false">
 
   <stache-page-anchor>
+    Common Routes
+  </stache-page-anchor>
+
+  <sky-action-button-container>
+    <sky-action-button *ngFor="let route of routes"
+      (actionClick)="goto(route)">
+      <sky-action-button-header>
+        {{ route.key }}
+      </sky-action-button-header>
+      <sky-action-button-details>
+        {{ route.description }}
+      </sky-action-button-details>
+    </sky-action-button>
+    <sky-action-button
+      (actionClick)="gotoMap()">
+      <!-- <sky-action-button-icon
+        iconType="map-marker">
+      </sky-action-button-icon> -->
+      <sky-action-button-header>
+        Map View
+      </sky-action-button-header>
+      <sky-action-button-details>
+        View the cameras on a map.
+      </sky-action-button-details>
+    </sky-action-button>
+  </sky-action-button-container>
+
+  <!-- <stache-page-anchor>
     New Feed Viewer
   </stache-page-anchor>
 
@@ -31,6 +59,7 @@
       Try New Feed Viewer
     </a>
   </p>
+-->
 
   <stache-page-anchor>
     High Five

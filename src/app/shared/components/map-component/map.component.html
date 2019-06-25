@@ -8,10 +8,18 @@
 
   <app-layer-traffic></app-layer-traffic>
 
-  <agm-marker
-    *ngFor="let feature of features"
+  <agm-marker *ngIf="location"
+    [latitude]="location.lat"
+    [longitude]="location.lng"
+    [iconUrl]="urlMarkerLocation"
+    title="Location">
+  </agm-marker>
+
+  <!-- <agm-marker-cluster> -->
+  <agm-marker *ngFor="let feature of features"
     [latitude]="feature.coordinates.lat"
     [longitude]="feature.coordinates.lng"
+    [iconUrl]="urlMarkerFeature"
     title="{{ feature.id }}: {{ feature.properties.title }}"
     (markerClick)="markerClick(feature, index)">
 
@@ -30,4 +38,5 @@
     </agm-snazzy-info-window>
 
   </agm-marker>
+  <!-- </agm-marker-cluster> -->
 </agm-map>
