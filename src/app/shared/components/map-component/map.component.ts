@@ -12,10 +12,6 @@ import {
 } from 'rxjs';
 
 import {
-  first
-} from 'rxjs/operators';
-
-import {
   LatLngBounds,
   MapsAPILoader,
   AgmMap
@@ -81,6 +77,8 @@ export class MapComponent implements OnDestroy {
 
   private zoomLocation = 13;
 
+  private lastView: View;
+
   constructor(
     assetsService: SkyAppAssetsService,
     private mapsAPILoader: MapsAPILoader,
@@ -92,14 +90,19 @@ export class MapComponent implements OnDestroy {
     this.urlMarkerFeature = assetsService.getUrl('marker_red.png');
     this.urlMarkerLocation = assetsService.getUrl('marker_blue.png');
 
-    // Only load the state once, the map updates the state as a convenience afterwards.
     this.subscriptions.push(
       this.stateService
         .get()
-        .pipe(first())
         .subscribe((state: State) => {
-          this.state = state;
-          this.zoom = state.zoom;
+
+          // Only read state when it first changes to map.
+          // Subsequent updates are caused through the UI and update the state.
+          if (this.lastView !== View.MAP && state.view === View.MAP) {
+            this.state = state;
+            this.zoom = state.zoom;
+          }
+
+          this.lastView = state.view;
         })
     );
 
