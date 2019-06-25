@@ -7,8 +7,8 @@ import {
 } from '@angular/common';
 
 import {
-  StacheModule
-} from '@blackbaud/stache';
+  HttpClientModule
+} from '@angular/common/http';
 
 import {
   AgmCoreModule,
@@ -16,40 +16,54 @@ import {
 } from '@agm/core';
 
 import {
+  AgmJsMarkerClustererModule
+} from '@agm/js-marker-clusterer';
+
+import {
   AgmSnazzyInfoWindowModule
 } from '@agm/snazzy-info-window';
+
+import {
+  StacheModule
+} from '@blackbaud/skyux-lib-stache';
+
+import {
+  AppSkyModule
+} from './app-sky.module';
 
 import {
   CameraService,
   CameraPickerComponent,
   CameraInfoComponent,
   StateService,
-  ThumbnailService
+  ThumbnailService,
+  LocationService
 } from './shared';
 
-require('style-loader!./styles.scss');
-
-// Specify entry components, module-level providers, etc. here.
 @NgModule({
   imports: [
     CommonModule,
-    StacheModule,
+    HttpClientModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyAzFkM3_X3RE1Yqboc0YlNUqSU_y8j2DD4'
     }),
+    AgmJsMarkerClustererModule,
     AgmSnazzyInfoWindowModule
   ],
   exports: [
-    CommonModule,
-    StacheModule,
     AgmCoreModule,
-    AgmSnazzyInfoWindowModule
+    AgmJsMarkerClustererModule,
+    AgmSnazzyInfoWindowModule,
+    AppSkyModule,
+    StacheModule,
+    CommonModule
   ],
   providers: [
     GoogleMapsAPIWrapper,
     CameraService,
     StateService,
-    ThumbnailService
+    ThumbnailService,
+    LocationService
   ],
   entryComponents: [
     CameraPickerComponent,

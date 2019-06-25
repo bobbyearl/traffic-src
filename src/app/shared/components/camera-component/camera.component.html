@@ -1,9 +1,4 @@
 <div class="video-wrapper">
-  <sky-alert *ngIf="error"
-    alertType="warning">
-    SCDOT feed possibly offline.
-  </sky-alert>
-
   <video
     #video
     autoplay
@@ -11,6 +6,12 @@
     muted
     [poster]="poster">
   </video>
+
+  <sky-alert *ngIf="error"
+    alertType="warning"
+    closeable="true">
+    SCDOT feed possibly offline.
+  </sky-alert>
 
   <sky-wait [isWaiting]="isLoading">
   </sky-wait>

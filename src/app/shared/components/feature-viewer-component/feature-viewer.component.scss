@@ -1,0 +1,43 @@
+@import "~@skyux/theme/scss/mixins";
+
+.app-feature-wrapper {
+  position: relative;
+}
+
+.app-feature-wrapper-CARDS,
+.app-feature-wrapper-LIST {
+  @include sky-border('dark', 'top', 'right', 'bottom', 'left');
+  background: #EFEFEF;
+  margin: 5px;
+}
+
+.app-feature-wrapper-MAP {
+
+}
+
+
+.app-feature-info {
+  display: flex;
+  margin: 0 5px 5px 5px;
+
+  ::ng-deep .sky-btn {
+    font-size: 12px;
+  }
+
+  ::ng-deep .fa {
+    margin-right: 3px;
+  }
+
+  .app-feature-info-info,
+  .app-feature-info-close {
+    flex: 1;
+  }
+
+  .app-feature-info-info {
+    text-align: left;
+  }
+
+  .app-feature-info-close {
+    text-align: right;
+  }
+}

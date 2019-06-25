@@ -1,22 +1,50 @@
-<stache-hero overlayOpacity="0.4" backgroundImageUrl="~/assets/hero-traffic.jpg">
-  <stache-hero-heading>
+<sky-hero overlayOpacity="0.4" backgroundImageUrl="~/assets/hero-traffic.jpg">
+  <sky-hero-heading>
     Bobby Earl Traffic
-  </stache-hero-heading>
-  <stache-hero-subheading>
+  </sky-hero-heading>
+  <sky-hero-subheading>
     I hate traffic.  Now you can too.
-  </stache-hero-subheading>
+  </sky-hero-subheading>
   <div class="hero-info">
     <a href="https://www.pexels.com/photo/action-asphalt-blur-dark-397983/" target="_blank" rel="nofollow noreferrer">
       <i class="fa fa-info-circle"></i>
     </a>
   </div>
-</stache-hero>
+</sky-hero>
 
 <stache
   layout="container"
   showBreadcrumbs="false">
 
   <stache-page-anchor>
+    Common Routes
+  </stache-page-anchor>
+
+  <sky-action-button-container>
+    <sky-action-button *ngFor="let route of routes"
+      (actionClick)="goto(route)">
+      <sky-action-button-header>
+        {{ route.key }}
+      </sky-action-button-header>
+      <sky-action-button-details>
+        {{ route.description }}
+      </sky-action-button-details>
+    </sky-action-button>
+    <sky-action-button
+      (actionClick)="gotoMap()">
+      <!-- <sky-action-button-icon
+        iconType="map-marker">
+      </sky-action-button-icon> -->
+      <sky-action-button-header>
+        Map View
+      </sky-action-button-header>
+      <sky-action-button-details>
+        View the cameras on a map.
+      </sky-action-button-details>
+    </sky-action-button>
+  </sky-action-button-container>
+
+  <!-- <stache-page-anchor>
     New Feed Viewer
   </stache-page-anchor>
 
@@ -31,6 +59,7 @@
       Try New Feed Viewer
     </a>
   </p>
+-->
 
   <stache-page-anchor>
     High Five
@@ -48,6 +77,6 @@
 
   <p>I sit in traffic a lot... and I hate it.  I wanted to very quickly get a real-time view of the cameras provided by <a href="http://www.511sc.org/" target="_blank" rel="nofollow noreferrer">511sc.org</a>.  Their website is also very useful, but requires clicking on individual cameras to load, similar to the map view on this sight. I wanted to see more than one camera at once, which is why this site was born.</p>
 
-  <p>The current version of this site is built using many of the Open Source tools provided by my current team and others at <a href="https://www.blackbaud.com" target="_blank" rel="nofollow noreferrer">Blackbaud</a>.  Specifically, <a href="https://developer.blackbaud.com/skyux" target="_blank" rel="nofollow noreferrer">SKY UX Components</a>, <a href="https://developer.blackbaud.com/stache" target="_blank" rel="nofollow noreferrer">SKY UX Builder</a>, and <a href="https://github.com/blackbaud/stache2" target="_blank" rel="nofollow noreferrer">Stache</a>.</p>
+  <p>This site is proudly built using many Open Source tools, including the <a href="https://developer.blackbaud.com/skyux" target="_blank" rel="nofollow noreferrer">SKY UX framework</a> provided by <a href="https://www.blackbaud.com" target="_blank" rel="nofollow noreferrer">Blackbaud</a>.</p>
 
 </stache>

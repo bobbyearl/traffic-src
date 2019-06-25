@@ -1,13 +1,17 @@
-::ng-deep video {
-  width: 100%;
-}
+.app-camera-grid {
+  margin: 10px 5px;
 
-::ng-deep .sky-column {
-  padding: 0px 1px !important;
-}
-
-.info {
-  font-size: small;
-  padding: 0 5px 5px 5px;
-  margin: 0;
+  ::ng-deep video {
+    width: 100%;
+  }
+  
+  ::ng-deep .sky-column {
+    padding: 0px 1px !important;
+  }
+  
+  .info {
+    font-size: small;
+    padding: 0 5px 5px 5px;
+    margin: 0;
+  }
 }

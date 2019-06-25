@@ -1,12 +1,16 @@
 {
-  "$schema": "./node_modules/@blackbaud/skyux-builder/skyuxconfig-schema.json",
+  "$schema": "./node_modules/@skyux/config/skyuxconfig-schema.json",
   "mode": "easy",
   "compileMode": "aot",
   "plugins": [
     "@blackbaud/skyux-builder-plugin-stache"
   ],
   "app": {
-    "title": "Bobby Earl Traffic"
+    "title": "Bobby Earl Traffic",
+    "styles": [
+      "@skyux/theme/css/sky.css",
+      "src/app/styles.scss"
+    ]
   },
   "appSettings": {
     "bffServiceUrl": "https://bobbyearl-traffic.herokuapp.com",

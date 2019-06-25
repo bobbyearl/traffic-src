@@ -1,7 +1,8 @@
 language: node_js
-sudo: required
-node_js:
-  - "node"
+dist: xenial
+
+services:
+  - xvfb
 
 branches:
   only:
@@ -9,9 +10,7 @@ branches:
     - /^[0-9]+\.[0-9]+\.[0-9]+.*/
 
 before_install:
-  - export CHROME_BIN=/usr/bin/google-chrome
-  - export DISPLAY=:99.0
-  - bash <(curl -s https://blackbaud.github.io/skyux-travis/library-before-install.sh)
+  - npm install -g @blackbaud/skyux-cli
 
 after_success:
   - chmod +x ./scripts/publish.sh

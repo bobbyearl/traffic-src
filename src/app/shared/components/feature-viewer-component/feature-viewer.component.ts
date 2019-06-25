@@ -10,7 +10,7 @@ import {
 
 import {
   SkyModalService
-} from '@blackbaud/skyux/dist/core';
+} from '@skyux/modals';
 
 import {
   StateService
@@ -18,7 +18,8 @@ import {
 
 import {
   Mode,
-  State
+  State,
+  View
 } from '../../models';
 
 import {
@@ -39,9 +40,17 @@ export class FeatureViewerComponent implements OnDestroy {
   @Input()
   public feature: any;
 
+  public get cssClassByView() {
+    return `app-feature-wrapper-${this.view}`;
+  }
+
   public modeIsStream = false;
 
   public modeIsThumb = false;
+
+  public selected: Array<any> = [];
+
+  private view: View;
 
   private subscriptions: Array<Subscription> = [];
 
@@ -53,6 +62,8 @@ export class FeatureViewerComponent implements OnDestroy {
       this.stateService
       .get()
       .subscribe((state: State) => {
+        this.selected = state.selected;
+        this.view = state.view;
         this.modeIsStream = state.mode === Mode.STREAM;
         this.modeIsThumb = state.mode === Mode.THUMB;
       })
@@ -69,6 +80,12 @@ export class FeatureViewerComponent implements OnDestroy {
           }
         }
       ]
+    });
+  }
+
+  public close() {
+    this.stateService.set({
+      selected: this.selected.filter((id: string) => id !== this.feature.id)
     });
   }
 

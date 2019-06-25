@@ -1,13 +1,16 @@
-<p class="info sky-deemphasized">
-  {{ features.length | i18nPlural: camerasPluralMapping }} selected.  Click an individual camera for more information.
-</p>
+<div class="app-camera-grid">
+  <p class="info sky-deemphasized">
+    {{ features.length | i18nPlural: camerasPluralMapping }} selected.
+  </p>
 
-<sky-fluid-grid *ngIf="features">
-  <sky-row>
-    <sky-column *ngFor="let feature of features"
-      [screenSmall]="columnWidth">
-      <app-feature-viewer [feature]="feature">
-      </app-feature-viewer>
-    </sky-column>
-  </sky-row>
-</sky-fluid-grid>
+  <sky-fluid-grid *ngIf="features">
+    <sky-row>
+      <sky-column *ngFor="let feature of features"
+        [screenSmall]="columnWidth">
+        <app-feature-viewer
+          [feature]="feature">
+        </app-feature-viewer>
+      </sky-column>
+    </sky-row>
+  </sky-fluid-grid>
+</div>

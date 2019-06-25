@@ -2,13 +2,13 @@
   max-width: 100%;
   max-height: 100%;
   overflow: visible;
-  padding: 5px 5px 2px 5px;
+  padding: 0;
   width: 100%;
 }
 
 ::ng-deep .si-close-button {
   background: #FFF;
-  border: solid 1px #BBB;
+  border: solid 1px #bbb;
   border-radius: 3px;
   display: block;
   line-height: 18px;
@@ -22,6 +22,14 @@
 ::ng-deep .si-close-button:hover,
 ::ng-deep .si-close-button:focus {
   opacity: 1;
+}
+
+// ::ng-deep .si-pointer-bg-top {
+//   border-top-color: #EFEFEF;
+// }
+
+::ng-deep .si-has-border .si-content-wrapper {
+  border: 0;
 }
 
 .video-in-map ::ng-deep video,

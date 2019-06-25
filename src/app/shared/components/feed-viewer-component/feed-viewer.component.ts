@@ -4,25 +4,34 @@ import {
 } from '@angular/core';
 
 import {
+  SkyAppConfig
+} from '@skyux/config';
+
+import {
   SkyFlyoutInstance,
-  SkyFlyoutService,
-  SkyWaitService,
-  SkyMediaQueryService,
-  SkyMediaBreakpoints,
+  SkyFlyoutService
+} from '@skyux/flyout';
+
+import {
+  SkyWaitService
+} from '@skyux/indicators';
+
+import {
   SkyConfirmInstance,
   SkyConfirmService,
   SkyConfirmType
-} from '@blackbaud/skyux/dist/core';
+} from '@skyux/modals';
 
 import {
-  Observable,
-  Subscription
+  Subscription,
+  combineLatest
 } from 'rxjs';
 
 import {
   CameraService,
   StateService,
-  ThumbnailService
+  ThumbnailService,
+  LocationService
 } from '../../services';
 
 import {
@@ -30,13 +39,10 @@ import {
 } from '../camera-picker-component/camera-picker.component';
 
 import {
-  CameraPickerContext
-} from '../camera-picker-component/camera-picker.context';
-
-import {
   View,
   State,
-  Mode
+  Mode,
+  NavPane
 } from '../../models';
 
 @Component({
@@ -53,13 +59,11 @@ export class FeedViewerComponent implements OnDestroy {
   public viewIsMap = false;
   public viewIsCardsOrList = false;
   public modeIsThumb = false;
-  public canGetLocation = false;
-  public isMobileBreakpoint = true;
+  public isLocationAvailable = false;
+  public isLocationLoading = false;
+  public isNavPaneOpen = false;
   public hasSelected = false;
   public columnWidth = 3;
-  public lat = 34.009967;
-  public lng = -81.050091;
-  public zoom = 8;
   public error: string;
 
   public views = [
@@ -93,46 +97,52 @@ export class FeedViewerComponent implements OnDestroy {
     }
   ];
 
+  public get cssClass(): string {
+    return 'command-' + this.config.runtime.command;
+  }
+
   private flyout: SkyFlyoutInstance<CameraPickerComponent>;
   private subscriptions: Array<Subscription> = [];
   private maximumMapCameraWarning = 4;
 
   constructor (
     private flyoutService: SkyFlyoutService,
-    private mediaQueryService: SkyMediaQueryService,
     private waitService: SkyWaitService,
     private confirmService: SkyConfirmService,
     private cameraService: CameraService,
     private stateService: StateService,
-    private thumbnailService: ThumbnailService
+    private thumbnailService: ThumbnailService,
+    private locationService: LocationService,
+    private config: SkyAppConfig
   ) {
     this.routeKeys = cameraService.getRouteKeys();
-    const $regions = cameraService.getFeatures();
-    const $selected = cameraService.getSelectedFeatures();
+    const $combined = combineLatest([
+      cameraService.getFeatures(),
+      cameraService.getSelectedFeatures()
+    ]);
 
     this.waitService.beginBlockingPageWait();
     this.subscriptions.push(
-      Observable.combineLatest($regions, $selected)
-        .subscribe((subscriptions: any) => {
-          this.regions = subscriptions[0].regions;
-          this.features = subscriptions[0].features;
-          this.selected = subscriptions[1];
+      $combined.subscribe((subscriptions: any) => {
+        this.regions = subscriptions[0].regions;
+        this.features = subscriptions[0].features;
+        this.selected = subscriptions[1];
 
-          this.hasSelected = this.selected && this.selected.length > 0;
+        this.hasSelected = this.selected && this.selected.length > 0;
 
-          if (this.hasSelected) {
-            const joined = this.selected
+        if (this.hasSelected) {
+          const joined = this.selected
             .map((selected: any) => selected.id)
             .sort()
             .join();
 
-            this.routeKeys.forEach((route: any) => {
-              route.active = route.joined === joined;
-            });
-          }
+          this.routeKeys.forEach((route: any) => {
+            route.active = route.joined === joined;
+          });
+        }
 
-          this.waitService.endBlockingPageWait();
-        })
+        this.waitService.endBlockingPageWait();
+      })
     );
 
     this.subscriptions.push(
@@ -144,6 +154,7 @@ export class FeedViewerComponent implements OnDestroy {
           this.viewIsCardsOrList = false;
           this.viewIsMap = false;
           this.modeIsThumb = state.mode === Mode.THUMB;
+          this.isNavPaneOpen = state.navPane === NavPane.EXPANDED;
 
           this.views.forEach((v: any) => {
             v.active = v.value === state.view;
@@ -179,14 +190,15 @@ export class FeedViewerComponent implements OnDestroy {
     );
 
     this.subscriptions.push(
-      this.mediaQueryService
-        .subscribe((breakpoint: SkyMediaBreakpoints) => {
-          this.isMobileBreakpoint = breakpoint === SkyMediaBreakpoints.xs;
+      this.locationService
+        .location()
+        .subscribe(() => {
+          this.isLocationLoading = false;
         })
     );
 
     if (window.navigator && window.navigator.geolocation) {
-      this.canGetLocation = true;
+      this.isLocationAvailable = true;
     }
   }
 
@@ -214,17 +226,8 @@ export class FeedViewerComponent implements OnDestroy {
   }
 
   public launchCameraSelector() {
-    this.flyout = this.flyoutService.open(CameraPickerComponent, {
-      defaultWidth: 400,
-      providers: [{
-        provide: CameraPickerContext,
-        useValue: {
-          regions: this.regions,
-          selected: this.selected,
-          features: this.features
-        }
-      }]
-    });
+    this.flyout = this.flyoutService
+      .open(CameraPickerComponent, { defaultWidth: 380 });
 
     this.flyout.closed.subscribe(() => {
       this.flyout = undefined;
@@ -260,13 +263,15 @@ export class FeedViewerComponent implements OnDestroy {
   }
 
   public getMyLocation() {
-    window.navigator.geolocation.getCurrentPosition(
-      position => {
-        this.lat = position.coords.latitude;
-        this.lng = position.coords.longitude;
-        this.zoom = 13;
-      }
-    );
+    this.isLocationLoading = true;
+    this.locationService.get();
+  }
+
+  public toggleNavPane() {
+    const s = this.isNavPaneOpen ? NavPane.COLLAPSED : NavPane.EXPANDED;
+    this.stateService.set({
+      navPane: s
+    });
   }
 
   public ngOnDestroy() {

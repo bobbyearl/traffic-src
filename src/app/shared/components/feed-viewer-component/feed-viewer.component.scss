@@ -1,7 +1,53 @@
+@import "~@skyux/theme/scss/mixins";
+
 ::ng-deep .sky-toolbar-container {
   margin-bottom: 5px;
 }
 
 .sky-btn-active {
   font-weight: bold;
+}
+
+.app-container {
+  display: flex;
+  height: 100%;
+  position: absolute;
+  width: 100%;
+}
+
+.app-container.command-serve {
+   height: calc(100% - 31px);
+}
+
+.app-pane-nav {
+  background: #EFEFEF;
+  border-right: solid 1px $sky-color-gray-10;
+
+  .fa {
+    font-size: 18px;
+    padding-right: 3px;
+  }
+
+  hr {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  }
+
+  ::ng-deep .sky-btn {
+    background: none;
+    border: 0;
+    text-align: left;
+    width: 100%;
+  }
+
+  ::ng-deep .sky-dropdown-caret {
+    display: none;
+  }
+}
+
+.app-pane-content {
+  flex-grow: 1;
+  position: relative;
 }
