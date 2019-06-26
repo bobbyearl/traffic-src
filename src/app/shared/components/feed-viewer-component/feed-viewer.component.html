@@ -1,142 +1,12 @@
 <div
   class="app-container"
-  [ngClass]="cssClass">
+  [ngClass]="{
+    'is-serve': isServing,
+    'is-mobile': isMobile
+  }">
   <div class="app-pane app-pane-nav">
-    <a
-      class="sky-btn sky-btn-default"
-      routerLink="/"
-      title="Home">
-      <i class="fa fa-fw fa-home"></i>
-      <span *ngIf="isNavPaneOpen">
-        Home
-      </span>
-    </a>
-    <hr>
-    <sky-dropdown
-      alignment="right"
-      title="Change View">
-      <sky-dropdown-button>
-        <i class="fa fa-fw fa-columns"></i>
-        <span *ngIf="isNavPaneOpen">Change View</span>
-      </sky-dropdown-button>
-      <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let v of views">
-          <button
-            type="button"
-            [ngClass]="{ 'sky-btn-active': v.active }"
-            (click)="setView(v.value)">
-            <i class="fa fa-fw fa-{{ v.icon }}"></i>
-            {{ v.name }}
-          </button>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-
-    <sky-dropdown
-      alignment="right"
-      title="Change Mode">
-      <sky-dropdown-button>
-        <i class="fa fa-fw fa-truck"></i>
-        <span *ngIf="isNavPaneOpen">Change Mode</span>
-      </sky-dropdown-button>
-      <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let m of modes">
-          <button
-            type="button"
-            [ngClass]="{ 'sky-btn-active': m.active }"
-            (click)="setMode(m.value)">
-            <i class="fa fa-fw fa-{{ m.icon }}"></i>
-            {{ m.name }}
-          </button>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-
-    <sky-dropdown
-      alignment="right"
-      title="CHS Routes">
-      <sky-dropdown-button>
-        <i class="fa fa-fw fa-tags"></i>
-        <span *ngIf="isNavPaneOpen">CHS Routes</span>
-      </sky-dropdown-button>
-      <sky-dropdown-menu>
-        <sky-dropdown-item *ngFor="let route of routeKeys">
-          <button
-            type="button"
-            [ngClass]="{ 'sky-btn-active': route.active }"
-            (click)="routeClick(route.key)">
-            {{ route.key }}
-          </button>
-        </sky-dropdown-item>
-      </sky-dropdown-menu>
-    </sky-dropdown>
-
-    <button
-      class="sky-btn sky-btn-default"
-      title="Select Cameras"
-      type="button"
-      (click)="launchCameraSelector()">
-      <i class="fa fa-fw fa-video-camera"></i>
-      <span *ngIf="isNavPaneOpen">
-        Select Cameras
-      </span>
-    </button>
-
-    <hr>
-
-    <div *ngIf="hasSelected && modeIsThumb">
-      <button
-        class="sky-btn sky-btn-default"
-        title="Refresh Cameras"
-        type="button"
-        (click)="refresh()">
-        <i class="fa fa-fw fa-refresh"></i>
-        <span *ngIf="isNavPaneOpen">
-          Refresh Cameras
-        </span>
-      </button>
-    </div>
-    <div *ngIf="hasSelected">
-      <button
-        class="sky-btn sky-btn-default"
-        title="Clear Cameras"
-        type="button"
-        (click)="clearSelected()">
-        <i class="fa fa-fw fa-eraser"></i>
-        <span *ngIf="isNavPaneOpen">
-          Clear Cameras
-        </span>
-      </button>
-    </div>
-    <div *ngIf="viewIsMap">
-      <button
-        class="sky-btn sky-btn-default"
-        title="Find"
-        type="button"
-        [disabled]="!isLocationAvailable"
-        (click)="getMyLocation()">
-        <i class="fa fa-fw fa-location-arrow"></i>
-        <span *ngIf="isNavPaneOpen">
-          Find
-        </span>
-      </button>
-      <sky-wait
-        [isWaiting]="isLocationLoading">
-      </sky-wait>
-    </div>
-    <button
-      class="sky-btn sky-btn-default"
-      title="Toggle"
-      type="button"
-      (click)="toggleNavPane()">
-      <span *ngIf="isNavPaneOpen">
-        <i class="fa fa-fw fa-chevron-circle-left"></i>
-        Collapse
-      </span>
-      <i *ngIf="!isNavPaneOpen"
-        class="fa fa-fw fa-chevron-circle-right">
-      </i>
-    </button>
+    <app-nav>
+    </app-nav>
   </div>
   <div class="app-pane app-pane-content">
     <sky-alert *ngIf="error"
@@ -144,21 +14,21 @@
       {{ error }}
     </sky-alert>
 
-    <app-map *ngIf="viewIsMap"
+    <app-map *ngIf="state.view === View.MAP"
       [selected]="selected">
     </app-map>
 
-    <div *ngIf="viewIsCardsOrList">
-      <stache-container *ngIf="!hasSelected">
+    <div *ngIf="state.view !== View.MAP">
+      <stache-container *ngIf="selected.length === 0">
         <h3>Feed Viewer: SCDOT</h3>
 
-        <p>Use the Camera Picker or switch to Map View to select cameras. As you begin to select cameras or change the view, you'll notice the URL update as well.  This link is unique to your selections and is bookmarkable!</p>
+        <p>Use the Camera Selector or switch to Map View to select cameras. As you begin to select cameras or change the view, you'll notice the URL update as well.  This link is unique to your selections and is bookmarkable!</p>
 
         <sky-alert alertType="info">No cameras currently selected.</sky-alert>
 
         <sky-action-button-container>
           <sky-action-button
-            (actionClick)="launchCameraSelector()">
+            (actionClick)="btnClickLaunchCameraSelector()">
             <sky-action-button-icon
               iconType="camera">
             </sky-action-button-icon>
@@ -170,7 +40,7 @@
             </sky-action-button-details>
           </sky-action-button>
           <sky-action-button
-            (actionClick)="launchMapView()">
+            (actionClick)="btnClickLaunchMapView()">
             <sky-action-button-icon
               iconType="map-marker">
             </sky-action-button-icon>
@@ -183,9 +53,9 @@
           </sky-action-button>
         </sky-action-button-container>
       </stache-container>
-      <app-camera-grid *ngIf="hasSelected"
-        [features]="selected"
-        [columnWidth]="columnWidth">
+
+      <app-camera-grid *ngIf="selected.length > 0"
+        [features]="selected">
       </app-camera-grid>
     </div>
   </div>

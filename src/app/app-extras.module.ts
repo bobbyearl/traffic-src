@@ -33,11 +33,12 @@ import {
 
 import {
   CameraService,
-  CameraPickerComponent,
+  CameraSelectorComponent,
   CameraInfoComponent,
+  LocationService,
+  NavService,
   StateService,
-  ThumbnailService,
-  LocationService
+  ThumbnailService
 } from './shared';
 
 @NgModule({
@@ -61,12 +62,13 @@ import {
   providers: [
     GoogleMapsAPIWrapper,
     CameraService,
+    LocationService,
+    NavService,
     StateService,
-    ThumbnailService,
-    LocationService
+    ThumbnailService
   ],
   entryComponents: [
-    CameraPickerComponent,
+    CameraSelectorComponent,
     CameraInfoComponent
   ]
 })

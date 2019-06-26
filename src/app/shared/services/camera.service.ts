@@ -7,18 +7,27 @@ import {
 } from '@angular/common/http';
 
 import {
-  SkyAppAssetsService
-} from '@skyux/assets';
-
-import {
   Observable,
   ReplaySubject,
   combineLatest
 } from 'rxjs';
 
 import {
+  SkyAppAssetsService
+} from '@skyux/assets';
+
+import {
+  SkyFlyoutInstance,
+  SkyFlyoutService
+} from '@skyux/flyout';
+
+import {
   StateService
 } from './state.service';
+
+import {
+  CameraSelectorComponent
+} from '../components';
 
 import {
   State
@@ -26,6 +35,8 @@ import {
 
 @Injectable()
 export class CameraService {
+
+  public static maximumMapCameraWarning = 4;
 
   private routes: any = {
     '526 E': {
@@ -132,10 +143,14 @@ export class CameraService {
   };
 
   private selected = new ReplaySubject<any>();
+
   private features = new ReplaySubject<any>(1);
+
+  private flyout: SkyFlyoutInstance<CameraSelectorComponent>;
 
   constructor(
     private assets: SkyAppAssetsService,
+    private flyoutService: SkyFlyoutService,
     private http: HttpClient,
     private stateService: StateService
   ) {
@@ -167,14 +182,14 @@ export class CameraService {
       });
   }
 
-  public getRouteKeys(): Array<any> {
+  public getRoutes(): Array<any> {
     return Object.keys(this.routes)
       .map((key: string) => ({
         key,
         description: this.routes[key].description,
         active: false,
         joined: this.routes[key].ids.sort().join()
-      }));
+      })) || [];
   }
 
   public getRouteIds(route: string) {
@@ -239,5 +254,14 @@ export class CameraService {
     });
 
     return this.selected.asObservable();
+  }
+
+  public launchCameraSelector() {
+    this.flyout = this.flyoutService
+      .open(CameraSelectorComponent, { defaultWidth: 380 });
+
+    this.flyout.closed.subscribe(() => {
+      this.flyout = undefined;
+    });
   }
 }

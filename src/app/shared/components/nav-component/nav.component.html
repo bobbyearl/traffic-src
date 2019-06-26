@@ -1,0 +1,152 @@
+<div class="app-nav">
+  <button *ngIf="isMobile"
+    id="app-btn-mobile-menu"
+    type="button"
+    class="sky-btn sky-btn-default"
+    (click)="btnClickMobileMenu()">
+    <sky-icon
+      icon="bars">
+    </sky-icon>
+    Menu
+  </button>
+
+  <div *ngIf="isNavPaneVisible"
+    class="app-nav">
+    <a
+      class="sky-btn sky-btn-default"
+      routerLink="/"
+      title="Home">
+      <i class="fa fa-fw fa-home"></i>
+      <span *ngIf="isMobile || state.navPane === NavPane.EXPANDED">
+        Home
+      </span>
+    </a>
+    <hr>
+    <sky-dropdown
+      alignment="left"
+      title="Change View">
+      <sky-dropdown-button>
+        <i class="fa fa-fw fa-columns"></i>
+        <span *ngIf="isMobile || state.navPane === NavPane.EXPANDED">Change View</span>
+      </sky-dropdown-button>
+      <sky-dropdown-menu>
+        <sky-dropdown-item *ngFor="let v of views">
+          <button
+            type="button"
+            [ngClass]="{ 'app-btn-active': v.active }"
+            (click)="btnClickSetView(v.value)">
+            <i class="fa fa-fw fa-{{ v.icon }}"></i>
+            {{ v.name }}
+          </button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+
+    <sky-dropdown
+    title="Change Mode">
+    <sky-dropdown-button>
+      <i class="fa fa-fw fa-truck"></i>
+      <span *ngIf="isMobile || state.navPane === NavPane.EXPANDED">Change Mode</span>
+    </sky-dropdown-button>
+    <sky-dropdown-menu>
+      <sky-dropdown-item *ngFor="let m of modes">
+        <button
+          type="button"
+          [ngClass]="{ 'app-btn-active': m.active }"
+          (click)="btnClickSetMode(m.value)">
+          <i class="fa fa-fw fa-{{ m.icon }}"></i>
+          {{ m.name }}
+        </button>
+      </sky-dropdown-item>
+    </sky-dropdown-menu>
+    </sky-dropdown>
+
+    <sky-dropdown
+      title="CHS Routes">
+      <sky-dropdown-button>
+        <i class="fa fa-fw fa-tags"></i>
+        <span *ngIf="isMobile || state.navPane === NavPane.EXPANDED">CHS Routes</span>
+      </sky-dropdown-button>
+      <sky-dropdown-menu>
+        <sky-dropdown-item *ngFor="let route of routes">
+          <button
+            type="button"
+            [ngClass]="{ 'app-btn-active': route.active }"
+            (click)="btnClickRoute(route.key)">
+            {{ route.key }}
+          </button>
+        </sky-dropdown-item>
+      </sky-dropdown-menu>
+    </sky-dropdown>
+
+    <button
+      class="sky-btn sky-btn-default"
+      title="Select Cameras"
+      type="button"
+      (click)="btnClickLaunchCameraSelector()">
+      <i class="fa fa-fw fa-video-camera"></i>
+      <span *ngIf="isMobile || state.navPane === NavPane.EXPANDED">
+        Select Cameras
+      </span>
+    </button>
+
+    <hr>
+
+    <div *ngIf="state.selected.length > 0 && state.mode === Mode.THUMB">
+      <button
+        class="sky-btn sky-btn-default"
+        title="Refresh Cameras"
+        type="button"
+        (click)="btnClickRefreshThumbnails()">
+        <i class="fa fa-fw fa-refresh"></i>
+        <span *ngIf="isMobile || state.navPane === NavPane.EXPANDED">
+          Refresh Cameras
+        </span>
+      </button>
+    </div>
+
+    <div *ngIf="state.selected.length > 0">
+      <button
+        class="sky-btn sky-btn-default"
+        title="Clear Cameras"
+        type="button"
+        (click)="btnClickClearSelected()">
+        <i class="fa fa-fw fa-eraser"></i>
+        <span *ngIf="isMobile || state.navPane === NavPane.EXPANDED">
+          Clear Cameras
+        </span>
+      </button>
+    </div>
+
+    <div *ngIf="state.view === View.MAP">
+      <button
+        class="sky-btn sky-btn-default"
+        title="Find"
+        type="button"
+        [disabled]="!isLocationAvailable"
+        (click)="btnClickGetLocation()">
+        <i class="fa fa-fw fa-location-arrow"></i>
+        <span *ngIf="isMobile || state.navPane === NavPane.EXPANDED">
+          Find
+        </span>
+      </button>
+      <sky-wait
+        [isWaiting]="isLocationLoading">
+      </sky-wait>
+    </div>
+
+    <button *ngIf="!isMobile"
+      class="sky-btn sky-btn-default"
+      title="Toggle"
+      type="button"
+      (click)="btnClickToggleNavPane()">
+      <span *ngIf="state.navPane === NavPane.EXPANDED">
+        <i class="fa fa-fw fa-chevron-circle-left"></i>
+        Collapse
+      </span>
+      <i *ngIf="state.navPane === NavPane.COLLAPSED"
+        class="fa fa-fw fa-chevron-circle-right">
+      </i>
+    </button>
+  </div>
+</div>
