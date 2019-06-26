@@ -21,25 +21,37 @@
   </stache-page-anchor>
 
   <sky-action-button-container>
-    <sky-action-button *ngFor="let route of routes"
-      (actionClick)="goto(route)">
+    <sky-action-button
+      (actionClick)="btnClickLaunchCameraSelector()">
+      <sky-action-button-icon
+        iconType="camera">
+      </sky-action-button-icon>
       <sky-action-button-header>
-        {{ route.key }}
+        Select Cameras
       </sky-action-button-header>
       <sky-action-button-details>
-        {{ route.description }}
+        View list of cameras
       </sky-action-button-details>
     </sky-action-button>
     <sky-action-button
-      (actionClick)="gotoMap()">
-      <!-- <sky-action-button-icon
+      (actionClick)="btnClickLaunchMapView()">
+      <sky-action-button-icon
         iconType="map-marker">
-      </sky-action-button-icon> -->
+      </sky-action-button-icon>
       <sky-action-button-header>
         Map View
       </sky-action-button-header>
       <sky-action-button-details>
         View the cameras on a map.
+      </sky-action-button-details>
+    </sky-action-button>
+    <sky-action-button *ngFor="let route of routes"
+      (actionClick)="btnClickRoute(route)">
+      <sky-action-button-header>
+        {{ route.key }}
+      </sky-action-button-header>
+      <sky-action-button-details>
+        {{ route.description }}
       </sky-action-button-details>
     </sky-action-button>
   </sky-action-button-container>
