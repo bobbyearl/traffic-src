@@ -54,6 +54,10 @@ export class MapComponent implements OnDestroy {
 
   public zoom: number;
 
+  public lat: number;
+
+  public lng: number;
+
   public location: Location;
 
   public urlMarkerLocation: string;
@@ -95,11 +99,15 @@ export class MapComponent implements OnDestroy {
         .get()
         .subscribe((state: State) => {
 
-          // Only read state when it first changes to map.
+          // We still need to rest of the state in order to ignore video's closing on view changes.
+          this.state = state;
+
+          // Only read lat, lng, and zoom when it first changes to map.
           // Subsequent updates are caused through the UI and update the state.
           if (this.lastView !== View.MAP && state.view === View.MAP) {
-            this.state = state;
             this.zoom = state.zoom;
+            this.lat = state.lat;
+            this.lng = state.lng;
           }
 
           this.lastView = state.view;
