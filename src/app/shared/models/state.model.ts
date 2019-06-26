@@ -7,7 +7,7 @@ import {
 export class State {
 
   // Default state!
-  public selected?: Array<string> = [];
+  public selected?: Array<string>;
   public view?: View = View.CARDS;
   public mode?: Mode = Mode.STREAM;
   public navPane?: NavPane = NavPane.COLLAPSED;

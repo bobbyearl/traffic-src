@@ -50,7 +50,7 @@ export class FeedViewerComponent implements OnDestroy {
 
   public error: string;
 
-  public isMobile = false;
+  public isMobile: boolean;
 
   public isServing = false;
 
@@ -94,12 +94,6 @@ export class FeedViewerComponent implements OnDestroy {
         .get()
         .subscribe((state: State) => {
           this.state = state;
-
-          // if (!this.state.view) {
-          //   this.stateService.set({
-          //     view: View.CARDS
-          //   });
-          // }
         })
     );
   }
@@ -107,6 +101,7 @@ export class FeedViewerComponent implements OnDestroy {
   // Convience method used when no cameras selected
   public btnClickLaunchMapView() {
     this.stateService.set({
+      selected: [],
       view: View.MAP
     });
   }

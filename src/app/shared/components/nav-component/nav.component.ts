@@ -4,13 +4,9 @@ import {
 } from '@angular/core';
 
 import {
+  combineLatest,
   Subscription
 } from 'rxjs';
-
-import {
-  SkyMediaBreakpoints,
-  SkyMediaQueryService
-} from '@skyux/core';
 
 import {
   SkyConfirmInstance,
@@ -72,28 +68,24 @@ export class NavComponent implements OnDestroy {
 
   public routes: any;
 
-  public isNavPaneVisible: boolean;
-
   public isLocationAvailable = false;
-
   public isLocationLoading = false;
-
   public isMobile = false;
+  public hasSelected = false;
+  public showRefreshThumbnails = false;
+  public showExpandedText = false;
+  public isMobileShowMenu = false;
 
   // Expose our enums to the template
   public View = View;
-
   public Mode = Mode;
-
   public NavPane = NavPane;
 
   private state: State;
-
   private subscriptions: Array<Subscription> = [];
 
   constructor (
     private skyConfirmService: SkyConfirmService,
-    private skyMediaQueryService: SkyMediaQueryService,
     private cameraService: CameraService,
     private locationService: LocationService,
     private navService: NavService,
@@ -102,39 +94,37 @@ export class NavComponent implements OnDestroy {
   ) {
     this.routes = cameraService.getRoutes();
 
+    const $combined = combineLatest([
+      this.navService.isMobile(),
+      this.stateService.get()
+    ]);
+
     this.subscriptions.push(
-      this.skyMediaQueryService.subscribe((skyMediaBreakpoint: SkyMediaBreakpoints) => {
-        this.isMobile = skyMediaBreakpoint === SkyMediaBreakpoints.xs;
+      $combined.subscribe((subscriptions: any) => {
+        this.isMobile = subscriptions[0];
+        this.state = subscriptions[1];
+
+        this.hasSelected = this.state.selected && this.state.selected.length > 0;
+        this.showExpandedText = this.isMobile || this.state.navPane === NavPane.EXPANDED;
+        this.showRefreshThumbnails = this.hasSelected && this.state.mode === Mode.THUMB;
+
+        const hasRoutes = this.routes && this.routes.length > 0;
+
+        if (this.hasSelected && hasRoutes) {
+          const joined = this.state.selected.sort().join();
+          this.routes.forEach((route: any) => {
+            route.active = route.joined === joined;
+          });
+        }
+
+        this.views.forEach((v: any) => {
+          v.active = v.value === this.state.view;
+        });
+
+        this.modes.forEach((m: any) => {
+          m.active = m.value === this.state.mode;
+        });
       })
-    );
-
-    this.subscriptions.push(
-      this.stateService
-        .get()
-        .subscribe((state: State) => {
-          this.state = state;
-
-          if (this.state.selected.length > 0 && this.routes.length > 0) {
-            const joined = this.state.selected.sort().join();
-            this.routes.forEach((route: any) => {
-              route.active = route.joined === joined;
-            });
-          }
-
-          this.views.forEach((v: any) => {
-            v.active = v.value === state.view;
-          });
-
-          this.modes.forEach((m: any) => {
-            m.active = m.value === state.mode;
-          });
-        })
-    );
-
-    this.subscriptions.push(
-      this.navService
-        .isNavPaneVisible()
-        .subscribe((visible: boolean) => this.isNavPaneVisible = visible)
     );
 
     this.subscriptions.push(
@@ -167,7 +157,7 @@ export class NavComponent implements OnDestroy {
   }
 
   public btnClickMobileMenu() {
-    this.navService.toggleNavPaneVisible();
+    this.isMobileShowMenu = !this.isMobileShowMenu;
   }
 
   public btnClickToggleNavPane() {
@@ -177,18 +167,19 @@ export class NavComponent implements OnDestroy {
   }
 
   public btnClickSetView(view: View) {
-    const message = this.state.selected.length > 0
+    const message = this.hasSelected
       ? `You currently have ${this.state.selected.length} cameras selected.`
       : ``;
 
     const conditional = view === View.MAP
       && this.state.mode !== Mode.THUMB
-      && this.state.selected.length > 0
+      && this.hasSelected
       && this.state.selected.length > CameraService.maximumMapCameraWarning;
 
     this.confirmMapView(conditional, message, ((mode?: Mode) => {
       this.btnClickMobileMenu();
       this.stateService.set({
+        selected: this.state.selected,
         view,
         mode
       });
