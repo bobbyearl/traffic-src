@@ -34,7 +34,7 @@ export class HomeComponent {
       .getRoutes();
   }
 
-  public goto(route: any) {
+  public btnClickRoute(route: any) {
     this.router
       .navigate(
         this.feed,
@@ -44,7 +44,7 @@ export class HomeComponent {
       );
   }
 
-  public gotoMap() {
+  public btnClickLaunchMapView() {
     this.router
       .navigate(
         this.feed,
@@ -52,5 +52,9 @@ export class HomeComponent {
           fragment: this.stateService.getStateLink({ view: View.MAP })
         }
       );
+  }
+
+  public btnClickLaunchCameraSelector() {
+    this.cameraService.launchCameraSelector();
   }
 }

@@ -258,7 +258,10 @@ export class CameraService {
 
   public launchCameraSelector() {
     this.flyout = this.flyoutService
-      .open(CameraSelectorComponent, { defaultWidth: 380 });
+      .open(CameraSelectorComponent, {
+        defaultWidth: 380,
+        maxWidth: 600
+      });
 
     this.flyout.closed.subscribe(() => {
       this.flyout = undefined;
