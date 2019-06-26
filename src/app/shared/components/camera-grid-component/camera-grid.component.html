@@ -6,7 +6,7 @@
   <sky-fluid-grid *ngIf="features">
     <sky-row>
       <sky-column *ngFor="let feature of features"
-        [screenSmall]="columnWidth">
+        [screenSmall]="state.view === View.CARDS ? 4 : 12">
         <app-feature-viewer
           [feature]="feature">
         </app-feature-viewer>

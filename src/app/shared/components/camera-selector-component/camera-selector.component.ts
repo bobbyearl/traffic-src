@@ -17,11 +17,11 @@ import {
 import 'rxjs/add/operator/merge';
 
 @Component({
-  selector: 'app-camera-picker',
-  templateUrl: './camera-picker.component.html',
-  styleUrls: [ './camera-picker.component.scss' ]
+  selector: 'app-camera-selector',
+  templateUrl: './camera-selector.component.html',
+  styleUrls: [ './camera-selector.component.scss' ]
 })
-export class CameraPickerComponent implements OnInit, OnDestroy {
+export class CameraSelectorComponent implements OnInit, OnDestroy {
 
   public isWaiting = true;
   public isDirty = false;

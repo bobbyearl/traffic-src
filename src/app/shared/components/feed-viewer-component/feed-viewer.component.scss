@@ -4,23 +4,29 @@
   margin-bottom: 5px;
 }
 
-.sky-btn-active {
-  font-weight: bold;
-}
-
 .app-container {
   display: flex;
   height: 100%;
   position: absolute;
   width: 100%;
-}
 
-.app-container.command-serve {
-   height: calc(100% - 31px);
+  &.is-serve {
+    height: calc(100% - 31px);
+  }
+
+  &.is-mobile {
+    flex-direction: column;
+  }
+
+  &.is-mobile .app-pane-nav {
+    border: 0;
+    border-bottom: solid 1px $sky-color-gray-10;
+  }
 }
 
 .app-pane-nav {
   background: #EFEFEF;
+  border: 0;
   border-right: solid 1px $sky-color-gray-10;
 
   .fa {

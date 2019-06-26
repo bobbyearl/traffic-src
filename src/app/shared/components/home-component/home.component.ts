@@ -31,7 +31,7 @@ export class HomeComponent {
     private router: Router
   ) {
     this.routes = this.cameraService
-      .getRouteKeys();
+      .getRoutes();
   }
 
   public goto(route: any) {
