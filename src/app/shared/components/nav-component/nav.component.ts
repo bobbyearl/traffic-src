@@ -104,7 +104,7 @@ export class NavComponent implements OnDestroy {
 
     this.subscriptions.push(
       this.skyMediaQueryService.subscribe((skyMediaBreakpoint: SkyMediaBreakpoints) => {
-        this.isMobile = skyMediaBreakpoint === SkyMediaBreakpoints.xs
+        this.isMobile = skyMediaBreakpoint === SkyMediaBreakpoints.xs;
       })
     );
 

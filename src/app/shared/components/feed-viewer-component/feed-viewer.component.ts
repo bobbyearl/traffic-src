@@ -23,7 +23,7 @@ import {
 
 import {
   CameraService,
-  StateService,
+  StateService
 } from '../../services';
 
 import {

@@ -33,7 +33,6 @@ export class CameraGridComponent implements OnDestroy {
     'other' : '# cameras'
   };
 
-
   public state: State;
 
   public View = View;
