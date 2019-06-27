@@ -192,7 +192,6 @@ export class NavComponent implements OnDestroy {
     this.cameraService.launchCameraSelector();
   }
 
-
   public btnClickRoute(route: string) {
     const selected = this.cameraService.getRouteIds(route);
     const conditional = this.state.view === View.MAP
