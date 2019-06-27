@@ -22,10 +22,6 @@ import {
   State
 } from '../models';
 
-import {
-  SettingsComponent
-} from '../components/settings-component/settings.component';
-
 @Injectable()
 export class StateService {
 
@@ -102,16 +98,5 @@ export class StateService {
 
   public getStateLink(state: State): string {
     return JSON.stringify(state);
-  }
-
-  public launchStateSettingsModal(): SkyModalInstance {
-    const instance =  this.skyModalService.open(SettingsComponent);
-
-    instance.closed
-      .subscribe((result: SkyModalCloseArgs) => {
-        console.log(`Modal closed with reason: ${result.reason} and data: ${result.data}`);
-      });
-
-    return instance;
   }
 }

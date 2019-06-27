@@ -192,9 +192,6 @@ export class NavComponent implements OnDestroy {
     this.cameraService.launchCameraSelector();
   }
 
-  public btnClickLaunchSettingsModal() {
-    this.stateService.launchStateSettingsModal();
-  }
 
   public btnClickRoute(route: string) {
     const selected = this.cameraService.getRouteIds(route);
