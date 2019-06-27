@@ -101,7 +101,6 @@ export class FeedViewerComponent implements OnDestroy {
     );
   }
 
-
   public ngOnDestroy() {
     this.subscriptions
       .forEach((s: Subscription) => s.unsubscribe());
