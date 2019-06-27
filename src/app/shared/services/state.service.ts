@@ -13,6 +13,12 @@ import {
 } from 'rxjs';
 
 import {
+  SkyModalCloseArgs,
+  SkyModalInstance,
+  SkyModalService
+} from '@skyux/modals';
+
+import {
   State
 } from '../models';
 
@@ -25,7 +31,8 @@ export class StateService {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private skyModalService: SkyModalService
   ) {
     this.route
       .fragment
@@ -48,12 +55,16 @@ export class StateService {
   public set(state: State) {
     const newState = new State(this.state);
 
-    if (state.selected) {
-      newState.selected = state.selected;
+    if (state.density) {
+      newState.density = state.density;
     }
 
-    if (state.view) {
-      newState.view = state.view;
+    if (state.lat) {
+      newState.lat = state.lat;
+    }
+
+    if (state.lng) {
+      newState.lng = state.lng;
     }
 
     if (state.mode) {
@@ -64,16 +75,16 @@ export class StateService {
       newState.navPane = state.navPane;
     }
 
+    if (state.selected) {
+      newState.selected = state.selected;
+    }
+
+    if (state.view) {
+      newState.view = state.view;
+    }
+
     if (state.zoom) {
       newState.zoom = state.zoom;
-    }
-
-    if (state.lat) {
-      newState.lat = state.lat;
-    }
-
-    if (state.lng) {
-      newState.lng = state.lng;
     }
 
     this.router.navigate([], {

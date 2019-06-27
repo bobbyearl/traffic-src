@@ -27,9 +27,9 @@ import {
 } from '../../services';
 
 import {
-  View,
+  Mode,
   State,
-  Mode
+  View
 } from '../../models';
 
 @Component({
@@ -40,12 +40,15 @@ import {
 export class FeedViewerComponent implements OnDestroy {
 
   public selected: Array<any> = [];
+
   public regions: Array<any> = [];
+
   public features: Array<any> = [];
+
   public state: State;
 
-  // Expose our enums to the template
   public View = View;
+
   public Mode = Mode;
 
   public error: string;
@@ -61,7 +64,7 @@ export class FeedViewerComponent implements OnDestroy {
     private skyWaitService: SkyWaitService,
     private stateService: StateService,
     private config: SkyAppConfig,
-    private cameraService: CameraService
+    cameraService: CameraService
   ) {
 
     this.isServing = this.config.runtime.command === 'serve';
@@ -96,18 +99,6 @@ export class FeedViewerComponent implements OnDestroy {
           this.state = state;
         })
     );
-  }
-
-  // Convience method used when no cameras selected
-  public btnClickLaunchMapView() {
-    this.stateService.set({
-      selected: [],
-      view: View.MAP
-    });
-  }
-
-  public btnClickLaunchCameraSelector() {
-    this.cameraService.launchCameraSelector();
   }
 
   public ngOnDestroy() {

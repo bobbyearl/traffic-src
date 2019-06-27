@@ -1,94 +1,48 @@
-<sky-hero overlayOpacity="0.4" backgroundImageUrl="~/assets/hero-traffic.jpg">
-  <sky-hero-heading>
-    Bobby Earl Traffic
-  </sky-hero-heading>
-  <sky-hero-subheading>
-    I hate traffic.  Now you can too.
-  </sky-hero-subheading>
-  <div class="hero-info">
-    <a href="https://www.pexels.com/photo/action-asphalt-blur-dark-397983/" target="_blank" rel="nofollow noreferrer">
-      <i class="fa fa-info-circle"></i>
-    </a>
-  </div>
-</sky-hero>
+<div class="app-home">
+  <sky-hero overlayOpacity="0.4" backgroundImageUrl="~/assets/hero-traffic.jpg">
+    <sky-hero-heading>
+      Bobby Earl Traffic
+    </sky-hero-heading>
+    <sky-hero-subheading>
+      I hate traffic.  Now you can too.
+    </sky-hero-subheading>
+    <div class="hero-info">
+      <a href="https://www.pexels.com/photo/action-asphalt-blur-dark-397983/" target="_blank" rel="nofollow noreferrer">
+        <i class="fa fa-info-circle"></i>
+      </a>
+    </div>
+  </sky-hero>
 
-<stache
-  layout="container"
-  showBreadcrumbs="false">
+  <stache
+    layout="container"
+    showBreadcrumbs="false">
 
-  <stache-page-anchor>
-    Common Routes
-  </stache-page-anchor>
+    <stache-page-anchor>
+      Getting Started
+    </stache-page-anchor>
 
-  <sky-action-button-container>
-    <sky-action-button
-      (actionClick)="btnClickLaunchCameraSelector()">
-      <sky-action-button-icon
-        iconType="camera">
-      </sky-action-button-icon>
-      <sky-action-button-header>
-        Select Cameras
-      </sky-action-button-header>
-      <sky-action-button-details>
-        View list of cameras
-      </sky-action-button-details>
-    </sky-action-button>
-    <sky-action-button
-      (actionClick)="btnClickLaunchMapView()">
-      <sky-action-button-icon
-        iconType="map-marker">
-      </sky-action-button-icon>
-      <sky-action-button-header>
-        Map View
-      </sky-action-button-header>
-      <sky-action-button-details>
-        View the cameras on a map.
-      </sky-action-button-details>
-    </sky-action-button>
-    <sky-action-button *ngFor="let route of routes"
-      (actionClick)="btnClickRoute(route)">
-      <sky-action-button-header>
-        {{ route.key }}
-      </sky-action-button-header>
-      <sky-action-button-details>
-        {{ route.description }}
-      </sky-action-button-details>
-    </sky-action-button>
-  </sky-action-button-container>
+    <p>This site has recently been reborn.  The <a href="https://bobbyearl.com/traffic-legacy">legacy version</a> will be around for a while.  Jump straight into to the <a routerLink="/feeds/scdot">feed viewer</a>.  For those that may have used the site for a while, there's the currated list of Charleston routes you've come to know and love.</p>
 
-  <!-- <stache-page-anchor>
-    New Feed Viewer
-  </stache-page-anchor>
+    <app-routes>
+    </app-routes>
 
-  <p>This site has recently been reborn.  The <a href="https://bobbyearl.com/traffic-legacy">legacy version</a> will be around for a while.  Jump straight into to the <a routerLink="/feeds/scdot">feed viewer</a>.  For those that may have used the site for a while, there's the currated list of Charleston routes you've come to know and love:
-    <span *ngFor="let route of routes; last as isLast">
-      <a routerLink="/feeds/scdot" [fragment]="getStateForRoute(route)" class="sky-btn sky-btn-link-inline">{{ route.key }}</a><span *ngIf="!isLast">,</span><span *ngIf="isLast">.</span>
-    </span>
-  </p>
+    <stache-page-anchor>
+      High Five
+    </stache-page-anchor>
 
-  <p>
-    <a routerLink="feeds/scdot" class="sky-btn sky-btn-primary">
-      Try New Feed Viewer
-    </a>
-  </p>
--->
-
-  <stache-page-anchor>
-    High Five
-  </stache-page-anchor>
-
-  <p><strong>Like My Site?</strong> As in, use it everyday to get home?  Kindly consider donating through Paypal via the <s>buy me a beer</s> send my kids to college button below.  <a href="https://github.com/bobbyearl/traffic" target="_blank" rel="nofollow noreferrer">Contributions in GitHub</a> are also gladly accepted or check out the <a routerLink="/changelog">changelog</a> for updates to the site.</p>
-  <p>
-    <a href="https://paypal.me/simplyearl" class="sky-btn sky-btn-secondary">Send my Kids to College</a>
-  </p>
+    <p><strong>Like My Site?</strong> As in, use it everyday to get home?  Kindly consider donating through Paypal via the <s>buy me a beer</s> send my kids to college button below.  <a href="https://github.com/bobbyearl/traffic" target="_blank" rel="nofollow noreferrer">Contributions in GitHub</a> are also gladly accepted or check out the <a routerLink="/changelog">changelog</a> for updates to the site.</p>
+    <p>
+      <a href="https://paypal.me/simplyearl" class="sky-btn sky-btn-secondary">Send my Kids to College</a>
+    </p>
 
 
-  <stache-page-anchor>
-    Inspiration
-  </stache-page-anchor>
+    <stache-page-anchor>
+      Inspiration
+    </stache-page-anchor>
 
-  <p>I sit in traffic a lot... and I hate it.  I wanted to very quickly get a real-time view of the cameras provided by <a href="http://www.511sc.org/" target="_blank" rel="nofollow noreferrer">511sc.org</a>.  Their website is also very useful, but requires clicking on individual cameras to load, similar to the map view on this sight. I wanted to see more than one camera at once, which is why this site was born.</p>
+    <p>I sit in traffic a lot... and I hate it.  I wanted to very quickly get a real-time view of the cameras provided by <a href="http://www.511sc.org/" target="_blank" rel="nofollow noreferrer">511sc.org</a>.  Their website is also very useful, but requires clicking on individual cameras to load, similar to the map view on this sight. I wanted to see more than one camera at once, which is why this site was born.</p>
 
-  <p>This site is proudly built using many Open Source tools, including the <a href="https://developer.blackbaud.com/skyux" target="_blank" rel="nofollow noreferrer">SKY UX framework</a> provided by <a href="https://www.blackbaud.com" target="_blank" rel="nofollow noreferrer">Blackbaud</a>.</p>
+    <p>This site is proudly built using many Open Source tools, including the <a href="https://developer.blackbaud.com/skyux" target="_blank" rel="nofollow noreferrer">SKY UX framework</a> provided by <a href="https://www.blackbaud.com" target="_blank" rel="nofollow noreferrer">Blackbaud</a>.</p>
 
-</stache>
+  </stache>
+</div>

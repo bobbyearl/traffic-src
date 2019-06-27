@@ -13,8 +13,8 @@ import {
 } from '../../services';
 
 import {
-  State,
-  View
+  Density,
+  State
 } from '../../models';
 
 @Component({
@@ -33,9 +33,36 @@ export class CameraGridComponent implements OnDestroy {
     'other' : '# cameras'
   };
 
-  public state: State;
+  public densities = [
+    {
+      columns: 1,
+      name: 'Tiny',
+      icon: 'table',
+      value: Density.XS
+    },
+    {
+      columns: 3,
+      name: 'Small',
+      icon: 'th',
+      value: Density.SM
+    },
+    {
+      columns: 6,
+      name: 'Medium',
+      icon: 'th-large',
+      value: Density.MD
+    },
+    {
+      columns: 12,
+      name: 'Large',
+      icon: 'th-list',
+      value: Density.LG
+    }
+  ];
 
-  public View = View;
+  public selectedDensity: Density;
+
+  public columns: number;
 
   private subscriptions: Array<Subscription> = [];
 
@@ -45,8 +72,22 @@ export class CameraGridComponent implements OnDestroy {
     this.subscriptions.push(
       this.stateService
         .get()
-        .subscribe((state: State) => this.state = state)
+        .subscribe((state: State) => {
+          this.densities.some((density: any) => {
+            if (density.value === state.density) {
+              this.selectedDensity = state.density;
+              this.columns = density.columns;
+              return true;
+            }
+          });
+        })
     );
+  }
+
+  public onDensityChange(evt: any) {
+    this.stateService.set({
+      density: evt.value
+    });
   }
 
   public ngOnDestroy() {

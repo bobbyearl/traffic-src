@@ -8,6 +8,7 @@
     <app-nav>
     </app-nav>
   </div>
+
   <div class="app-pane app-pane-content">
     <sky-alert *ngIf="error"
       alertType="danger">
@@ -19,42 +20,20 @@
     </app-map>
 
     <div *ngIf="state.view !== View.MAP">
-      <stache-container *ngIf="selected.length === 0">
+      <stache-container *ngIf="!selected || selected.length === 0">
         <h3>Feed Viewer: SCDOT</h3>
 
         <p>Use the Camera Selector or switch to Map View to select cameras. As you begin to select cameras or change the view, you'll notice the URL update as well.  This link is unique to your selections and is bookmarkable!</p>
 
-        <sky-alert alertType="info">No cameras currently selected.</sky-alert>
+        <sky-alert alertType="info"
+          >No cameras currently selected.
+        </sky-alert>
 
-        <sky-action-button-container>
-          <sky-action-button
-            (actionClick)="btnClickLaunchCameraSelector()">
-            <sky-action-button-icon
-              iconType="camera">
-            </sky-action-button-icon>
-            <sky-action-button-header>
-              Select Cameras
-            </sky-action-button-header>
-            <sky-action-button-details>
-              View list of cameras
-            </sky-action-button-details>
-          </sky-action-button>
-          <sky-action-button
-            (actionClick)="btnClickLaunchMapView()">
-            <sky-action-button-icon
-              iconType="map-marker">
-            </sky-action-button-icon>
-            <sky-action-button-header>
-              Map View
-            </sky-action-button-header>
-            <sky-action-button-details>
-              View cameras on a map
-            </sky-action-button-details>
-          </sky-action-button>
-        </sky-action-button-container>
+        <app-routes>
+        </app-routes>
       </stache-container>
 
-      <app-camera-grid *ngIf="selected.length > 0"
+      <app-camera-grid *ngIf="selected && selected.length > 0"
         [features]="selected">
       </app-camera-grid>
     </div>

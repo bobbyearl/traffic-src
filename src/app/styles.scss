@@ -4,6 +4,10 @@ body {
   background: #FFF;
 }
 
+body.sky-modal-body-open {
+  overflow: visible;
+}
+
 .sky-navbar {
   position: relative;
   z-index: 10;
