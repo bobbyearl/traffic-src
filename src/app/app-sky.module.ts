@@ -15,7 +15,8 @@ import {
 } from '@skyux/flyout';
 
 import {
-  SkyCheckboxModule
+  SkyCheckboxModule,
+  SkyRadioModule
 } from '@skyux/forms';
 
 import {
@@ -62,6 +63,7 @@ import {
     SkyIconModule,
     SkyMediaQueryModule,
     SkyModalModule,
+    SkyRadioModule,
     SkyRepeaterModule,
     SkySearchModule,
     SkyToolbarModule,

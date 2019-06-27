@@ -42,13 +42,8 @@ export class NavComponent implements OnDestroy {
       value: View.CARDS
     },
     {
-      name: 'View as list',
-      icon: 'list',
-      value: View.LIST
-    },
-    {
       name: 'View as map',
-      icon: 'map-marker',
+      icon: 'globe',
       value: View.MAP
     }
   ];
@@ -56,7 +51,7 @@ export class NavComponent implements OnDestroy {
   public modes = [
     {
       name: 'Video streams',
-      icon: 'retweet',
+      icon: 'video-camera',
       value: Mode.STREAM
     },
     {
@@ -195,6 +190,10 @@ export class NavComponent implements OnDestroy {
 
   public btnClickLaunchCameraSelector() {
     this.cameraService.launchCameraSelector();
+  }
+
+  public btnClickLaunchSettingsModal() {
+    this.stateService.launchStateSettingsModal();
   }
 
   public btnClickRoute(route: string) {

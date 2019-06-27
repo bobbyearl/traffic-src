@@ -1,12 +1,29 @@
 <div class="app-camera-grid">
-  <p class="info sky-deemphasized">
-    {{ features.length | i18nPlural: camerasPluralMapping }} selected.
-  </p>
+  <sky-toolbar>
+    <sky-toolbar-item>
+        <div class="sky-switch-icon-group">
+          <sky-radio *ngFor="let density of densities"
+            [icon]="density.icon"
+            name="cameraSize"
+            [value]="density.value"
+            [label]="density.name"
+            [(ngModel)]="selectedDensity"
+            (change)="onDensityChange($event)"
+          >
+          </sky-radio>
+        </div>
+      </sky-toolbar-item>
+    <sky-toolbar-view-actions>
+      <span class="sky-deemphasized">{{ features.length | i18nPlural: camerasPluralMapping }} selected.</span>
+    </sky-toolbar-view-actions>
+  </sky-toolbar>
+
+  {{ selectedCameraSize }}
 
   <sky-fluid-grid *ngIf="features">
     <sky-row>
       <sky-column *ngFor="let feature of features"
-        [screenSmall]="state.view === View.CARDS ? 4 : 12">
+        [screenSmall]="columns">
         <app-feature-viewer
           [feature]="feature">
         </app-feature-viewer>

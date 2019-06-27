@@ -13,8 +13,18 @@ import {
 } from 'rxjs';
 
 import {
+  SkyModalCloseArgs,
+  SkyModalInstance,
+  SkyModalService
+} from '@skyux/modals';
+
+import {
   State
 } from '../models';
+
+import {
+  SettingsComponent
+} from '../components/settings-component/settings.component';
 
 @Injectable()
 export class StateService {
@@ -25,7 +35,8 @@ export class StateService {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private skyModalService: SkyModalService
   ) {
     this.route
       .fragment
@@ -48,12 +59,16 @@ export class StateService {
   public set(state: State) {
     const newState = new State(this.state);
 
-    if (state.selected) {
-      newState.selected = state.selected;
+    if (state.density) {
+      newState.density = state.density;
     }
 
-    if (state.view) {
-      newState.view = state.view;
+    if (state.lat) {
+      newState.lat = state.lat;
+    }
+
+    if (state.lng) {
+      newState.lng = state.lng;
     }
 
     if (state.mode) {
@@ -64,16 +79,16 @@ export class StateService {
       newState.navPane = state.navPane;
     }
 
+    if (state.selected) {
+      newState.selected = state.selected;
+    }
+
+    if (state.view) {
+      newState.view = state.view;
+    }
+
     if (state.zoom) {
       newState.zoom = state.zoom;
-    }
-
-    if (state.lat) {
-      newState.lat = state.lat;
-    }
-
-    if (state.lng) {
-      newState.lng = state.lng;
     }
 
     this.router.navigate([], {
@@ -87,5 +102,16 @@ export class StateService {
 
   public getStateLink(state: State): string {
     return JSON.stringify(state);
+  }
+
+  public launchStateSettingsModal(): SkyModalInstance {
+    const instance =  this.skyModalService.open(SettingsComponent);
+
+    instance.closed
+      .subscribe((result: SkyModalCloseArgs) => {
+        console.log(`Modal closed with reason: ${result.reason} and data: ${result.data}`);
+      });
+
+    return instance;
   }
 }

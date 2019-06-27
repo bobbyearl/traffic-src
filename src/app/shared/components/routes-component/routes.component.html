@@ -1,0 +1,50 @@
+<sky-fluid-grid>
+  <sky-row>
+    <sky-column screenMedium="6">
+      <sky-action-button-container>
+        <sky-action-button
+          (actionClick)="btnClickLaunchCardViewAndCameraSelector()">
+          <sky-action-button-icon
+            iconType="list-alt">
+          </sky-action-button-icon>
+          <sky-action-button-header>
+            Card View
+          </sky-action-button-header>
+          <sky-action-button-details>
+            View cameras as cards.
+          </sky-action-button-details>
+        </sky-action-button>
+        <sky-action-button
+          (actionClick)="btnClickLaunchMapView()">
+          <sky-action-button-icon
+            iconType="map-marker">
+          </sky-action-button-icon>
+          <sky-action-button-header>
+            Map View
+          </sky-action-button-header>
+          <sky-action-button-details>
+            View cameras on a map.
+          </sky-action-button-details>
+        </sky-action-button>
+      </sky-action-button-container>
+    </sky-column>
+    <sky-column screenMedium="6">
+      <sky-repeater>
+          <sky-repeater-item *ngFor="let route of routes">
+            <sky-repeater-item-title>
+              <div class="pull-left">
+                <a
+                  [routerLink]="feed"
+                  [fragment]="getStateForRoute(route)">
+                  {{ route.key }}
+                </a>
+              </div>
+              <div class="pull-right">
+                {{ route.description }}
+              </div>
+            </sky-repeater-item-title>
+          </sky-repeater-item>
+        </sky-repeater>
+    </sky-column>
+  </sky-row>
+</sky-fluid-grid>

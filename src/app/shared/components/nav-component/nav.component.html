@@ -21,7 +21,9 @@
         Home
       </span>
     </a>
+
     <hr>
+
     <sky-dropdown
       alignment="left"
       title="Change View">
@@ -84,7 +86,7 @@
       title="Select Cameras"
       type="button"
       (click)="btnClickLaunchCameraSelector()">
-      <i class="fa fa-fw fa-video-camera"></i>
+      <i class="fa fa-fw fa-map-marker"></i>
       <span *ngIf="showExpandedText">
         Select Cameras
       </span>
@@ -104,6 +106,18 @@
         </span>
       </button>
     </div>
+
+    <!-- <button
+      class="sky-btn sky-btn-default"
+      title="Open Settings"
+      type="button"
+      (click)="btnClickLaunchSettingsModal()">
+      <i class="fa fa-fw fa-cogs"></i>
+      </sky-icon>
+      <span *ngIf="showExpandedText">
+        Settings
+      </span>
+    </button> -->
 
     <div *ngIf="hasSelected">
       <button
@@ -148,5 +162,6 @@
         class="fa fa-fw fa-chevron-circle-right">
       </i>
     </button>
+
   </div>
 </div>

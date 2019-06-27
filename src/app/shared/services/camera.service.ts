@@ -30,7 +30,8 @@ import {
 } from '../components';
 
 import {
-  State
+  State,
+  View
 } from '../models';
 
 @Injectable()
@@ -256,7 +257,7 @@ export class CameraService {
     return this.selected.asObservable();
   }
 
-  public launchCameraSelector() {
+  public launchCameraSelector(view?: View) {
     this.flyout = this.flyoutService
       .open(CameraSelectorComponent, {
         defaultWidth: 380,
