@@ -9,11 +9,13 @@ import {
 } from 'rxjs';
 
 import {
+  CameraService,
   StateService
 } from '../../services';
 
 import {
   Density,
+  Route,
   State
 } from '../../models';
 
@@ -62,11 +64,14 @@ export class CameraGridComponent implements OnDestroy {
 
   public selectedDensity: Density;
 
+  public selectedRoute: Route;
+
   public columns: number;
 
   private subscriptions: Array<Subscription> = [];
 
   constructor (
+    private cameraService: CameraService,
     private stateService: StateService
   ) {
     this.subscriptions.push(
@@ -81,6 +86,11 @@ export class CameraGridComponent implements OnDestroy {
             }
           });
         })
+    );
+    this.subscriptions.push(
+      this.cameraService
+        .getSelectedRoute()
+        .subscribe((route: Route) => this.selectedRoute = route)
     );
   }
 

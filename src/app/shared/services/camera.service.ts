@@ -9,7 +9,8 @@ import {
 import {
   Observable,
   ReplaySubject,
-  combineLatest
+  combineLatest,
+  of
 } from 'rxjs';
 
 import {
@@ -30,6 +31,7 @@ import {
 } from '../components';
 
 import {
+  Route,
   State,
   View
 } from '../models';
@@ -39,8 +41,9 @@ export class CameraService {
 
   public static maximumMapCameraWarning = 4;
 
-  private routes: any = {
-    '526 E': {
+  private routes: Route[] = [
+    {
+      name: '526 E',
       description: 'Cameras on I-526 east of I-26 interchange.',
       ids: [
         '60043',
@@ -60,7 +63,8 @@ export class CameraService {
         '60050'
       ]
     },
-    '526 W': {
+    {
+      name: '526 W',
       description: 'Cameras on I-526 west of I-26 interchange.',
       ids: [
         '60039',
@@ -73,7 +77,8 @@ export class CameraService {
         '60053'
       ]
     },
-    '26 Outer': {
+    {
+      name: '26 Outer',
       description: 'Cameras on I-26 in the Summerville area.',
       ids: [
         '60101',
@@ -90,7 +95,8 @@ export class CameraService {
         '60009'
      ]
     },
-    '26 Middle': {
+    {
+      name: '26 Middle',
       description: 'Cameras on I-26 in the North Charleston area.',
       ids: [
         '60009',
@@ -109,7 +115,8 @@ export class CameraService {
         '60024'
       ]
     },
-    '26 Inner': {
+    {
+      name: '26 Inner',
       description: 'Cameras I-26 west of the I-526 interchange.',
       ids: [
         '60036',
@@ -128,7 +135,8 @@ export class CameraService {
         '60063'
       ]
     },
-    'Ravenel Bridge': {
+    {
+      name: 'Ravenel Bridge',
       description: 'Cameras on the Arthur Ravenel Bridge.',
       ids: [
         '60064',
@@ -141,9 +149,11 @@ export class CameraService {
         '60071'
       ]
     }
-  };
+  ];
 
   private selected = new ReplaySubject<any>();
+
+  private selectedRoute = new ReplaySubject<any>();
 
   private features = new ReplaySubject<any>(1);
 
@@ -155,6 +165,14 @@ export class CameraService {
     private http: HttpClient,
     private stateService: StateService
   ) {
+
+    this.routes.forEach((route: Route) => {
+      route.active = false;
+      route.joined = route.ids
+        .sort()
+        .join();
+    });
+
     this.http
       .get(this.assets.getUrl('cameras-2019-05-12.json'))
       .subscribe((data: any) => {
@@ -183,26 +201,22 @@ export class CameraService {
       });
   }
 
-  public getRoutes(): Array<any> {
-    return Object.keys(this.routes)
-      .map((key: string) => ({
-        key,
-        description: this.routes[key].description,
-        active: false,
-        joined: this.routes[key].ids.sort().join()
-      })) || [];
+  // May make this dynamic in the future
+  public getRoutes(): Observable<Route[]> {
+    return of(this.routes);
   }
 
-  public getRouteIds(route: string) {
-    return this.routes[route].ids;
+  public getSelectedRoute(): Observable<Route> {
+    return this.selectedRoute;
   }
 
-  public getStateForRoute(route: string) {
+  public getStateForRoute(route: Route) {
     const state = new State({
-      selected: this.routes[route].ids
+      selected: route.ids
     });
 
-    return this.stateService.getStateLink(state);
+    return this.stateService.
+      getStateLink(state);
   }
 
   public getFeatures(): Observable<any> {
@@ -215,10 +229,20 @@ export class CameraService {
     return $combined.map((subscriptions: any) => {
       const state: State = subscriptions[0];
       const data = subscriptions[1];
+      const joined = state.selected ? state.selected.sort().join() : '';
 
       data.features.forEach((feature: any) => {
         feature.selected = state.selected && state.selected.indexOf(feature.id) > -1;
       });
+
+      let activeRoute: Route;
+      this.routes.forEach((route: Route) => {
+        route.active = route.joined === joined;
+        if (route.active) {
+          activeRoute = route;
+        }
+      });
+      this.selectedRoute.next(activeRoute);
 
       return data;
     });

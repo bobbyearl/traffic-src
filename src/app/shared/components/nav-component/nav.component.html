@@ -74,8 +74,8 @@
           <button
             type="button"
             [ngClass]="{ 'app-btn-active': route.active }"
-            (click)="btnClickRoute(route.key)">
-            {{ route.key }}
+            (click)="btnClickRoute(route)">
+            {{ route.name }}
           </button>
         </sky-dropdown-item>
       </sky-dropdown-menu>
