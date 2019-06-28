@@ -8,6 +8,9 @@ if [[ "$TRAVIS_PULL_REQUEST" == "false" ]]; then
   git config --global user.name "Bobby Earl"
   git clone --quiet https://${GITHUB_PAT}@github.com/bobbyearl/traffic.git > /dev/null
 
+  # Delete all current files
+  rm -rf traffic/*
+
   # https://github.com/isaacs/github/issues/408
   cp -a custom/. traffic/
 
