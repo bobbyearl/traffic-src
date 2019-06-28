@@ -1,5 +1,5 @@
 import {
-  Component
+  Component, Input
 } from '@angular/core';
 
 import {
@@ -21,6 +21,9 @@ import {
   styleUrls: ['./routes.component.scss']
 })
 export class RoutesComponent {
+
+  @Input()
+  public buttonText: string;
 
   public routes: Array<string>;
 

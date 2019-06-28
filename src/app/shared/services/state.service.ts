@@ -13,12 +13,6 @@ import {
 } from 'rxjs';
 
 import {
-  SkyModalCloseArgs,
-  SkyModalInstance,
-  SkyModalService
-} from '@skyux/modals';
-
-import {
   State
 } from '../models';
 
@@ -31,8 +25,7 @@ export class StateService {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private skyModalService: SkyModalService
+    private router: Router
   ) {
     this.route
       .fragment

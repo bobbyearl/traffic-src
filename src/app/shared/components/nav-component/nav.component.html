@@ -81,16 +81,18 @@
       </sky-dropdown-menu>
     </sky-dropdown>
 
-    <button
-      class="sky-btn sky-btn-default"
-      title="Select Cameras"
-      type="button"
-      (click)="btnClickLaunchCameraSelector()">
-      <i class="fa fa-fw fa-map-marker"></i>
-      <span *ngIf="showExpandedText">
-        Select Cameras
-      </span>
-    </button>
+    <div *ngIf="state.view !== View.MAP">
+      <button
+        class="sky-btn sky-btn-default"
+        title="Select Cameras"
+        type="button"
+        (click)="btnClickLaunchCameraSelector()">
+        <i class="fa fa-fw fa-map-marker"></i>
+        <span *ngIf="showExpandedText">
+          Select Cameras
+        </span>
+      </button>
+    </div>
 
     <hr>
 
