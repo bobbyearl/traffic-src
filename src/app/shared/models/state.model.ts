@@ -8,7 +8,7 @@ import {
 export class State {
 
   // Default state!
-  public density?: Density = Density.MD;
+  public density?: Density = Density.SM;
   public lat?: number = 34.009967;
   public lng?: number = -81.050091;
   public mode?: Mode = Mode.STREAM;

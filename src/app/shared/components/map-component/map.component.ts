@@ -158,10 +158,15 @@ export class MapComponent implements OnDestroy {
                 this.selectedBounds = bounds;
               }
 
+              if (!this.location && !hasSelected) {
+                this.locationService.get();
+              }
+
               this.features = data.features;
               this.hasLoaded = true;
             });
-          })
+          }
+        )
     );
   }
 

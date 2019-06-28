@@ -1,6 +1,7 @@
 <sky-fluid-grid>
   <sky-row>
     <sky-column screenMedium="6">
+      <h3>Getting Started</h3>
       <sky-action-button-container>
         <sky-action-button
           (actionClick)="btnClickLaunchCardViewAndCameraSelector()">
@@ -8,7 +9,7 @@
             iconType="list-alt">
           </sky-action-button-icon>
           <sky-action-button-header>
-            Card View
+            {{ buttonText }}
           </sky-action-button-header>
           <sky-action-button-details>
             View cameras as cards.
@@ -29,6 +30,7 @@
       </sky-action-button-container>
     </sky-column>
     <sky-column screenMedium="6">
+      <h3>CHS Routes</h3>
       <sky-repeater>
           <sky-repeater-item *ngFor="let route of routes">
             <sky-repeater-item-title>
