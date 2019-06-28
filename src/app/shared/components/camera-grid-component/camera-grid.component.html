@@ -1,27 +1,29 @@
 <div class="app-camera-grid">
   <sky-toolbar>
+    <sky-toolbar-item *ngIf="selectedRoute">
+      <span class="sky-emphasized">{{ selectedRoute.name }}</span>
+    </sky-toolbar-item>
     <sky-toolbar-item>
-        <div class="sky-switch-icon-group">
-          <sky-radio *ngFor="let density of densities"
-            [icon]="density.icon"
-            name="cameraSize"
-            [value]="density.value"
-            [label]="density.name"
-            [(ngModel)]="selectedDensity"
-            (change)="onDensityChange($event)"
-          >
-          </sky-radio>
-        </div>
-      </sky-toolbar-item>
-    <sky-toolbar-view-actions>
       <span class="sky-deemphasized">{{ features.length | i18nPlural: camerasPluralMapping }} selected.</span>
+    </sky-toolbar-item>
+    <sky-toolbar-view-actions>
+      <div class="sky-switch-icon-group">
+        <sky-radio *ngFor="let density of densities"
+          [icon]="density.icon"
+          name="cameraSize"
+          [value]="density.value"
+          [label]="density.name"
+          [(ngModel)]="selectedDensity"
+          (change)="onDensityChange($event)">
+        </sky-radio>
+      </div>
     </sky-toolbar-view-actions>
   </sky-toolbar>
 
   <sky-fluid-grid *ngIf="features">
     <sky-row>
       <sky-column *ngFor="let feature of features"
-        [screenSmall]="columns">
+        [screenXSmall]="columns">
         <app-feature-viewer
           [feature]="feature">
         </app-feature-viewer>

@@ -7,12 +7,17 @@ import {
 } from '@angular/router';
 
 import {
+  Subscription
+} from 'rxjs';
+
+import {
   CameraService,
   StateService
 } from '../../services';
 
 import {
-  View
+  View,
+  Route
 } from '../../models';
 
 @Component({
@@ -25,17 +30,22 @@ export class RoutesComponent {
   @Input()
   public buttonText: string;
 
-  public routes: Array<string>;
+  public routes: Route[];
 
   public feed = ['/feeds/scdot'];
+
+  private subscriptions: Array<Subscription> = [];
 
   constructor (
     private cameraService: CameraService,
     private stateService: StateService,
     private router: Router
   ) {
-    this.routes = this.cameraService
-      .getRoutes();
+    this.subscriptions.push(
+      this.cameraService
+        .getRoutes()
+        .subscribe((routes: Route[]) => this.routes = routes)
+    );
   }
 
   public btnClickLaunchMapView() {
@@ -46,9 +56,9 @@ export class RoutesComponent {
     this.navigate(View.CARDS, true);
   }
 
-  public getStateForRoute(route: any) {
+  public getStateForRoute(route: Route) {
     return this.cameraService
-      .getStateForRoute(route.key);
+      .getStateForRoute(route);
   }
 
   private navigate(view: View, launchSelector: boolean) {

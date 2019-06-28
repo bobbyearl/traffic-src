@@ -18,7 +18,8 @@ import {
   Mode,
   NavPane,
   State,
-  View
+  View,
+  Route
 } from '../../models';
 
 import {
@@ -87,7 +88,12 @@ export class NavComponent implements OnDestroy {
     private stateService: StateService,
     private thumbnailService: ThumbnailService
   ) {
-    this.routes = cameraService.getRoutes();
+    // this.routes = cameraService.getRoutes();
+    this.subscriptions.push(
+      this.cameraService
+        .getRoutes()
+        .subscribe((routes: Route[]) => this.routes = routes)
+    );
 
     const $combined = combineLatest([
       this.navService.isMobile(),
@@ -102,15 +108,6 @@ export class NavComponent implements OnDestroy {
         this.hasSelected = this.state.selected && this.state.selected.length > 0;
         this.showExpandedText = this.isMobile || this.state.navPane === NavPane.EXPANDED;
         this.showRefreshThumbnails = this.hasSelected && this.state.mode === Mode.THUMB;
-
-        const hasRoutes = this.routes && this.routes.length > 0;
-
-        if (this.hasSelected && hasRoutes) {
-          const joined = this.state.selected.sort().join();
-          this.routes.forEach((route: any) => {
-            route.active = route.joined === joined;
-          });
-        }
 
         this.views.forEach((v: any) => {
           v.active = v.value === this.state.view;
@@ -192,17 +189,17 @@ export class NavComponent implements OnDestroy {
     this.cameraService.launchCameraSelector();
   }
 
-  public btnClickRoute(route: string) {
-    const selected = this.cameraService.getRouteIds(route);
+  public btnClickRoute(route: Route) {
+
+    const message = `This will enable ${route.ids.length} cameras.`;
     const conditional = this.state.view === View.MAP
       && this.state.mode !== Mode.THUMB
-      && selected.length > CameraService.maximumMapCameraWarning;
-    const message = `This will enable ${selected.length} cameras.`;
+      && route.ids.length > CameraService.maximumMapCameraWarning;
 
     this.confirmMapView(conditional, message, (mode: Mode) => {
       this.btnClickMobileMenu();
       this.stateService.set({
-        selected,
+        selected: route.ids,
         mode
       });
     });
