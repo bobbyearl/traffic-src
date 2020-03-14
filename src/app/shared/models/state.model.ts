@@ -12,7 +12,7 @@ export class State {
   public lat?: number = 34.009967;
   public lng?: number = -81.050091;
   public mode?: Mode = Mode.STREAM;
-  public navPane?: NavPane = NavPane.COLLAPSED;
+  public navPane?: NavPane = NavPane.EXPANDED;
   public selected?: Array<string>;
   public view?: View = View.CARDS;
   public zoom?: number = 8;
