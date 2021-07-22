@@ -77,7 +77,7 @@ export class NavComponent implements OnDestroy {
   public Mode = Mode;
   public NavPane = NavPane;
 
-  private state: State;
+  public state: State;
   private subscriptions: Array<Subscription> = [];
 
   constructor (

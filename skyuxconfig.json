@@ -8,7 +8,6 @@
   "app": {
     "title": "Bobby Earl Traffic",
     "styles": [
-      "@skyux/theme/css/sky.css",
       "src/app/styles.scss"
     ]
   },
@@ -18,6 +17,11 @@
       "googleAnalytics": {
         "clientId": "UA-460794-1"
       }
+    }
+  },
+  "host": {
+    "frameOptions": {
+      "none": true
     }
   }
 }

@@ -47,7 +47,7 @@ export class CameraComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public ngOnInit() {
     this.thumbnailService
-      .getThumbnailById(this.feature.id)
+      .getThumbnailByFeature(this.feature)
       .subscribe((url: string) => {
         this.poster = url;
       });

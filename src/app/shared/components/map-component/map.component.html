@@ -20,8 +20,8 @@
     [latitude]="feature.coordinates.lat"
     [longitude]="feature.coordinates.lng"
     [iconUrl]="urlMarkerFeature"
-    title="{{ feature.id }}: {{ feature.properties.title }}"
-    (markerClick)="markerClick(feature, index)">
+    title="{{ feature.properties.description }}"
+    (markerClick)="markerClick(feature)">
 
     <agm-snazzy-info-window
       [isOpen]="feature.selected"

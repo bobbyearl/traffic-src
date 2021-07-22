@@ -1,5 +1,5 @@
 {
-  "$schema": "./node_modules/@blackbaud/skyux-builder/skyuxconfig-schema.json",
+  "$schema": "./node_modules/@skyux/config/skyuxconfig-schema.json",
   "appSettings": {
     "proxy": "https://localhost:5050"
   }

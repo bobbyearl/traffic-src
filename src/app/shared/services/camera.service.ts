@@ -1,3 +1,4 @@
+
 import {
   Injectable
 } from '@angular/core';
@@ -12,6 +13,10 @@ import {
   combineLatest,
   of
 } from 'rxjs';
+
+import {
+  map
+} from 'rxjs/operators';
 
 import {
   SkyAppAssetsService
@@ -46,107 +51,118 @@ export class CameraService {
       name: '526 E',
       description: 'Cameras on I-526 east of I-26 interchange.',
       ids: [
-        '60043',
-        '60044',
-        '60025',
-        '60026',
-        '60027',
-        '60028',
-        '60029',
-        '60030',
-        '60046',
-        '60047',
-        '80004',
-        '80005',
-        '60048',
-        '60049',
-        '60050'
+        'e7215325-d2a0-11e6-8996-0123456789ab',
+        'e7215326-d2a0-11e6-8996-0123456789ab',
+        'e721532a-d2a0-11e6-8996-0123456789ab',
+        'e721532b-d2a0-11e6-8996-0123456789ab',
+        'e721532c-d2a0-11e6-8996-0123456789ab',
+        'e723eb35-d2a0-11e6-8996-0123456789ab',
+        'e723eb36-d2a0-11e6-8996-0123456789ab',
+        'e723eb3c-d2a0-11e6-8996-0123456789ab',
+        'e72300da-d2a0-11e6-8996-0123456789ab',
+        'e724877a-d2a0-11e6-8996-0123456789ab',
+        'e724fca0-d2a0-11e6-8996-0123456789ab',
+        'e72300de-d2a0-11e6-8996-0123456789ab'
       ]
     },
     {
       name: '526 W',
       description: 'Cameras on I-526 west of I-26 interchange.',
       ids: [
-        '60039',
-        '60040',
-        '60041',
-        '60055',
-        '60045',
-        '60052',
-        '60042',
-        '60053'
+        'e7215329-d2a0-11e6-8996-0123456789ab',
+        '26e01dd0-690e-11e7-8996-0123456789ab',
+        '26e01dd1-690e-11e7-8996-0123456789ab',
+        'e723eb39-d2a0-11e6-8996-0123456789ab',
+        'e723eb3a-d2a0-11e6-8996-0123456789ab',
+        'e723eb3b-d2a0-11e6-8996-0123456789ab',
+        'e7241240-d2a0-11e6-8996-0123456789ab',
+        'e724877c-d2a0-11e6-8996-0123456789ab'
       ]
     },
     {
       name: '26 Outer',
       description: 'Cameras on I-26 in the Summerville area.',
       ids: [
-        '60101',
-        '60100',
-        '60002',
-        '60096',
-        '60097',
-        '60003',
-        '60004',
-        '60005',
-        '60006',
-        '60007',
-        '60008',
-        '60009'
+        'e7212c20-d2a0-11e6-8996-0123456789ab',
+        'e7212c21-d2a0-11e6-8996-0123456789ab',
+        'e7215320-d2a0-11e6-8996-0123456789ab',
+        'e72523bd-d2a0-11e6-8996-0123456789ab',
+        '1534',
+        'e723c430-d2a0-11e6-8996-0123456789ab',
+        'e723c431-d2a0-11e6-8996-0123456789ab',
+        'e723c432-d2a0-11e6-8996-0123456789ab',
+        'e723eb30-d2a0-11e6-8996-0123456789ab',
+        '2473',
+        'e7248776-d2a0-11e6-8996-0123456789ab',
+        'e72300d7-d2a0-11e6-8996-0123456789ab',
+        'e7248777-d2a0-11e6-8996-0123456789ab',
+        'e724fca4-d2a0-11e6-8996-0123456789ab'
      ]
     },
     {
       name: '26 Middle',
       description: 'Cameras on I-26 in the North Charleston area.',
       ids: [
-        '60009',
-        '60010',
-        '60012',
-        '60095',
-        '60013',
-        '60014',
-        '60015',
-        '60016',
-        '60017',
-        '60018',
-        '60019',
-        '60020',
-        '60021',
-        '60024'
+        'e7215322-d2a0-11e6-8996-0123456789ab',
+        'e7215323-d2a0-11e6-8996-0123456789ab',
+        'e7215321-d2a0-11e6-8996-0123456789ab',
+        'e7215324-d2a0-11e6-8996-0123456789ab',
+        'e723eb31-d2a0-11e6-8996-0123456789ab',
+        'e723eb32-d2a0-11e6-8996-0123456789ab',
+        'e723eb33-d2a0-11e6-8996-0123456789ab',
+        'e723eb34-d2a0-11e6-8996-0123456789ab',
+        'e723eb38-d2a0-11e6-8996-0123456789ab',
+        'e7241245-d2a0-11e6-8996-0123456789ab',
+        'e72300d8-d2a0-11e6-8996-0123456789ab',
+        'e7248778-d2a0-11e6-8996-0123456789ab',
+        'e72300d9-d2a0-11e6-8996-0123456789ab',
+        'e7248779-d2a0-11e6-8996-0123456789ab',
+        'e72300dc-d2a0-11e6-8996-0123456789ab'
       ]
     },
     {
       name: '26 Inner',
-      description: 'Cameras I-26 west of the I-526 interchange.',
+      description: 'Cameras I-26 East of the I-526 interchange.',
       ids: [
-        '60036',
-        '60037',
-        '60023',
-        '60022',
-        '60038',
-        '60031',
-        '60032',
-        '60033',
-        '60054',
-        '60034',
-        '60060',
-        '60061',
-        '60062',
-        '60063'
+        'e7215327-d2a0-11e6-8996-0123456789ab',
+        'e7215328-d2a0-11e6-8996-0123456789ab',
+        'e721532d-d2a0-11e6-8996-0123456789ab',
+        'e7217a30-d2a0-11e6-8996-0123456789ab',
+        'e723eb37-d2a0-11e6-8996-0123456789ab',
+        'e7241241-d2a0-11e6-8996-0123456789ab',
+        'e72300db-d2a0-11e6-8996-0123456789ab',
+        'e724877b-d2a0-11e6-8996-0123456789ab',
+        'e724fca1-d2a0-11e6-8996-0123456789ab',
+        'e72300df-d2a0-11e6-8996-0123456789ab',
+        '2564',
+        '2565',
+        '2566'
       ]
     },
     {
       name: 'Ravenel Bridge',
       description: 'Cameras on the Arthur Ravenel Bridge.',
       ids: [
-        '60064',
-        '60065',
-        '60066',
-        '60067',
-        '60068',
-        '60069',
-        '60070',
-        '60071'
+        'e7217a31-d2a0-11e6-8996-0123456789ab',
+        'e7217a32-d2a0-11e6-8996-0123456789ab',
+        'e7217a33-d2a0-11e6-8996-0123456789ab',
+        'e7217a35-d2a0-11e6-8996-0123456789ab',
+        'e721a140-d2a0-11e6-8996-0123456789ab',
+        'e72327e0-d2a0-11e6-8996-0123456789ab',
+        'e7241242-d2a0-11e6-8996-0123456789ab',
+        'e7241243-d2a0-11e6-8996-0123456789ab',
+        'e7241244-d2a0-11e6-8996-0123456789ab',
+        'e7241246-d2a0-11e6-8996-0123456789ab',
+        'e724fca2-d2a0-11e6-8996-0123456789ab'
+      ]
+    },
+    {
+      name: 'Beaches',
+      description: 'Cameras at IOP and Sullivans.',
+      ids: [
+        '4ba32f32-2df2-11e6-8d81-0123456789ab',
+        '26e01dd4-690e-11e7-8996-0123456789ab',
+        '26e01dd6-690e-11e7-8996-0123456789ab'
       ]
     }
   ];
@@ -174,26 +190,26 @@ export class CameraService {
     });
 
     this.http
-      .get(this.assets.getUrl('cameras-2019-05-12.json'))
+      .get(this.assets.getUrl('cameras-2021-07-22.json'))
       .subscribe((data: any) => {
-        const map: any = {};
+        const mapped: any = {};
 
         data.features.forEach((feature: any) => {
-          const key = feature.properties.region;
+          const key = feature.properties.jurisdiction;
           feature.coordinates = {
             lat: parseFloat(feature.geometry.coordinates[1]),
             lng: parseFloat(feature.geometry.coordinates[0])
           };
-          map[key] = map[key] || [];
-          map[key].push(feature);
+          mapped[key] = mapped[key] || [];
+          mapped[key].push(feature);
         });
 
-        data.regions = Object.keys(map)
+        data.regions = Object.keys(mapped)
           .sort()
           .map((name: string) => {
             return {
               name,
-              features: map[name]
+              features: mapped[name]
             };
           });
 
@@ -226,13 +242,13 @@ export class CameraService {
       this.features.asObservable()
     ]);
 
-    return $combined.map((subscriptions: any) => {
+    return $combined.pipe(map((subscriptions: any) => {
       const state: State = subscriptions[0];
       const data = subscriptions[1];
       const joined = state.selected ? state.selected.sort().join() : '';
 
       data.features.forEach((feature: any) => {
-        feature.selected = state.selected && state.selected.indexOf(feature.id) > -1;
+        feature.selected = state.selected && state.selected.indexOf(feature.properties.id) > -1;
       });
 
       let activeRoute: Route;
@@ -245,7 +261,7 @@ export class CameraService {
       this.selectedRoute.next(activeRoute);
 
       return data;
-    });
+    }));
   }
 
   public getSelectedFeatures(): Observable<any> {
@@ -263,7 +279,7 @@ export class CameraService {
         selected = state.selected
             .map((id: string) => {
               return data.features
-                .find((f: any) => f.id === id);
+                .find((f: any) => f.properties.id === id);
             })
             .filter((feature: any, index: number) => {
               if (!feature) {

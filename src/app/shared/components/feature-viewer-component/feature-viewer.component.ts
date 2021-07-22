@@ -85,7 +85,7 @@ export class FeatureViewerComponent implements OnDestroy {
 
   public close() {
     this.stateService.set({
-      selected: this.selected.filter((id: string) => id !== this.feature.id)
+      selected: this.selected.filter((id: string) => id !== this.feature.properties.id)
     });
   }
 

@@ -3,32 +3,19 @@ import {
 } from '@angular/core';
 
 import {
-  ReplaySubject,
-  Observable
+  ReplaySubject
 } from 'rxjs';
 
 import {
   map
 } from 'rxjs/operators';
 
-import {
-  SkyAppConfig
-} from '@skyux/config';
-
 @Injectable()
 export class ThumbnailService {
 
-  private thumbnailBaseUrl: string;
-
   private timestamp = new ReplaySubject<number>(1);
 
-  constructor(
-    skyAppConfig: SkyAppConfig
-  ) {
-
-    this.thumbnailBaseUrl = skyAppConfig.skyux
-      .appSettings
-      .bffServiceUrl + '/thumbnail/';
+  constructor() {
     this.refresh();
   }
 
@@ -36,9 +23,9 @@ export class ThumbnailService {
     this.timestamp.next((new Date()).getTime());
   }
 
-  public getThumbnailById(id: string): Observable<string> {
+  public getThumbnailByFeature(feature: any) {
     return this.timestamp.pipe(map((ts: number) => {
-      return this.thumbnailBaseUrl + id + '?ts=' + ts;
+      return feature.properties.image_url + '?ts=' + ts;
     }));
   }
 }
