@@ -25,6 +25,7 @@ jobs:
         if: ${{ success() && github.event_name == 'push' }}
         with:
           repo: bobbyearl/traffic
+          target_branch: master
           keep_history: true
           build_dir: dist
           commit_message: "Build for ${{ github.sha }}"
