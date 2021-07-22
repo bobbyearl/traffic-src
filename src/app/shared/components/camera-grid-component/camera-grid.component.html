@@ -7,16 +7,17 @@
       <span class="sky-deemphasized">{{ features.length | i18nPlural: camerasPluralMapping }} selected.</span>
     </sky-toolbar-item>
     <sky-toolbar-view-actions>
-      <div class="sky-switch-icon-group">
-        <sky-radio *ngFor="let density of densities"
-          [icon]="density.icon"
-          name="cameraSize"
-          [value]="density.value"
-          [label]="density.name"
-          [(ngModel)]="selectedDensity"
-          (change)="onDensityChange($event)">
-        </sky-radio>
-      </div>
+      <sky-radio-group name="density">
+        <div class="sky-switch-icon-group">
+          <sky-radio *ngFor="let density of densities"
+            [icon]="density.icon"
+            [value]="density.value"
+            [label]="density.name"
+            [(ngModel)]="selectedDensity"
+            (change)="onDensityChange($event)">
+          </sky-radio>
+        </div>
+      </sky-radio-group>
     </sky-toolbar-view-actions>
   </sky-toolbar>
 
