@@ -26,7 +26,7 @@ export class ThumbnailComponent implements OnInit {
 
   public ngOnInit() {
     this.thumbnailService
-      .getThumbnailById(this.feature.id)
+      .getThumbnailByFeature(this.feature)
       .subscribe((url: string) => {
         this.src = url;
       });

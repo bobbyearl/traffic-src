@@ -120,6 +120,7 @@ export class MapComponent implements OnDestroy {
         .subscribe((location: Location) => {
 
           this.zoom = this.zoomLocation;
+          console.log('setting location');
           this.location = location;
 
           // Courtesy if refreshed since state is ignored after first.
@@ -158,7 +159,8 @@ export class MapComponent implements OnDestroy {
                 this.selectedBounds = bounds;
               }
 
-              if (!this.location && !hasSelected) {
+              // Basically if they've done anything on the map
+              if (!hasSelected && !this.lat && !this.lng && this.zoom === this.zoomLocation) {
                 this.locationService.get();
               }
 
@@ -186,7 +188,7 @@ export class MapComponent implements OnDestroy {
   public updateState() {
     const selected = this.features
       .filter((f: any) => f.selected)
-      .map((f: any) => f.id);
+      .map((f: any) => f.properties.id);
 
     this.stateService.set({
       selected

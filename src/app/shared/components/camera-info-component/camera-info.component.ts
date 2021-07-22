@@ -72,7 +72,7 @@ export class CameraInfoComponent {
     this.properties = [
       {
         key: 'Region',
-        value: properties['region']
+        value: properties['jurisdiction']
       },
       {
         key: 'Description',

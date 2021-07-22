@@ -14,8 +14,6 @@ import {
   StateService
 } from '../../services';
 
-import 'rxjs/add/operator/merge';
-
 @Component({
   selector: 'app-camera-selector',
   templateUrl: './camera-selector.component.html',
@@ -68,8 +66,8 @@ export class CameraSelectorComponent implements OnInit, OnDestroy {
     this.searchText = searchText;
     this.searchResults = !searchText ? [] : this.features
       .filter((feature: any) =>
-        feature.id.indexOf(searchTextLowerCase) > -1 ||
-        feature.properties.title.toLowerCase().indexOf(searchTextLowerCase) > -1
+        feature.properties.id.indexOf(searchTextLowerCase) > -1 ||
+        feature.properties.description.toLowerCase().indexOf(searchTextLowerCase) > -1
       );
   }
 
@@ -77,7 +75,7 @@ export class CameraSelectorComponent implements OnInit, OnDestroy {
     this.regions.forEach((region: any) => {
       const selectedInRegion = region.features
         .filter((feature: any) => feature.selected)
-        .map((feature: any) => feature.id);
+        .map((feature: any) => feature.properties.id);
       region.selectedCount = selectedInRegion.length;
     });
   }
@@ -85,7 +83,7 @@ export class CameraSelectorComponent implements OnInit, OnDestroy {
   public applySelected() {
     const selected = this.features
       .filter((f: any) => f.selected)
-      .map((f: any) => f.id);
+      .map((f: any) => f.properties.id);
 
     this.stateService.set({
       selected
