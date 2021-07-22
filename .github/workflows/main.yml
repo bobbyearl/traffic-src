@@ -21,7 +21,7 @@ jobs:
       - run: cp dist/index.html dist/404.html
         if: ${{ success() && github.event_name == 'push' }}
 
-      - uses: crazy-max/ghaction-github-pages@v1
+      - uses: crazy-max/ghaction-github-pages@v2
         if: ${{ success() && github.event_name == 'push' }}
         with:
           repo: bobbyearl/traffic
