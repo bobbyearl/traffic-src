@@ -45,17 +45,19 @@ export class FeedViewerComponent implements OnDestroy {
 
   public features: Array<any> = [];
 
-  public state: State;
+  public state: State | undefined;
 
   public View = View;
 
   public Mode = Mode;
 
-  public error: string;
+  public error: string | undefined;
 
-  public isMobile: boolean;
+  public isMobile: boolean | undefined;
 
   public isServing = false;
+
+  public isMapView = false;
 
   private subscriptions: Array<Subscription> = [];
 
@@ -97,6 +99,7 @@ export class FeedViewerComponent implements OnDestroy {
         .get()
         .subscribe((state: State) => {
           this.state = state;
+          this.isMapView = state.view === View.MAP;
         })
     );
   }

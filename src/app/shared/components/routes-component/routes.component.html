@@ -1,6 +1,6 @@
 <sky-fluid-grid>
   <sky-row>
-    <sky-column screenMedium="6">
+    <sky-column [screenMedium]="6">
       <h3>Getting Started</h3>
       <sky-action-button-container>
         <sky-action-button
@@ -29,7 +29,7 @@
         </sky-action-button>
       </sky-action-button-container>
     </sky-column>
-    <sky-column screenMedium="6">
+    <sky-column [screenMedium]="6">
       <h3>CHS Routes</h3>
       <sky-repeater>
           <sky-repeater-item *ngFor="let route of routes">

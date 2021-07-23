@@ -38,11 +38,13 @@ import {
 export class NavComponent implements OnDestroy {
   public views = [
     {
+      active: false,
       name: 'View as cards',
       icon: 'table',
       value: View.CARDS
     },
     {
+      active: false,
       name: 'View as map',
       icon: 'globe',
       value: View.MAP
@@ -51,11 +53,13 @@ export class NavComponent implements OnDestroy {
 
   public modes = [
     {
+      active: false,
       name: 'Video streams',
       icon: 'video-camera',
       value: Mode.STREAM
     },
     {
+      active: false,
       name: 'Thumbnails',
       icon: 'camera',
       value: Mode.THUMB
@@ -67,17 +71,18 @@ export class NavComponent implements OnDestroy {
   public isLocationAvailable = false;
   public isLocationLoading = false;
   public isMobile = false;
-  public hasSelected = false;
   public showRefreshThumbnails = false;
   public showExpandedText = false;
   public isMobileShowMenu = false;
+
+  public selectedCount = 0;
 
   // Expose our enums to the template
   public View = View;
   public Mode = Mode;
   public NavPane = NavPane;
 
-  public state: State;
+  public state: State = {};
   private subscriptions: Array<Subscription> = [];
 
   constructor (
@@ -105,9 +110,9 @@ export class NavComponent implements OnDestroy {
         this.isMobile = subscriptions[0];
         this.state = subscriptions[1];
 
-        this.hasSelected = this.state.selected && this.state.selected.length > 0;
+        this.selectedCount = this.state.selected ? this.state.selected.length : 0;
         this.showExpandedText = this.isMobile || this.state.navPane === NavPane.EXPANDED;
-        this.showRefreshThumbnails = this.hasSelected && this.state.mode === Mode.THUMB;
+        this.showRefreshThumbnails = this.selectedCount > 0 && this.state.mode === Mode.THUMB;
 
         this.views.forEach((v: any) => {
           v.active = v.value === this.state.view;
@@ -159,16 +164,15 @@ export class NavComponent implements OnDestroy {
   }
 
   public btnClickSetView(view: View) {
-    const message = this.hasSelected
-      ? `You currently have ${this.state.selected.length} cameras selected.`
+    const message = this.selectedCount > 0
+      ? `You currently have ${this.selectedCount} cameras selected.`
       : ``;
 
     const conditional = view === View.MAP
       && this.state.mode !== Mode.THUMB
-      && this.hasSelected
-      && this.state.selected.length > CameraService.maximumMapCameraWarning;
+      && this.selectedCount > CameraService.maximumMapCameraWarning;
 
-    this.confirmMapView(conditional, message, ((mode?: Mode) => {
+    this.confirmMapView(conditional || false, message, ((mode?: Mode) => {
       this.btnClickMobileMenu();
       this.stateService.set({
         selected: this.state.selected,

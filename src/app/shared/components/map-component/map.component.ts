@@ -50,15 +50,15 @@ export class MapComponent implements OnDestroy {
 
   public coordinates: any;
 
-  public state: State;
+  public state: State = {};
 
-  public zoom: number;
+  public zoom: number = 0;
 
-  public lat: number;
+  public lat: number = 0;
 
-  public lng: number;
+  public lng: number = 0;
 
-  public location: Location;
+  public location: Location | undefined;
 
   public urlMarkerLocation: string;
 
@@ -69,7 +69,7 @@ export class MapComponent implements OnDestroy {
   public selectedBounds: any = false;
 
   @ViewChild(AgmMap)
-  private agmMap: AgmMap;
+  private agmMap: AgmMap | undefined;
 
   private subscriptions: Array<Subscription> = [];
 
@@ -81,7 +81,7 @@ export class MapComponent implements OnDestroy {
 
   private zoomLocation = 13;
 
-  private lastView: View;
+  private lastView: View | undefined;
 
   constructor(
     assetsService: SkyAppAssetsService,
@@ -105,12 +105,14 @@ export class MapComponent implements OnDestroy {
           // Only read lat, lng, and zoom when it first changes to map.
           // Subsequent updates are caused through the UI and update the state.
           if (this.lastView !== View.MAP && state.view === View.MAP) {
-            this.zoom = state.zoom;
-            this.lat = state.lat;
-            this.lng = state.lng;
+            this.zoom = state.zoom ?? this.zoom;
+            this.lat = state.lat ?? this.lat;
+            this.lng = state.lng ?? this.lng;
           }
 
-          this.lastView = state.view;
+          if (state.view) {
+            this.lastView = state.view;
+          }
         })
     );
 
@@ -120,7 +122,6 @@ export class MapComponent implements OnDestroy {
         .subscribe((location: Location) => {
 
           this.zoom = this.zoomLocation;
-          console.log('setting location');
           this.location = location;
 
           // Courtesy if refreshed since state is ignored after first.
@@ -129,7 +130,7 @@ export class MapComponent implements OnDestroy {
           });
 
           // Yucky https://github.com/SebastianM/angular-google-maps/issues/987
-          this.agmMap
+          this.agmMap!
             .triggerResize(true)
             .then(() => (this.agmMap as any)._mapsWrapper.setCenter({
               lat: location.lat,
@@ -179,7 +180,7 @@ export class MapComponent implements OnDestroy {
 
   // Ignores closed events if the view is changing
   public infoWindowClosed(feature: any) {
-    if (this.state.view === View.MAP) {
+    if (this.state!.view === View.MAP) {
       feature.selected = false;
       this.updateState();
     }

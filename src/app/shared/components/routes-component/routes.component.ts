@@ -28,9 +28,9 @@ import {
 export class RoutesComponent {
 
   @Input()
-  public buttonText: string;
+  public buttonText: string | undefined;
 
-  public routes: Route[];
+  public routes: Route[] | undefined;
 
   public feed = ['/feeds/scdot'];
 

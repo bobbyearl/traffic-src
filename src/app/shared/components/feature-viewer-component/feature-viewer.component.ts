@@ -48,9 +48,9 @@ export class FeatureViewerComponent implements OnDestroy {
 
   public modeIsThumb = false;
 
-  public selected: Array<any> = [];
+  public selected: Array<any> | undefined = [];
 
-  private view: View;
+  private view: View | undefined;
 
   private subscriptions: Array<Subscription> = [];
 
@@ -85,7 +85,7 @@ export class FeatureViewerComponent implements OnDestroy {
 
   public close() {
     this.stateService.set({
-      selected: this.selected.filter((id: string) => id !== this.feature.properties.id)
+      selected: this.selected?.filter((id: string) => id !== this.feature.properties.id)
     });
   }
 
