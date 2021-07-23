@@ -18,7 +18,7 @@ export class ThumbnailComponent implements OnInit {
   @Input()
   public feature: any;
 
-  public src: string;
+  public src: string | undefined;
 
   constructor(
     private thumbnailService: ThumbnailService

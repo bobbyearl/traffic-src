@@ -62,11 +62,11 @@ export class CameraGridComponent implements OnDestroy {
     }
   ];
 
-  public selectedDensity: Density;
+  public selectedDensity: Density | undefined;
 
-  public selectedRoute: Route;
+  public selectedRoute: Route | undefined;
 
-  public columns: number;
+  public columns = 12;
 
   private subscriptions: Array<Subscription> = [];
 
@@ -84,6 +84,8 @@ export class CameraGridComponent implements OnDestroy {
               this.columns = density.columns;
               return true;
             }
+
+            return false;
           });
         })
     );

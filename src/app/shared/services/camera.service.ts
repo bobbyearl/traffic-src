@@ -173,7 +173,7 @@ export class CameraService {
 
   private features = new ReplaySubject<any>(1);
 
-  private flyout: SkyFlyoutInstance<CameraSelectorComponent>;
+  private flyout: SkyFlyoutInstance<CameraSelectorComponent> | undefined;
 
   constructor(
     private assets: SkyAppAssetsService,
@@ -251,13 +251,14 @@ export class CameraService {
         feature.selected = state.selected && state.selected.indexOf(feature.properties.id) > -1;
       });
 
-      let activeRoute: Route;
+      let activeRoute: Route | undefined = undefined;
       this.routes.forEach((route: Route) => {
         route.active = route.joined === joined;
         if (route.active) {
           activeRoute = route;
         }
       });
+
       this.selectedRoute.next(activeRoute);
 
       return data;
@@ -283,7 +284,7 @@ export class CameraService {
             })
             .filter((feature: any, index: number) => {
               if (!feature) {
-                console.warn(`Invalid ID ${state.selected[index]}`);
+                console.warn(`Invalid ID ${state.selected![index]}`);
                 return false;
               }
 

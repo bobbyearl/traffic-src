@@ -27,9 +27,14 @@ export class CameraSelectorComponent implements OnInit, OnDestroy {
   public regions: Array<any> = [];
   public features: Array<any> = [];
   public searchResults: Array<any> = [];
-  public searchText: string;
+  public searchText = '';
 
   private subscriptions: Array<Subscription> = [];
+  private propertiesToSearch = [
+    'description',
+    'jurisdiction',
+    'route'
+  ];
 
   constructor(
     private cameraService: CameraService,
@@ -64,11 +69,13 @@ export class CameraSelectorComponent implements OnInit, OnDestroy {
   public searchApplied(searchText: string) {
     const searchTextLowerCase = searchText.toLowerCase();
     this.searchText = searchText;
-    this.searchResults = !searchText ? [] : this.features
-      .filter((feature: any) =>
-        feature.properties.id.indexOf(searchTextLowerCase) > -1 ||
-        feature.properties.description.toLowerCase().indexOf(searchTextLowerCase) > -1
-      );
+    if (searchText) {
+      this.searchResults = this.features
+        .filter(feature => this.propertiesToSearch
+          .some(key => feature.properties[key].toLowerCase().indexOf(searchTextLowerCase) > -1));
+    } else {
+      this.searchResults = [];
+    }
   }
 
   public updateSelectedCount() {

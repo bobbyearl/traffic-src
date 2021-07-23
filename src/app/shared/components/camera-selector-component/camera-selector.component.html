@@ -26,8 +26,10 @@
 
   <div *ngIf="searchText">
     <sky-repeater *ngIf="searchResults.length > 0">
-      <ng-container *ngTemplateOutlet="featureList; context: { $implicit: searchResults }">
-      </ng-container>
+      <div ngClass="search-results">
+        <ng-container *ngTemplateOutlet="featureList; context: { $implicit: searchResults }">
+        </ng-container>
+      </div>
     </sky-repeater>
   </div>
 

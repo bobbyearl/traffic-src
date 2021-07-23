@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Single-page-application for skyux-spa-traffic",
   "scripts": {
+    "start": "npx -p @skyux-sdk/cli skyux serve --launch local",
     "test": "skyux test",
     "build": "skyux build && rm -rf traffic && mv dist traffic && serve ."
   },

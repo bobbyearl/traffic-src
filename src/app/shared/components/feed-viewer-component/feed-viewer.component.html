@@ -15,11 +15,11 @@
       {{ error }}
     </sky-alert>
 
-    <app-map *ngIf="state.view === View.MAP"
+    <app-map *ngIf="isMapView"
       [selected]="selected">
     </app-map>
 
-    <div *ngIf="state.view !== View.MAP">
+    <div *ngIf="!isMapView">
       <stache-container *ngIf="!selected || selected.length === 0">
         <h3>Feed Viewer: SCDOT</h3>
 
