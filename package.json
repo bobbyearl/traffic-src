@@ -51,7 +51,7 @@
     "js-marker-clusterer": "1.0.0",
     "rxjs": "6.6.7",
     "snazzy-info-window": "1.1.1",
-    "urijs": "1.19.7",
+    "urijs": "1.19.11",
     "zone.js": "0.10.3"
   },
   "devDependencies": {
