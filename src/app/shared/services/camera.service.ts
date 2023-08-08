@@ -190,7 +190,7 @@ export class CameraService {
     });
 
     this.http
-      .get(this.assets.getUrl('cameras-2021-07-22.json'))
+      .get(this.assets.getUrl('cameras-2023-08-07.json'))
       .subscribe((data: any) => {
         const mapped: any = {};
 
