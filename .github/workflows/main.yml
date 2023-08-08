@@ -12,6 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - run: export NODE_OPTIONS=--openssl-legacy-provider
+
       - run: npm i --legacy-peer-deps
 
       - run: npx -p @skyux-sdk/cli skyux test --headless
